@@ -1345,12 +1345,12 @@ strong { font-weight: 500; color: var(--black); }
 .refer__btn { min-width: 177px; }
 
 /* first screen on short phones (class set from script.js) */
-html .hero.is-tight .hero__title { font-size: min(64px, calc((100vw - 32px) * .1384), 6.8svh); }
+html .hero.is-tight .hero__title { font-size: min(64px, calc((100vw - 32px) * .1384), 6.2svh); }
 html .hero.is-tight .hero__lead { margin-top: 14px; font-size: 15px; }
-html .hero.is-tight .order-list { margin-top: 22px; }
-html .hero.is-tight .order-card { gap: 12px; padding: 10px 12px 12px; }
+html .hero.is-tight .order-list { margin-top: 48px; } /* the 48px gap stays on every phone */
+html .hero.is-tight .order-card { gap: 10px; padding: 8px 12px 10px; }
 html .hero.is-tight .order-card .btn { padding-block: 12px; }
-html .hero.is-tight .coverage { margin-top: 16px; }
+html .hero.is-tight .coverage { margin-top: 8px; }
 
 
 /* ---------- Header over dark blocks: translucent dark glass, light text (.on-dark toggled from JS) ---------- */
