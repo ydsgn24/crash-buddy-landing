@@ -1848,10 +1848,17 @@ strong { font-weight: 500; color: var(--black); }
 
   /* Header: compact pill, text "Menu" button */
   .header { top: 12px; margin-top: 12px; }
-  .nav { padding: 4px; }
-  .nav__brand { gap: 6px; padding: 6px 14px; font-size: 11.5px; }
-  .nav__brand img { width: 26px; height: auto; }
-  .nav__brand-sep { font-size: 10px; }
+  .nav { padding: 5px; }                                   /* header +10% */
+  .nav__brand { gap: 7px; padding: 7px 15px; font-size: 12.7px; }
+  .nav__brand img { width: 29px; height: auto; }
+  .nav__brand-sep { font-size: 11px; }
+  .nav__toggle { width: 46px; height: 46px; }
+  .nav__toggle span { left: 14px; width: 18px; }
+  .nav__toggle span:nth-child(1) { top: 17px; }
+  .nav__toggle span:nth-child(2) { top: 22.2px; }
+  .nav__toggle span:nth-child(3) { top: 27.4px; }
+  .nav.is-open .nav__toggle span:nth-child(1),
+  .nav.is-open .nav__toggle span:nth-child(3) { top: 22.2px; }
 
   /* Hero */
   .hero { margin-top: 62px; }
