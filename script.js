@@ -295,7 +295,7 @@
   if (!hero || !last) return;
   const mobile = window.matchMedia('(max-width: 768px)');
   let lastW = 0;
-  const MIN_TOP = 16;     // gap under the header (the header itself takes its own place in the flow)
+  const MIN_TOP = 48;     // at least 48px between the header and the title
   const BOTTOM_GAP = 12; // the last line ends just above the screen edge
   const fit = () => {
     hero.style.marginTop = '';
