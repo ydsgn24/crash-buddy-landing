@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Crash Buddy Estimating (studio variant) — Get more estimates done. Without hiring.</title>
   <meta name="description" content="Professional estimates and supplements, prepared by experienced collision estimators and ready for your review.">
-  <link rel="stylesheet" href="styles.css?v=11121931">
+  <link rel="stylesheet" href="styles.css?v=11121932">
   <script type="importmap">
     { "imports": {
       "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
@@ -32,7 +32,7 @@
 
     /* team card: same studio palette as the first screen — deep mint, soft light arch at the bottom */
     /* team card: classic light grey card, dark text */
-    .variant-smoke .team-card { background: var(--surface); color: var(--ink, #1d1d1d); }
+    .variant-smoke .team-card { max-width: var(--container); background: var(--surface); color: var(--ink, #1d1d1d); } /* 1200px like the other content blocks */
     .variant-smoke .team-card__title { color: var(--ink, #1d1d1d); }
     .variant-smoke .team-card__text { color: var(--text); }
     .variant-smoke .team-card__coverage { color: var(--ink); }
@@ -47,7 +47,7 @@
 
     /* team card: the flowing light band (flame reference, brand tones) — dark top, light flow at the bottom */
     /* team card: classic light grey card, dark text */
-    .variant-smoke .team-card { background: var(--surface); color: var(--ink, #1d1d1d); }
+    .variant-smoke .team-card { max-width: var(--container); background: var(--surface); color: var(--ink, #1d1d1d); } /* 1200px like the other content blocks */
     .variant-smoke .team-card__title { color: var(--ink, #1d1d1d); }
     .variant-smoke .team-card__text { color: var(--text); }
     .variant-smoke .team-card__coverage { color: var(--ink); }
@@ -1010,9 +1010,9 @@ html .hero.is-tight .hero__lead { margin-top: 14px; font-size: 15px; }
 
 
 
-<script src="script.js?v=11121931"></script>
-<script src="aurora.js?v=11121931"></script>
-<script src="smoke.js?v=11121931"></script>
+<script src="script.js?v=11121932"></script>
+<script src="aurora.js?v=11121932"></script>
+<script src="smoke.js?v=11121932"></script>
 <!-- 3D logo: the hands SVG extruded into polished metal, gently swaying.
      Inline module so it also works when the page is opened as a local file. -->
 <script>
