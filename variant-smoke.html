@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Crash Buddy Estimating (studio variant) — Get more estimates done. Without hiring.</title>
   <meta name="description" content="Professional estimates and supplements, prepared by experienced collision estimators and ready for your review.">
-  <link rel="stylesheet" href="styles.css?v=11121932">
+  <link rel="stylesheet" href="styles.css?v=11121934">
   <script type="importmap">
     { "imports": {
       "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
@@ -157,7 +157,7 @@
     }
     @media (prefers-reduced-motion: reduce) { .plans2 { animation: none; } }
     @media (max-width: 768px) {
-      .variant-smoke .cta { padding-top: 130px; }
+      .variant-smoke .cta { padding-top: 240px; } /* room for the logo to travel on phones */
       .end-scene { margin-top: 0; }
       .variant-smoke .cta__inner { padding: 0 16px 80px; }
       .smoke { height: 480px; top: -110px; }
@@ -231,7 +231,7 @@
     .logo3d { --lw: 320px; margin-top: 200px; }   /* starts large, a full block gap under the FAQ */
     .logo3d .team__art { width: var(--lw); }
     .logo-rest { flex: none; }
-    .logo-rest .team__art { width: 100%; }
+    .logo-rest .team__art { width: 100%; transform-origin: 50% 100%; will-change: transform; }
     /* while scrolling the logo sticks to the screen, turns, and lands above the form heading (script below) */
     .team__art.is-fly { position: fixed; z-index: 40; left: 50%; top: 0; margin: 0; transform-origin: 50% 0; will-change: transform; }
     /* white cap over the very top edge of the end backdrop */
@@ -1010,9 +1010,9 @@ html .hero.is-tight .hero__lead { margin-top: 14px; font-size: 15px; }
 
 
 
-<script src="script.js?v=11121932"></script>
-<script src="aurora.js?v=11121932"></script>
-<script src="smoke.js?v=11121932"></script>
+<script src="script.js?v=11121934"></script>
+<script src="aurora.js?v=11121934"></script>
+<script src="smoke.js?v=11121934"></script>
 <!-- 3D logo: the hands SVG extruded into polished metal, gently swaying.
      Inline module so it also works when the page is opened as a local file. -->
 <script>
@@ -1043,6 +1043,8 @@ html .hero.is-tight .hero__lead { margin-top: 14px; font-size: 15px; }
         const e = p * p * (3 - 2 * p);
         window.__logoSpin = e * Math.PI * 2;
         window.__logoLight = e;
+        // travels down into place and shrinks while it turns (plain transform in the flow — no jitter)
+        art.style.transform = `translate3d(0, ${(-150 * (1 - e)).toFixed(1)}px, 0) scale(${(1 + 0.6 * (1 - e)).toFixed(3)})`;
       };
       turn();
       addEventListener('scroll', turn, { passive: true });
