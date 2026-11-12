@@ -1593,7 +1593,8 @@ html .hero.is-tight .coverage { margin-top: 16px; }
 @media (max-width: 1140px) {
   /* Steps (mobile/tablet): heading + phone + cards pin together while you scroll;
      each scroll step lays the next card on top of the previous one. */
-  .js-steps .steps__pin { position: sticky; top: 72px; }
+  /* the heading scrolls away; only the phone + cards stay pinned under the header (--head-h from JS) */
+  .js-steps .steps__pin { position: sticky; top: calc(72px - var(--head-h, 0px)); }
   .steps__track { margin-top: 40px; }
   .js-steps .steps__track { height: auto; }
   .js-steps .steps__sticky { position: static; height: auto; }
@@ -1602,7 +1603,7 @@ html .hero.is-tight .coverage { margin-top: 16px; }
     --card-w: min(343px, calc(100vw - 32px));
     position: relative;
     max-width: none;
-    height: clamp(430px, calc(100svh - 300px), 560px);
+    height: clamp(430px, calc(100svh - 96px), 720px); /* the whole screen under the header */
     margin: 0 calc(var(--gutter) * -1);
     overflow: hidden;
   }
@@ -1755,7 +1756,7 @@ html .hero.is-tight .coverage { margin-top: 16px; }
   .m-only { display: inline; }
   .hero__lead { font-size: 16px; max-width: 343px; }
   .hero__lead br { display: none; }
-  .order-list { margin-top: 73px; gap: 8px; }
+  .order-list { margin-top: 48px; gap: 8px; }
   .order-card {
     flex-direction: column;
     align-items: stretch;
