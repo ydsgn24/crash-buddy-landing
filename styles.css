@@ -1352,6 +1352,27 @@ html .hero.is-tight .order-card { gap: 12px; padding: 10px 12px 12px; }
 html .hero.is-tight .order-card .btn { padding-block: 12px; }
 html .hero.is-tight .coverage { margin-top: 16px; }
 
+
+/* ---------- Header over dark blocks: translucent dark glass, light text (.on-dark toggled from JS) ---------- */
+.nav, .nav__brand, .nav__link, .nav__signin, .nav__brand-sep + span { transition: background-color .35s ease, color .35s ease, box-shadow .35s ease; }
+.nav__brand img, .nav__link img { transition: filter .35s ease; }
+.header.on-dark .nav {
+  background: rgba(1, 20, 20, .34);
+  -webkit-backdrop-filter: blur(14px) saturate(140%);
+          backdrop-filter: blur(14px) saturate(140%);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .06);
+}
+.header.on-dark .nav__brand,
+.header.on-dark .nav__signin { color: #fff; }
+.header.on-dark .nav__brand-sep + span { color: rgba(255, 255, 255, .75); }
+.header.on-dark .nav__brand img,
+.header.on-dark .nav__links .nav__link img { filter: invert(1); }
+.header.on-dark .nav__toggle span { background: #fff; }
+.header.on-dark .nav__link:hover { background: rgba(255, 255, 255, .1); }
+@media (min-width: 1001px) {
+  .header.on-dark .nav__link { color: #fff; }
+}
+
 /* ---------- Footer (light grey card under the dark block) ---------- */
 .footer { padding: 8px 16px 16px; }
 .footer__card {

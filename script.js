@@ -320,3 +320,23 @@
   window.addEventListener('resize', () => { if (window.innerWidth !== lastW) { lastW = window.innerWidth; fit(); } });
   document.fonts && document.fonts.ready.then(fit);
 })();
+
+// Header over dark blocks (main page; the variant page does this in smoke.js together with its backdrops)
+(() => {
+  if (document.body.classList.contains('variant-smoke')) return;
+  const header = document.querySelector('.header');
+  const nav = header && header.querySelector('.nav');
+  if (!nav) return;
+  const dark = [...document.querySelectorAll('.team-card, .cta__card')];
+  const update = () => {
+    const n = nav.getBoundingClientRect();
+    const mid = n.top + n.height / 2;
+    header.classList.toggle('on-dark', dark.some((el) => {
+      const r = el.getBoundingClientRect();
+      return mid > r.top && mid < r.bottom;
+    }));
+  };
+  window.addEventListener('scroll', update, { passive: true });
+  window.addEventListener('resize', update);
+  update();
+})();

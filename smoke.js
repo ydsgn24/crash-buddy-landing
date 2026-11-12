@@ -261,9 +261,9 @@
         const H = Math.max(1, host.clientHeight);
         const narrow = host.clientWidth < 700;
         gl.uniform1f(u.top, (narrow ? 30 : 40) / H);       // light patches start
-        gl.uniform1f(u.anchor, (narrow ? 340 : 380) / H);  // length of the white → dark transition
+        gl.uniform1f(u.anchor, (narrow ? 250 : 380) / H);  // length of the white → dark transition
         gl.uniform1f(u.bot, (narrow ? 20 : 50) / H);       // light falls slightly from the top-left
-        gl.uniform1f(u.fadeTop, (narrow ? 150 : 230) / H);   // long, soft melt into the white page
+        gl.uniform1f(u.fadeTop, (narrow ? 110 : 230) / H);   // long, soft melt into the white page
         const r = host.getBoundingClientRect();
         const vh = window.innerHeight;
         const prog = Math.min(1, Math.max(0, (vh - r.top) / (vh * 0.9)));   // 0 when it appears … 1
