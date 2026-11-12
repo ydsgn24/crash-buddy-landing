@@ -1766,6 +1766,8 @@ strong { font-weight: 500; color: var(--black); }
   }
   .step__title { font-size: 20px; }
   .step__desc { font-size: 16px; }
+  /* the "downloaded" toast sits in the middle of the phone screen (its bottom is under the cards) */
+  .viewer__toast { bottom: auto; top: calc(var(--u) * 525); }
   /* progress under the cards: one bar per step, fills while you scroll through that step */
   .steps__bars {
     --bw: calc(var(--card-w) - 64px);
