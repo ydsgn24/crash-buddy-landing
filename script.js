@@ -256,10 +256,11 @@
 (() => {
   const btn = document.querySelector('.cta__referral');
   const field = document.getElementById('f-ref');
+  const wrap = field && (field.closest('.float') || field);
   if (!btn || !field) return;
   btn.addEventListener('click', () => {
-    const open = field.hidden;
-    field.hidden = !open;
+    const open = wrap.hidden;
+    wrap.hidden = !open;
     btn.setAttribute('aria-expanded', String(open));
     if (open) field.focus();
   });

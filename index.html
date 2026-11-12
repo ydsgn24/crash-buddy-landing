@@ -440,6 +440,7 @@
         <div class="plan__left">
           <span class="tag">Estimate</span>
           <ul class="checklist">
+            <li>Ready in about 2 hours</li>
             <li>No monthly fee</li>
             <li>No minimums</li>
             <li>Claims Hub included</li>
@@ -454,6 +455,7 @@
         <div class="plan__left">
           <span class="tag">Supplement</span>
           <ul class="checklist">
+            <li>Ready in about 6 hours</li>
             <li>No monthly fee</li>
             <li>No minimums</li>
             <li>Claims Hub included</li>
@@ -566,18 +568,33 @@
           <p class="cta__lead">Tell us about your Shop. We'll arrange <br>a short walkthrough.</p>
         </div>
         <form class="cta__form" action="#" method="post">
-          <label class="visually-hidden" for="f-name">Your name</label>
-          <input class="field" id="f-name" name="name" type="text" placeholder="Your name" autocomplete="name" required>
-          <label class="visually-hidden" for="f-shop">Shop name</label>
-          <input class="field" id="f-shop" name="shop" type="text" placeholder="Shop name" autocomplete="organization" required>
-          <label class="visually-hidden" for="f-email">Work email</label>
-          <input class="field" id="f-email" name="email" type="email" placeholder="Work email" autocomplete="email" required>
-          <label class="visually-hidden" for="f-phone">Phone number</label>
-          <input class="field" id="f-phone" name="phone" type="tel" placeholder="Phone number" autocomplete="tel">
+          <div class="float">
+            <input class="field" id="f-name" name="name" type="text" autocomplete="name" required placeholder=" ">
+            <fieldset class="float__line" aria-hidden="true"><legend><span>Your name</span></legend></fieldset>
+            <label class="float__label" for="f-name">Your name</label>
+          </div>
+          <div class="float">
+            <input class="field" id="f-shop" name="shop" type="text" autocomplete="organization" required placeholder=" ">
+            <fieldset class="float__line" aria-hidden="true"><legend><span>Shop name</span></legend></fieldset>
+            <label class="float__label" for="f-shop">Shop name</label>
+          </div>
+          <div class="float">
+            <input class="field" id="f-email" name="email" type="email" autocomplete="email" required placeholder=" ">
+            <fieldset class="float__line" aria-hidden="true"><legend><span>Work email</span></legend></fieldset>
+            <label class="float__label" for="f-email">Work email</label>
+          </div>
+          <div class="float">
+            <input class="field" id="f-phone" name="phone" type="tel" autocomplete="tel" placeholder=" ">
+            <fieldset class="float__line" aria-hidden="true"><legend><span>Phone number</span></legend></fieldset>
+            <label class="float__label" for="f-phone">Phone number</label>
+          </div>
 
           <button class="cta__referral" type="button" aria-expanded="false" aria-controls="f-ref">Have a referral code?</button>
-          <label class="visually-hidden" for="f-ref">Referral code</label>
-          <input class="field cta__ref-field" id="f-ref" name="referral" type="text" placeholder="Referral code" hidden>
+          <div class="float" hidden>
+            <input class="field cta__ref-field" id="f-ref" name="referral" type="text" placeholder=" ">
+            <fieldset class="float__line" aria-hidden="true"><legend><span>Referral code</span></legend></fieldset>
+            <label class="float__label" for="f-ref">Referral code</label>
+          </div>
 
           <p class="cta__note">We collect your contact and shop details to arrange your demo and follow up on your request. We do not sell or share your personal information for targeted advertising.</p>
           <button class="btn btn--block" type="submit">Request a Demo</button>

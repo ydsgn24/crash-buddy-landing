@@ -31,7 +31,12 @@
     .variant-smoke .hero { margin-top: 110px; }
 
     /* team card: same studio palette as the first screen — deep mint, soft light arch at the bottom */
-    .variant-smoke .team-card { background: #013633; }
+    /* team card: classic light grey card, dark text */
+    .variant-smoke .team-card { background: var(--surface); color: var(--ink, #1d1d1d); }
+    .variant-smoke .team-card__title { color: var(--ink, #1d1d1d); }
+    .variant-smoke .team-card__text { color: var(--text); }
+    .variant-smoke .team-card__coverage { color: var(--ink); }
+    .variant-smoke .team-card__title span { color: var(--accent); }
     .studio-band {
       position: absolute;
       inset: 0;
@@ -41,7 +46,12 @@
     .studio-band.is-gl { background: #011414; }
 
     /* team card: the flowing light band (flame reference, brand tones) — dark top, light flow at the bottom */
-    .variant-smoke .team-card { background: #013633; }
+    /* team card: classic light grey card, dark text */
+    .variant-smoke .team-card { background: var(--surface); color: var(--ink, #1d1d1d); }
+    .variant-smoke .team-card__title { color: var(--ink, #1d1d1d); }
+    .variant-smoke .team-card__text { color: var(--text); }
+    .variant-smoke .team-card__coverage { color: var(--ink); }
+    .variant-smoke .team-card__title span { color: var(--accent); }
     .variant-smoke .team-card__inner { position: relative; z-index: 1; }
     /* Team card (Figma 78:536): #013633 with the Figma blurred ellipses — a #015D56 glow along the top,
        a light #D8EAE7 arch rising from the bottom, two soft #015D56 beams in the top corners.
@@ -59,7 +69,6 @@
                   background-image: url("assets/team-beam-left.svg"); transform: rotate(66.24deg); }
     @keyframes tg-breathe { to { transform: rotate(90.25deg) scale(1.06, 1.04); } }
     @media (prefers-reduced-motion: reduce) { .tg--bottom { animation: none; } }
-    .variant-smoke .team-card__title span { color: #fff; }                 /* per Figma: the whole title is white */
     .variant-smoke .team-card__text strong { color: var(--accent); }       /* "I-CAR Platinum" in the brand colour */
 
     /* End of page: white melts into the studio gradient through a soft arch; the form and
@@ -260,6 +269,7 @@ html .hero.is-tight .hero__lead { margin-top: 14px; font-size: 15px; }
     .variant-smoke .checklist li::before { background-image: url("assets/check-v2.svg"); }
     .variant-smoke .iphone, .variant-smoke .rphone .iphone { --app-accent: #059e8a; }
     .variant-smoke .cta__referral { color: #5fcfbf; }
+    .variant-smoke .float .field:focus ~ .float__label { color: #5fcfbf; }
     .variant-smoke .handle__link::before { background: linear-gradient(90deg, var(--accent), #5fcfbf); }
     @media (max-width: 1000px) { .variant-smoke .handle__link::before { background: linear-gradient(180deg, var(--accent), #5fcfbf); } }
   </style>
@@ -614,7 +624,6 @@ html .hero.is-tight .hero__lead { margin-top: 14px; font-size: 15px; }
     </div>
 
     <div class="team-card">
-      <div class="glow-bg" aria-hidden="true"><i class="tg tg--top"></i><i class="tg tg--bottom"></i><i class="tg tg--right"></i><i class="tg tg--left"></i></div>
       <div class="team-card__inner">
         <h2 class="h2 team-card__title">Your <span>estimating team.</span><br>On demand.</h2>
         <p class="team-card__text">Our team includes estimators with <strong>I-CAR Platinum</strong> Individual recognition. Platinum recognition is part of our qualification standards for estimators.</p>
@@ -690,6 +699,7 @@ html .hero.is-tight .hero__lead { margin-top: 14px; font-size: 15px; }
         <div class="plan2__body">
           <p class="plan2__desc">Get a complete repair estimate based on your vehicle details and damage photos</p>
           <ul class="checklist">
+            <li>Ready in about 2 hours</li>
             <li>No monthly fee</li>
             <li>No minimums</li>
             <li>Claims Hub included</li>
@@ -705,6 +715,7 @@ html .hero.is-tight .hero__lead { margin-top: 14px; font-size: 15px; }
         <div class="plan2__body">
           <p class="plan2__desc">Get a detailed supplement for additional damage using your existing estimate and new photos</p>
           <ul class="checklist">
+            <li>Ready in about 6 hours</li>
             <li>No monthly fee</li>
             <li>No minimums</li>
             <li>Claims Hub included</li>
@@ -886,18 +897,33 @@ html .hero.is-tight .hero__lead { margin-top: 14px; font-size: 15px; }
           <p class="cta__lead">Tell us about your Shop. We'll arrange <br>a short walkthrough.</p>
         </div>
         <form class="cta__form" action="#" method="post">
-          <label class="visually-hidden" for="f-name">Your name</label>
-          <input class="field" id="f-name" name="name" type="text" placeholder="Your name" autocomplete="name" required>
-          <label class="visually-hidden" for="f-shop">Shop name</label>
-          <input class="field" id="f-shop" name="shop" type="text" placeholder="Shop name" autocomplete="organization" required>
-          <label class="visually-hidden" for="f-email">Work email</label>
-          <input class="field" id="f-email" name="email" type="email" placeholder="Work email" autocomplete="email" required>
-          <label class="visually-hidden" for="f-phone">Phone number</label>
-          <input class="field" id="f-phone" name="phone" type="tel" placeholder="Phone number" autocomplete="tel">
+          <div class="float">
+            <input class="field" id="f-name" name="name" type="text" autocomplete="name" required placeholder=" ">
+            <fieldset class="float__line" aria-hidden="true"><legend><span>Your name</span></legend></fieldset>
+            <label class="float__label" for="f-name">Your name</label>
+          </div>
+          <div class="float">
+            <input class="field" id="f-shop" name="shop" type="text" autocomplete="organization" required placeholder=" ">
+            <fieldset class="float__line" aria-hidden="true"><legend><span>Shop name</span></legend></fieldset>
+            <label class="float__label" for="f-shop">Shop name</label>
+          </div>
+          <div class="float">
+            <input class="field" id="f-email" name="email" type="email" autocomplete="email" required placeholder=" ">
+            <fieldset class="float__line" aria-hidden="true"><legend><span>Work email</span></legend></fieldset>
+            <label class="float__label" for="f-email">Work email</label>
+          </div>
+          <div class="float">
+            <input class="field" id="f-phone" name="phone" type="tel" autocomplete="tel" placeholder=" ">
+            <fieldset class="float__line" aria-hidden="true"><legend><span>Phone number</span></legend></fieldset>
+            <label class="float__label" for="f-phone">Phone number</label>
+          </div>
 
           <button class="cta__referral" type="button" aria-expanded="false" aria-controls="f-ref">Have a referral code?</button>
-          <label class="visually-hidden" for="f-ref">Referral code</label>
-          <input class="field cta__ref-field" id="f-ref" name="referral" type="text" placeholder="Referral code" hidden>
+          <div class="float" hidden>
+            <input class="field cta__ref-field" id="f-ref" name="referral" type="text" placeholder=" ">
+            <fieldset class="float__line" aria-hidden="true"><legend><span>Referral code</span></legend></fieldset>
+            <label class="float__label" for="f-ref">Referral code</label>
+          </div>
 
           <p class="cta__note">We collect your contact and shop details to arrange your demo and follow up on your request. We do not sell or share your personal information for targeted advertising.</p>
           <button class="btn btn--block" type="submit">Request a Demo</button>

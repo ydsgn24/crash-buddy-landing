@@ -330,8 +330,6 @@
   if (header && nav) {
     const darkZones = () => {
       const zones = [];
-      const team = document.querySelector('.team-card');
-      if (team) zones.push(team.getBoundingClientRect());
       const end = document.querySelector('.end-scene');
       if (end) {
         const r = end.getBoundingClientRect();
