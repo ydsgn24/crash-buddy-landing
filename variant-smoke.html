@@ -1,0 +1,1237 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Crash Buddy Estimating (studio variant) — Get more estimates done. Without hiring.</title>
+  <meta name="description" content="Professional estimates and supplements, prepared by experienced collision estimators and ready for your review.">
+  <link rel="stylesheet" href="styles.css">
+  <script type="importmap">
+    { "imports": {
+      "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+      "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+    } }
+  </script>
+  <style>
+    /* Variant: studio backdrop at the top of the first screen + studio gradient in the team card (smoke.js) */
+    .smoke {
+      position: absolute;
+      top: -170px; /* backdrop raised together with the first screen */
+      left: 0;
+      right: 0;
+      height: 640px;
+      z-index: 0;
+      pointer-events: none;
+      /* fallback when WebGL is unavailable */
+      background: linear-gradient(to bottom, #011414 0%, #013633 38%, #ccdfdd 75%, #fff 100%);
+    }
+    .smoke.is-gl { background: #fff; }
+    .smoke canvas, .studio-band canvas { display: block; width: 100%; height: 100%; }
+    .variant-smoke main { position: relative; z-index: 1; }
+    .variant-smoke .hero { margin-top: 110px; }
+
+    /* team card: same studio palette as the first screen — deep mint, soft light arch at the bottom */
+    .variant-smoke .team-card { background: #011414; }
+    .studio-band {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background: radial-gradient(70% 55% at 50% 115%, #8db6b3 0%, #013633 55%, #011414 100%); /* fallback */
+    }
+    .studio-band.is-gl { background: #011414; }
+
+    /* team card: the flowing light band (flame reference, brand tones) — dark top, light flow at the bottom */
+    .variant-smoke .team-card { background: #011414; }
+    .variant-smoke .team-card__inner { position: relative; z-index: 1; }
+    .glow-bg {
+      position: absolute; inset: 0; pointer-events: none; overflow: hidden; border-radius: inherit;
+      background-color: #011414;
+      background-image:
+        radial-gradient(34% 30% at 50% 73%, rgba(255, 255, 255, 1.000) 0%, rgba(255, 255, 255, 0.963) 9%, rgba(255, 255, 255, 0.862) 18%, rgba(255, 255, 255, 0.716) 27%, rgba(255, 255, 255, 0.552) 36%, rgba(255, 255, 255, 0.395) 45%, rgba(255, 255, 255, 0.262) 55%, rgba(255, 255, 255, 0.162) 64%, rgba(255, 255, 255, 0.093) 73%, rgba(255, 255, 255, 0.049) 82%, rgba(255, 255, 255, 0.024) 91%, rgba(255, 255, 255, 0.000) 100%),
+        radial-gradient(66% 44% at 50% 79%, rgba(237, 248, 245, 0.850) 0%, rgba(237, 248, 245, 0.819) 9%, rgba(237, 248, 245, 0.733) 18%, rgba(237, 248, 245, 0.608) 27%, rgba(237, 248, 245, 0.469) 36%, rgba(237, 248, 245, 0.335) 45%, rgba(237, 248, 245, 0.223) 55%, rgba(237, 248, 245, 0.137) 64%, rgba(237, 248, 245, 0.079) 73%, rgba(237, 248, 245, 0.042) 82%, rgba(237, 248, 245, 0.021) 91%, rgba(237, 248, 245, 0.000) 100%),
+        radial-gradient(15.2% 32.3% at 1.8% 80.0%, rgba(0, 248, 210, 0.619) 0%, rgba(0, 248, 210, 0.585) 11%, rgba(0, 248, 210, 0.495) 22%, rgba(0, 248, 210, 0.375) 33%, rgba(0, 248, 210, 0.254) 44%, rgba(0, 248, 210, 0.154) 56%, rgba(0, 248, 210, 0.084) 67%, rgba(0, 248, 210, 0.041) 78%, rgba(0, 248, 210, 0.018) 89%, rgba(0, 248, 210, 0.000) 100%),
+        radial-gradient(50.3% 40.2% at 80.4% 77.0%, rgba(254, 248, 248, 0.881) 0%, rgba(254, 248, 248, 0.834) 11%, rgba(254, 248, 248, 0.706) 22%, rgba(254, 248, 248, 0.534) 33%, rgba(254, 248, 248, 0.362) 44%, rgba(254, 248, 248, 0.220) 56%, rgba(254, 248, 248, 0.119) 67%, rgba(254, 248, 248, 0.058) 78%, rgba(254, 248, 248, 0.025) 89%, rgba(254, 248, 248, 0.000) 100%),
+        radial-gradient(54.0% 35.2% at 79.2% 53.7%, rgba(0, 240, 209, 0.789) 0%, rgba(0, 240, 209, 0.746) 11%, rgba(0, 240, 209, 0.631) 22%, rgba(0, 240, 209, 0.478) 33%, rgba(0, 240, 209, 0.324) 44%, rgba(0, 240, 209, 0.197) 56%, rgba(0, 240, 209, 0.107) 67%, rgba(0, 240, 209, 0.052) 78%, rgba(0, 240, 209, 0.023) 89%, rgba(0, 240, 209, 0.000) 100%),
+        radial-gradient(214.4% 40.2% at 53.5% 96.7%, rgba(229, 251, 247, 0.998) 0%, rgba(229, 251, 247, 0.944) 11%, rgba(229, 251, 247, 0.799) 22%, rgba(229, 251, 247, 0.605) 33%, rgba(229, 251, 247, 0.410) 44%, rgba(229, 251, 247, 0.249) 56%, rgba(229, 251, 247, 0.135) 67%, rgba(229, 251, 247, 0.066) 78%, rgba(229, 251, 247, 0.029) 89%, rgba(229, 251, 247, 0.000) 100%),
+        radial-gradient(119.3% 72.0% at 11.7% 35.6%, rgba(0, 15, 16, 0.887) 0%, rgba(0, 15, 16, 0.839) 11%, rgba(0, 15, 16, 0.711) 22%, rgba(0, 15, 16, 0.538) 33%, rgba(0, 15, 16, 0.365) 44%, rgba(0, 15, 16, 0.221) 56%, rgba(0, 15, 16, 0.120) 67%, rgba(0, 15, 16, 0.058) 78%, rgba(0, 15, 16, 0.025) 89%, rgba(0, 15, 16, 0.000) 100%),
+        radial-gradient(65.8% 27.0% at 59.1% 44.4%, rgba(0, 1, 7, 0.991) 0%, rgba(0, 1, 7, 0.937) 11%, rgba(0, 1, 7, 0.793) 22%, rgba(0, 1, 7, 0.601) 33%, rgba(0, 1, 7, 0.407) 44%, rgba(0, 1, 7, 0.247) 56%, rgba(0, 1, 7, 0.134) 67%, rgba(0, 1, 7, 0.065) 78%, rgba(0, 1, 7, 0.028) 89%, rgba(0, 1, 7, 0.000) 100%),
+        radial-gradient(16.4% 49.8% at -0.1% 71.7%, rgba(0, 2, 7, 0.994) 0%, rgba(0, 2, 7, 0.940) 11%, rgba(0, 2, 7, 0.796) 22%, rgba(0, 2, 7, 0.603) 33%, rgba(0, 2, 7, 0.408) 44%, rgba(0, 2, 7, 0.248) 56%, rgba(0, 2, 7, 0.134) 67%, rgba(0, 2, 7, 0.065) 78%, rgba(0, 2, 7, 0.028) 89%, rgba(0, 2, 7, 0.000) 100%),
+        radial-gradient(360.1% 65.4% at 18.0% 72.6%, rgba(1, 254, 222, 0.960) 0%, rgba(1, 254, 222, 0.909) 11%, rgba(1, 254, 222, 0.769) 22%, rgba(1, 254, 222, 0.583) 33%, rgba(1, 254, 222, 0.395) 44%, rgba(1, 254, 222, 0.239) 56%, rgba(1, 254, 222, 0.130) 67%, rgba(1, 254, 222, 0.063) 78%, rgba(1, 254, 222, 0.027) 89%, rgba(1, 254, 222, 0.000) 100%),
+        radial-gradient(4.8% 31.3% at 0.7% 87.3%, rgba(0, 0, 0, 0.999) 0%, rgba(0, 0, 0, 0.945) 11%, rgba(0, 0, 0, 0.800) 22%, rgba(0, 0, 0, 0.606) 33%, rgba(0, 0, 0, 0.411) 44%, rgba(0, 0, 0, 0.249) 56%, rgba(0, 0, 0, 0.135) 67%, rgba(0, 0, 0, 0.066) 78%, rgba(0, 0, 0, 0.029) 89%, rgba(0, 0, 0, 0.000) 100%);
+      background-size: 100% 128%;     /* the light flow sits low, behind the button */
+      background-position: 0 0;
+      background-repeat: no-repeat;
+      animation: team-flow 22s ease-in-out infinite alternate;
+    }
+    @keyframes team-flow { to { background-position: 0 6%; background-size: 108% 128%; } }
+    @media (prefers-reduced-motion: reduce) { .glow-bg { animation: none; } }
+
+    /* End of page: white melts into the studio gradient through a soft arch; the form and
+       the grey footer card sit on it */
+    .end-scene { position: relative; margin-top: 40px; overflow: hidden; }
+    .end-scene > .studio-band--end {
+      z-index: 0;
+      background: linear-gradient(to bottom, #fff 0%, #ccdfdd 14%, #013633 34%, #011414 100%); /* fallback */
+    }
+    /* white at the top, so no seam can ever show above the gradient */
+    .end-scene > .studio-band--end.is-gl { background: linear-gradient(to bottom, #fff 0, #fff 260px, #011414 640px); }
+    .end-scene > section, .end-scene > footer { position: relative; z-index: 1; }
+    .variant-smoke .cta { padding-top: 180px; }
+    .variant-smoke .cta__card { background: transparent; overflow: visible; }
+    .variant-smoke .cta__inner { padding: 0 0 140px; }
+    .variant-smoke .footer { padding-bottom: 24px; }
+    /* dark footer on the gradient */
+    .end-scene .footer__card { background: rgba(0, 0, 0, .28); border: 0; -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); }
+
+    /* header over dark areas: translucent dark glass, light text (class toggled in smoke.js) */
+    .nav, .nav__brand, .nav__link, .nav__signin, .nav__brand-sep + span { transition: background-color .35s ease, color .35s ease, box-shadow .35s ease; }
+    .nav__brand img, .nav__link img { transition: filter .35s ease; }
+    .header.on-dark .nav {
+      background: rgba(1, 20, 20, .34);
+      -webkit-backdrop-filter: blur(14px) saturate(140%);
+              backdrop-filter: blur(14px) saturate(140%);
+      box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .06);
+    }
+    .header.on-dark .nav__brand,
+    .header.on-dark .nav__signin { color: #fff; }
+    .header.on-dark .nav__brand-sep + span { color: rgba(255, 255, 255, .75); }
+    .header.on-dark .nav__brand img,
+    .header.on-dark .nav__links .nav__link img { filter: invert(1); }
+    .header.on-dark .nav__toggle span { background: #fff; }
+    .header.on-dark .nav__link:hover { background: rgba(255, 255, 255, .1); }
+    @media (min-width: 1001px) {
+      .header.on-dark .nav__link { color: #fff; }
+    }
+    .end-scene .footer__logo { color: #fff; }
+    .end-scene .footer__logo img { filter: invert(1); }
+    .end-scene .footer__logo-sep { color: rgba(255, 255, 255, .35); }
+    .end-scene .footer__logo-sub, .end-scene .footer__tagline { color: rgba(255, 255, 255, .7); }
+    .end-scene .footer__heading { color: #fff; }
+    .end-scene .footer__col a { color: rgba(255, 255, 255, .65); }
+    .end-scene .footer__col a:hover { color: #fff; }
+    .end-scene .footer__bottom { border-top-color: rgba(255, 255, 255, .1); }
+    .end-scene .footer__disclaimer, .end-scene .footer__copy { color: rgba(255, 255, 255, .45); }
+
+
+    /* Pricing (per Figma 73:428): one continuous gradient across both blocks — a light flowing band at the top
+       sinking into the deepest tone at the bottom (style of the flame reference, in brand tones) */
+    @property --drift { syntax: '<length>'; inherits: true; initial-value: 0px; }
+    .plans2 {
+      --pw: 1000px; --ph: 300px;
+      max-width: 1000px;
+      margin: 64px auto 0;
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+      animation: plan-drift 18s ease-in-out infinite alternate;
+    }
+    @keyframes plan-drift { to { --drift: 120px; } }
+    .plan2 { padding: 8px; border-radius: 20px; background: var(--surface); display: flex; flex-direction: column; gap: 32px; }
+    .plan2__top {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 44px;
+      padding: 20px;
+      border-radius: 20px;
+      color: #fff;
+      background-color: #011414;
+      background-image:
+        radial-gradient(109.0% 51.1% at -16.8% 54.4%, rgba(0, 1, 4, 0.906) 0%, rgba(0, 1, 4, 0.857) 11%, rgba(0, 1, 4, 0.726) 22%, rgba(0, 1, 4, 0.550) 33%, rgba(0, 1, 4, 0.373) 44%, rgba(0, 1, 4, 0.226) 56%, rgba(0, 1, 4, 0.123) 67%, rgba(0, 1, 4, 0.060) 78%, rgba(0, 1, 4, 0.026) 89%, rgba(0, 1, 4, 0.000) 100%),
+        radial-gradient(16.1% 50.0% at -0.1% 32.0%, rgba(0, 177, 155, 0.957) 0%, rgba(0, 177, 155, 0.905) 11%, rgba(0, 177, 155, 0.766) 22%, rgba(0, 177, 155, 0.581) 33%, rgba(0, 177, 155, 0.393) 44%, rgba(0, 177, 155, 0.239) 56%, rgba(0, 177, 155, 0.130) 67%, rgba(0, 177, 155, 0.063) 78%, rgba(0, 177, 155, 0.027) 89%, rgba(0, 177, 155, 0.000) 100%),
+        radial-gradient(37.6% 25.0% at 40.8% 50.4%, rgba(0, 59, 57, 0.780) 0%, rgba(0, 59, 57, 0.737) 11%, rgba(0, 59, 57, 0.624) 22%, rgba(0, 59, 57, 0.473) 33%, rgba(0, 59, 57, 0.321) 44%, rgba(0, 59, 57, 0.194) 56%, rgba(0, 59, 57, 0.106) 67%, rgba(0, 59, 57, 0.051) 78%, rgba(0, 59, 57, 0.022) 89%, rgba(0, 59, 57, 0.000) 100%),
+        radial-gradient(64.9% 36.4% at 40.9% 62.7%, rgba(0, 7, 9, 0.833) 0%, rgba(0, 7, 9, 0.788) 11%, rgba(0, 7, 9, 0.667) 22%, rgba(0, 7, 9, 0.505) 33%, rgba(0, 7, 9, 0.342) 44%, rgba(0, 7, 9, 0.208) 56%, rgba(0, 7, 9, 0.113) 67%, rgba(0, 7, 9, 0.055) 78%, rgba(0, 7, 9, 0.024) 89%, rgba(0, 7, 9, 0.000) 100%),
+        radial-gradient(50.5% 42.9% at 80.0% 22.8%, rgba(254, 252, 250, 0.854) 0%, rgba(254, 252, 250, 0.808) 11%, rgba(254, 252, 250, 0.684) 22%, rgba(254, 252, 250, 0.518) 33%, rgba(254, 252, 250, 0.351) 44%, rgba(254, 252, 250, 0.213) 56%, rgba(254, 252, 250, 0.116) 67%, rgba(254, 252, 250, 0.056) 78%, rgba(254, 252, 250, 0.024) 89%, rgba(254, 252, 250, 0.000) 100%),
+        radial-gradient(210.1% 44.8% at 51.8% 2.1%, rgba(246, 252, 250, 0.939) 0%, rgba(246, 252, 250, 0.888) 11%, rgba(246, 252, 250, 0.752) 22%, rgba(246, 252, 250, 0.570) 33%, rgba(246, 252, 250, 0.386) 44%, rgba(246, 252, 250, 0.234) 56%, rgba(246, 252, 250, 0.127) 67%, rgba(246, 252, 250, 0.062) 78%, rgba(246, 252, 250, 0.027) 89%, rgba(246, 252, 250, 0.000) 100%),
+        radial-gradient(30.5% 54.2% at -37.0% 113.0%, rgba(5, 80, 73, 0.321) 0%, rgba(5, 80, 73, 0.304) 11%, rgba(5, 80, 73, 0.257) 22%, rgba(5, 80, 73, 0.195) 33%, rgba(5, 80, 73, 0.132) 44%, rgba(5, 80, 73, 0.080) 56%, rgba(5, 80, 73, 0.043) 67%, rgba(5, 80, 73, 0.021) 78%, rgba(5, 80, 73, 0.009) 89%, rgba(5, 80, 73, 0.000) 100%),
+        radial-gradient(89.6% 38.6% at 62.6% 45.0%, rgba(0, 251, 220, 0.963) 0%, rgba(0, 251, 220, 0.911) 11%, rgba(0, 251, 220, 0.771) 22%, rgba(0, 251, 220, 0.584) 33%, rgba(0, 251, 220, 0.396) 44%, rgba(0, 251, 220, 0.240) 56%, rgba(0, 251, 220, 0.130) 67%, rgba(0, 251, 220, 0.063) 78%, rgba(0, 251, 220, 0.027) 89%, rgba(0, 251, 220, 0.000) 100%),
+        radial-gradient(478.1% 69.3% at -21.4% 21.6%, rgba(0, 250, 220, 0.924) 0%, rgba(0, 250, 220, 0.874) 11%, rgba(0, 250, 220, 0.740) 22%, rgba(0, 250, 220, 0.561) 33%, rgba(0, 250, 220, 0.380) 44%, rgba(0, 250, 220, 0.231) 56%, rgba(0, 250, 220, 0.125) 67%, rgba(0, 250, 220, 0.061) 78%, rgba(0, 250, 220, 0.026) 89%, rgba(0, 250, 220, 0.000) 100%);
+      background-size: calc(var(--pw) + 240px) calc(var(--ph) * 1.3); /* the light band takes the upper part, prices stay on the dark */
+      background-position: calc(-120px + var(--drift) - var(--ox, 0px)) calc(var(--oy, 0px) * -1);
+      background-repeat: no-repeat;
+    }
+    .tag--glass { background: rgba(1, 20, 20, .32); color: #fff; -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); } /* dark glass: the top of the card is light now */
+    .plan2__top .plan__price span { color: #fff; }
+    .plan2__top .plan__price small { color: rgba(255, 255, 255, .8); font-size: 18px; }
+    .plan2__body { display: flex; flex-direction: column; gap: 24px; padding: 0 16px 16px; flex: 1; }
+    .plan2__desc { font-size: 18px; line-height: 1.4; color: var(--text); }
+    .plan2__body .checklist { gap: 8px; }
+    .plan2__body .btn { margin-top: auto; }
+    @media (max-width: 768px) {
+      .plans2 { grid-template-columns: 1fr; margin-top: 40px; }
+      .plan2__top { background-size: calc(100% + 120px) 130%; background-position: calc(-120px + var(--drift)) 0; }
+      .glow-bg { left: -45%; right: -45%; border-radius: 0; } /* wider gradient → gentle transitions on a narrow card */
+      .plan2__top { gap: 32px; }
+      .plan2__desc { font-size: 16px; }
+    }
+    @media (prefers-reduced-motion: reduce) { .plans2 { animation: none; } }
+    @media (max-width: 768px) {
+      .variant-smoke .cta { padding-top: 220px; }
+      .variant-smoke .cta__inner { padding: 0 16px 80px; }
+      .smoke { height: 480px; top: -110px; }
+      .variant-smoke .hero { margin-top: 96px; }
+      .variant-smoke .order-list { margin-top: 40px; }
+      .variant-smoke .hero .coverage { margin-top: 28px; }
+    }
+
+    /* Refer a Shop (Figma 86:1220): grey card, text on the left, white panel with the app on the right */
+    .refer2 { margin-top: 24px; }               /* right under the pricing cards */
+    .variant-smoke .faq { margin-top: var(--gap-major); } /* a full gap between blocks */
+    .refer2__card {
+      max-width: 1000px; margin: 0 auto; padding: 8px; border-radius: 20px; background: var(--surface);
+      display: flex; align-items: stretch; gap: 32px;
+    }
+    .refer2__body { flex: 1; min-width: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 16px; text-align: center; padding: 24px 0; }
+    .refer2__body .refer__amount { font-size: 80px; letter-spacing: -0.8px; line-height: 1.1; margin-top: -8px; }
+    .refer2__body .refer__kicker { margin-bottom: 0; }
+    .refer2__panel { position: relative; flex: none; width: 472px; height: 368px; border-radius: 20px; background: #fff; overflow: hidden; }
+    .rphone { position: absolute; left: 5px; top: 41px; width: 462px; aspect-ratio: 1199 / 1312; container-type: inline-size; }
+    .rphone .iphone { box-shadow: 0 0 0 calc(var(--u) * 1.5) #2a2a2c, 0 calc(var(--u) * 30) calc(var(--u) * 80) rgba(1, 20, 20, .12); }
+
+    /* referral screen of the app */
+    .scr--ref { background: #fff; }
+    .scr--ref > * { position: absolute; }
+    .ref__tl1 { top: calc(var(--u) * 336); }
+    .ref__tl2 { top: calc(var(--u) * 540); }
+    .ref__tl3 { top: calc(var(--u) * 704); }
+    .ref__line1 { top: calc(var(--u) * 382); height: calc(var(--u) * 156); }
+    .ref__line2 { top: calc(var(--u) * 586); height: calc(var(--u) * 116); }
+    .ref__link {
+      left: calc(var(--u) * 63); top: calc(var(--u) * 430); width: calc(var(--u) * 457); height: calc(var(--u) * 78);
+      display: flex; align-items: center; justify-content: space-between; gap: calc(var(--u) * 12);
+      padding: 0 calc(var(--u) * 12) 0 calc(var(--u) * 20);
+      border: calc(var(--u) * 2) solid var(--app-line); border-radius: calc(var(--u) * 18); background: #f8fafb;
+    }
+    .ref__url { font-size: calc(var(--u) * 21); font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .ref__copy {
+      flex: none; padding: calc(var(--u) * 12) calc(var(--u) * 20); border-radius: 99px;
+      background: var(--app-accent); color: #fff; font-size: calc(var(--u) * 19); font-weight: 700;
+    }
+    .ref__shop { top: calc(var(--u) * 596); }
+    .ref__ava {
+      display: flex; align-items: center; justify-content: center;
+      background: var(--app-num); color: var(--app-num-ink); font-size: calc(var(--u) * 22); font-weight: 800;
+    }
+    .ref__progress { left: calc(var(--u) * 63); top: calc(var(--u) * 764); width: calc(var(--u) * 457); display: flex; flex-direction: column; gap: calc(var(--u) * 12); }
+    .ref__bars { display: grid; grid-template-columns: repeat(3, 1fr); gap: calc(var(--u) * 8); }
+    .ref__bars i { position: relative; height: calc(var(--u) * 12); border-radius: 99px; background: #e8eef0; overflow: hidden; }
+    .ref__bars i::after { content: ""; position: absolute; inset: 0; border-radius: inherit; background: var(--app-accent); transform-origin: left; transform: scaleX(0); }
+    .ref__bars i:nth-child(1)::after { transform: scaleX(1); }
+    .ref__bars i:nth-child(2)::after { transform: scaleX(1); }
+    .ref__count { font-size: calc(var(--u) * 20); color: var(--app-muted); }
+    .ref__count b { color: var(--app-ink); }
+    .ref__reward {
+      left: calc(var(--u) * 37); top: calc(var(--u) * 850); width: calc(var(--u) * 478); height: calc(var(--u) * 150);
+      display: flex; flex-direction: column; justify-content: center; gap: calc(var(--u) * 6); padding-left: calc(var(--u) * 28);
+      border: calc(var(--u) * 2) solid #cdeee2; border-radius: calc(var(--u) * 22); background: #f5fcf9;
+    }
+    .ref__reward-amount { font-size: calc(var(--u) * 46); font-weight: 800; color: var(--app-green); line-height: 1; }
+    .ref__reward-text { font-size: calc(var(--u) * 20); color: var(--app-muted); }
+    /* when the block comes into view the second bar fills and the third one starts to grow */
+    .refer2.js-ref .ref__bars i:nth-child(2)::after { transform: scaleX(0); transition: transform .9s cubic-bezier(.4, 0, .2, 1) .5s; }
+    .refer2.js-ref .ref__bars i:nth-child(3)::after { transition: transform 1.2s cubic-bezier(.4, 0, .2, 1) 1.4s; }
+    .refer2.js-ref.is-play .ref__bars i:nth-child(2)::after { transform: scaleX(1); }
+    .refer2.js-ref.is-play .ref__bars i:nth-child(3)::after { transform: scaleX(.35); }
+    .refer2 .status-dot { animation: ring-dot 1.6s ease-out 1s infinite; }
+
+    /* small metallic brand mark between the FAQ and the demo form */
+    .logo3d, .logo-rest { --lw: 150px; width: var(--lw); height: calc(var(--lw) * 292 / 433); margin: 0 auto; }
+    .logo3d { --lw: 320px; margin-top: 200px; }   /* starts large, a full block gap under the FAQ */
+    .logo3d .team__art { width: var(--lw); }
+    .logo-rest { flex: none; }
+    /* while scrolling the logo sticks to the screen, turns, and lands above the form heading (script below) */
+    .team__art.is-fly { position: fixed; z-index: 40; left: 50%; top: 0; margin: 0; transform-origin: 50% 0; will-change: transform; }
+    /* white cap over the very top edge of the end backdrop */
+    .end-scene::after { content: ""; position: absolute; z-index: 0; left: 0; right: 0; top: 0; height: 6px; background: #fff; pointer-events: none; }
+
+    @media (max-width: 900px) {
+      .refer2__card { flex-direction: column; gap: 8px; }
+      .refer2__body { padding: 32px 16px 24px; }
+      .refer2__body .refer__amount { font-size: 64px; }
+      .refer2__panel { order: -1; width: 100%; height: 340px; } /* picture first */
+      .rphone { left: 50%; transform: translateX(-50%); width: 430px; top: 32px; }
+    }
+    @media (max-width: 768px) {
+      .logo-rest { --lw: 120px; }
+      .logo3d { --lw: 220px; margin-top: 120px; }
+    }
+    @media (prefers-reduced-motion: reduce) { .refer2 .status-dot { animation: none; } }
+
+    /* first screen on short phones: tighter spacing so the last line fits */
+    html .hero.is-tight .hero__title { font-size: min(64px, calc((100vw - 32px) * .1384), 6.8svh); }
+html .hero.is-tight .hero__lead { margin-top: 14px; font-size: 15px; }
+    html .hero.is-tight .order-list { margin-top: 22px; }
+    html .hero.is-tight .order-card { gap: 12px; padding: 10px 12px 12px; }
+    html .hero.is-tight .order-card .btn { padding-block: 12px; }
+    html .hero.is-tight .coverage { margin-top: 16px; }
+  </style>
+</head>
+<body class="variant-smoke">
+<div class="smoke" aria-hidden="true"></div>
+
+<header class="header">
+  <nav class="nav">
+    <a href="#" class="nav__brand">
+      <img src="assets/logo.svg" width="36" height="24" alt="">
+      <span class="nav__brand-name">Crash Buddy</span>
+      <span class="nav__brand-sep">|</span>
+      <span>Estimating</span>
+    </a>
+
+    <div class="nav__menu" id="nav-menu">
+      <ul class="nav__links">
+        <li><button class="nav__link" type="button">Products <img src="assets/chevron-down.svg" width="12" height="12" alt=""></button></li>
+        <li><a class="nav__link" href="#">Estimator Training</a></li>
+        <li><a class="nav__link" href="#how-it-works">How It Works</a></li>
+        <li><a class="nav__link" href="#refer">Refer a Shop</a></li>
+      </ul>
+      <div class="nav__actions">
+        <a class="nav__signin" href="#">Sign in</a>
+        <a class="btn btn--sm" href="#demo">Book a Demo</a>
+      </div>
+    </div>
+
+    <button class="nav__toggle" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="nav-menu"><span></span><span></span><span></span></button>
+  </nav>
+</header>
+
+<main>
+  <!-- Hero -->
+  <section class="hero">
+    <h1 class="hero__title grad-text grad-v">
+      Get <span class="hl">more</span><br>
+      <span class="hl">estimates</span> done.<br>
+      Without hiring.
+    </h1>
+    <p class="lead hero__lead">Professional estimates and supplements, prepared by experienced collision estimators<br> and ready for your review.</p>
+
+    <div class="order-list">
+      <div class="order-card">
+        <div>
+          <p class="order-card__title">Estimate</p>
+          <p class="order-card__sub">Vehicle details + photos</p>
+        </div>
+        <a class="btn" href="#">$105<span class="btn__sep" aria-hidden="true">|</span>Order Now</a>
+      </div>
+      <div class="order-card">
+        <div>
+          <p class="order-card__title">Supplement</p>
+          <p class="order-card__sub">Current Estimate + new damage photos</p>
+        </div>
+        <a class="btn" href="#">$145<span class="btn__sep" aria-hidden="true">|</span>Order Now</a>
+      </div>
+    </div>
+
+    <p class="coverage coverage--sm">Remote estimating support<br>for body shops across the U.S. &amp; Canada</p>
+  </section>
+
+  <!-- How it works -->
+  <section class="section steps" id="how-it-works">
+    <div class="steps__pin">
+    <div class="section-head">
+      <h2 class="h2 grad-text grad-a">From upload<br>to ready for review <br class="m-only"><span class="hl">in just <br>4 simple steps</span></h2>
+      <p class="lead">No account. No subscription. Pay per job.</p>
+    </div>
+
+    <div class="steps__track">
+      <div class="steps__sticky">
+        <div class="steps__stage">
+          <ol class="steps__list">
+            <li class="step step--l1 is-active">
+              <div class="step__text">
+                <h3 class="step__title">Send the job</h3>
+                <p class="step__desc">Vehicle details, photos and insurer documents.</p>
+              </div>
+            </li>
+            <li class="step step--r1">
+              <div class="step__text">
+                <h3 class="step__title">We write it</h3>
+                <p class="step__desc">An experienced estimator prepares the Estimate or Supplement.</p>
+              </div>
+            </li>
+            <li class="step step--l2">
+              <div class="step__text">
+                <h3 class="step__title">Get your completed file</h3>
+                <p class="step__desc">Receive a complete Estimate or Supplement prepared by experienced collision estimators</p>
+              </div>
+            </li>
+            <li class="step step--r2">
+              <div class="step__text">
+                <h3 class="step__title">Review &amp; download</h3>
+                <p class="step__desc">Review the work, message your estimator if needed, and download the final PDF</p>
+              </div>
+            </li>
+          </ol>
+          <div class="steps__bars" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+
+          <!-- Phone: vector frame + HTML screens. Sizes inside are in "u" = 1/1199 of the phone box width -->
+          <div class="phone" role="img" aria-label="Crash Buddy app: send a job, track it, download the finished Supplement">
+            <div class="iphone" aria-hidden="true">
+              <i class="iphone__btn iphone__btn--action"></i>
+              <i class="iphone__btn iphone__btn--vol1"></i>
+              <i class="iphone__btn iphone__btn--vol2"></i>
+              <i class="iphone__btn iphone__btn--power"></i>
+
+              <div class="iphone__screen">
+                <!-- Claim screen (steps 2–3) -->
+                <div class="scr scr--claim">
+                  <span class="app-icon-btn claim__back rv rv--fade" data-step="2" style="--d:.2s"><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg></span>
+                  <span class="app-icon-btn claim__more rv rv--fade" data-step="2" style="--d:.2s"><svg viewBox="0 0 24 24"><circle cx="5.5" cy="12" r="1.3"/><circle cx="12" cy="12" r="1.3"/><circle cx="18.5" cy="12" r="1.3"/></svg></span>
+                  <p class="claim__title rv rv--fade" data-step="2" style="--d:.2s">BMW 530i</p>
+                  <p class="claim__sub rv rv--fade" data-step="2" style="--d:.25s">Demo Claim · SAMPLE-001</p>
+                  <div class="app-pills claim__pills rv rv--fade" data-step="2" style="--d:.3s">
+                    <span class="app-pill">Demo</span>
+                    <span class="app-pill app-pill--on">Supplement</span>
+                  </div>
+
+                  <!-- 1 · You send -->
+                  <div class="tl tl--1 rv" data-step="2" style="--d:.6s">
+                    <span class="tl__num">1</span>
+                    <p class="tl__title">You send</p>
+                    <p class="tl__desc">Damage photos, odometer, and your<br>current Estimate.</p>
+                  </div>
+                  <div class="claim__photos">
+                    <img class="rv rv--swap" data-step="2" style="--d:.72s" src="assets/photo-1.png" alt="">
+                    <img class="rv rv--swap" data-step="2" style="--d:.72s" src="assets/photo-2.png" alt="">
+                    <img class="rv rv--swap" data-step="2" style="--d:.72s" src="assets/photo-3.png" alt="">
+                    <img class="rv rv--swap" data-step="2" style="--d:.72s" src="assets/photo-4.png" alt="">
+                  </div>
+                  <div class="file claim__file rv rv--swap" data-step="2" style="--d:.72s">
+                    <span class="pdf-ico">PDF</span>
+                    <span class="file__text"><b>insurance_estimate.pdf</b><span>Sample · current Estimate</span></span>
+                    <span class="file__size">1.2 MB</span>
+                  </div>
+                  <i class="tl__line tl__line--1" data-step="2" style="--d:.85s"></i>
+
+                  <!-- 2 · We write -->
+                  <div class="tl tl--2 rv" data-step="2" style="--d:1.05s">
+                    <span class="tl__num">2</span>
+                    <p class="tl__title">We write</p>
+                  </div>
+                  <div class="person rv" data-step="2" style="--d:1.2s">
+                    <img class="person__ava" src="assets/avatar.png" alt="">
+                    <p class="person__name">Patrick — teammate</p>
+                    <p class="person__desc">Reviewing photos and current<br>Estimate.</p>
+                    <span class="person__status"><i class="status-dot" data-step="2"></i>In progress</span>
+                  </div>
+                  <i class="tl__line tl__line--2" data-step="3" style="--d:0s"></i>
+
+                  <!-- 3 · Ready to review -->
+                  <div class="tl tl--3 rv" data-step="3" style="--d:.2s">
+                    <span class="tl__num">3</span>
+                    <p class="tl__title tl__title--green">Ready to review</p>
+                  </div>
+                  <div class="ready rv" data-step="3" style="--d:.35s">
+                    <span class="pdf-ico pdf-ico--green">PDF</span>
+                    <span class="file__text"><b>Sample_Supplement_BMW_530i.pdf</b><span>Ready for your review · 1.4 MB</span></span>
+                    <span class="ready__btn" data-step="3">Download PDF<i class="ready__tap" data-step="4"></i></span>
+                  </div>
+                </div>
+
+                <!-- Step 1 · new request form -->
+                <div class="scr scr--form">
+                  <div class="scr__in form">
+                    <span class="app-icon-btn"><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg></span>
+                    <p class="app-title">New request</p>
+                    <p class="app-sub">Send the job to your estimator</p>
+                    <div class="app-pills">
+                      <span class="app-pill">Estimate</span>
+                      <span class="app-pill app-pill--on">Supplement</span>
+                    </div>
+
+                    <p class="form__label">Vehicle</p>
+                    <div class="form__field form__field--vehicle">
+                      <span class="fill fill--vehicle">BMW 530i · 2021 · SAMPLE-001</span>
+                    </div>
+
+                    <p class="form__label">Notes for estimator</p>
+                    <div class="form__field form__field--notes">
+                      <span class="fill fill--n1">Rear reinforcement and bumper damage.</span>
+                      <span class="fill fill--n2">Please check the current Estimate.</span>
+                    </div>
+
+                    <p class="form__label">Photos</p>
+                    <div class="form__photos">
+                      <img class="thumb" style="--d:.75s" src="assets/photo-1.png" alt="">
+                      <img class="thumb" style="--d:.85s" src="assets/photo-2.png" alt="">
+                      <img class="thumb" style="--d:.95s" src="assets/photo-3.png" alt="">
+                      <img class="thumb" style="--d:1.05s" src="assets/photo-4.png" alt="">
+                    </div>
+
+                    <div class="file form__file">
+                      <span class="pdf-ico">PDF</span>
+                      <span class="file__text">
+                        <b>insurance_estimate.pdf</b>
+                        <span class="form__file-sub"><span class="sub-a">Uploading…</span><span class="sub-b">1.2 MB · uploaded</span></span>
+                        <span class="form__bar"><i></i></span>
+                      </span>
+                    </div>
+
+                    <span class="form__send">
+                      <span class="send-a">Send to estimator</span>
+                      <span class="send-b"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>Sent</span>
+                      <i class="form__tap"></i>
+                    </span>
+                  </div>
+                </div>
+
+                <!-- Step 4 · PDF opened + confirmation -->
+                <div class="scr scr--pdf">
+                  <div class="scr__in viewer">
+                    <div class="viewer__bar">
+                      <span class="app-icon-btn"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></span>
+                      <span class="viewer__name">Sample_Supplement_BMW_530i.pdf</span>
+                      <span class="app-icon-btn"><svg viewBox="0 0 24 24"><path d="M12 15V4M7.5 8.5L12 4l4.5 4.5M5 13v5.5A1.5 1.5 0 0 0 6.5 20h11a1.5 1.5 0 0 0 1.5-1.5V13"/></svg></span>
+                    </div>
+                    <div class="viewer__doc"><img src="assets/estimate-doc.png" width="1275" height="1650" alt=""></div>
+                    <div class="viewer__toast">
+                      <span class="check">
+                        <svg viewBox="0 0 52 52"><circle class="check__bg" cx="26" cy="26" r="26"/><path class="check__path" d="M15 27l7.5 7.5L37.5 19"/></svg>
+                      </span>
+                      <span class="viewer__toast-text">
+                        <b>Download complete</b>
+                        <span>Supplement saved · ready to submit</span>
+                      </span>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- System UI -->
+                <div class="statusbar">
+                  <span class="statusbar__time">9:41</span>
+                  <span class="statusbar__icons">
+                    <svg viewBox="0 0 25 14" class="sb-signal"><rect x="0" y="9" width="4.5" height="5" rx="1"/><rect x="6.8" y="6" width="4.5" height="8" rx="1"/><rect x="13.6" y="3" width="4.5" height="11" rx="1"/><rect x="20.4" y="0" width="4.5" height="14" rx="1"/></svg>
+                    <svg viewBox="0 0 22 16" class="sb-wifi"><path d="M11 15.2l3-3.3a4.4 4.4 0 0 0-6 0z"/><path d="M4.9 9.1a8.7 8.7 0 0 1 12.2 0l2-2.2a11.7 11.7 0 0 0-16.2 0z"/><path d="M1.1 5a14.1 14.1 0 0 1 19.8 0L22.7 3a16.9 16.9 0 0 0-23.4 0z" transform="translate(.3 0)"/></svg>
+                    <svg viewBox="0 0 32 15" class="sb-battery"><rect x=".75" y=".75" width="27" height="13.5" rx="4" fill="none" stroke="currentColor" stroke-opacity=".4" stroke-width="1.5"/><rect x="3" y="3" width="22.5" height="9" rx="2.2"/><path d="M29.5 5v5a2.6 2.6 0 0 0 0-5z" opacity=".45"/></svg>
+                  </span>
+                </div>
+                <i class="island"></i>
+                <i class="home-bar"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    </div>
+  </section>
+
+  <!-- Features -->
+  <section class="section">
+    <div class="section-head">
+      <h2 class="h2 grad-text grad-a">Less time writing.<br>More time <span class="hl">repairing.</span></h2>
+      <p class="lead lead--538">We handle the estimates and paperwork, <br>so your team can focus on what matters — repairing cars.</p>
+    </div>
+
+    <div class="features">
+      <article class="feature">
+        <div class="feature__body">
+          <span class="tag">Communication</span>
+          <div class="feature__content">
+            <div class="feature__text">
+              <h3 class="h3">Stay connected. Keep repairs moving.</h3>
+              <p class="lead">Send photos, ask questions, and communicate directly with your estimator. No missed calls, lost messages, or unnecessary back-and-forth</p>
+            </div>
+            <ul class="checklist">
+              <li>Direct communication with your estimator</li>
+              <li>Easy photo and file sharing</li>
+              <li>Quick answers and updates</li>
+              <li>All conversations in one place</li>
+            </ul>
+          </div>
+        </div>
+        <div class="feature__media feature__media--chat">
+          <img src="assets/chat.png" width="518" height="369" alt="Chat between shop and estimator">
+        </div>
+      </article>
+
+      <article class="feature">
+        <div class="feature__body">
+          <span class="tag">Quality</span>
+          <div class="feature__content">
+            <div class="feature__text">
+              <h3 class="h3">Detailed estimates.<br>Ready for your review.</h3>
+              <p class="lead">Get professionally prepared Estimates and Supplements with clear repair operations, detailed notes, and your shop’s rates — all ready for your review.</p>
+            </div>
+            <ul class="checklist">
+              <li>Prepared by experienced estimators</li>
+              <li>Line-by-line repair operations</li>
+              <li>Detailed notes where needed</li>
+              <li>Built using your shop’s rates</li>
+            </ul>
+          </div>
+        </div>
+        <div class="feature__media feature__media--docs">
+          <img class="doc doc--back" src="assets/estimate-doc.png" width="352" height="454" alt="">
+          <img class="doc doc--front" src="assets/estimate-doc.png" width="352" height="454" alt="Sample supplement document">
+        </div>
+      </article>
+
+      <article class="feature" id="claims-hub">
+        <div class="feature__body">
+          <span class="tag">Claims Hub</span>
+          <div class="feature__content">
+            <div class="feature__text">
+              <h3 class="h3">Every claim. Everything<br>in one place.</h3>
+              <p class="lead">Manage claims, track progress, communicate with your estimator, and access completed files — all through one simple, organized platform.</p>
+            </div>
+            <ul class="checklist">
+              <li>All claims in one dashboard</li>
+              <li>Real-time status tracking</li>
+              <li>Easy access to completed PDFs</li>
+            </ul>
+            <a class="btn" href="#">Explore the Demo</a>
+          </div>
+        </div>
+        <div class="feature__media feature__media--device">
+          <div class="device">
+            <img src="assets/dashboard.png" width="1536" height="1024" alt="Claims Hub dashboard">
+          </div>
+        </div>
+      </article>
+      <div class="features__hold" aria-hidden="true"></div>
+    </div>
+  </section>
+
+  <!-- Stats -->
+  <section class="section stats">
+    <div class="section-head">
+      <h2 class="h2 grad-text grad-b">What Crash Buddy<br>adds to <span class="hl">your Shop</span></h2>
+      <p class="lead lead--538">We handle the estimates and paperwork, <br>so your team can focus on what matters — repairing cars.</p>
+    </div>
+
+    <div class="stats__grid">
+      <div class="stat">
+        <p class="stat__value">$<span class="count" data-count="1000">1,000</span>+</p>
+        <p class="stat__label">Average added<br>repair value</p>
+      </div>
+      <div class="stat">
+        <p class="stat__value"><span class="count" data-count="91">91</span><small class="stat__unit--pct">%</small></p>
+        <p class="stat__label">Supplements<br>approved</p>
+      </div>
+      <div class="stat">
+        <p class="stat__value">&lt;<span class="count" data-count="12">12</span> <small>HRS</small></p>
+        <p class="stat__label">Typical Supplement<br>turnaround</p>
+      </div>
+    </div>
+
+    <div class="team-card">
+      <div class="glow-bg" aria-hidden="true"></div>
+      <div class="team-card__inner">
+        <h2 class="h2 team-card__title">Your <span>estimating team.</span><br>On demand.</h2>
+        <p class="team-card__text">Our team includes estimators with <strong>I-CAR Platinum</strong> Individual recognition. Platinum recognition is part of our qualification standards for estimators.</p>
+        <p class="team-card__coverage">Remote estimating support<br>for body shops across the U.S. &amp; Canada</p>
+        <a class="btn team-card__btn" href="#demo">Book a Demo</a>
+      </div>
+    </div>
+
+    <div class="clients">
+      <p class="clients__title">Our clients:</p>
+      <!-- Placeholder ribbon: swap the items for client logos later (keep two identical halves for a seamless loop) -->
+      <div class="clients__marquee" aria-label="Clients">
+        <ul class="clients__track">
+          <li class="clients__item"><img src="assets/logo.svg" width="36" height="24" alt="">Crash Buddy</li>
+          <li class="clients__item"><img src="assets/logo.svg" width="36" height="24" alt="">Crash Buddy</li>
+          <li class="clients__item"><img src="assets/logo.svg" width="36" height="24" alt="">Crash Buddy</li>
+          <li class="clients__item"><img src="assets/logo.svg" width="36" height="24" alt="">Crash Buddy</li>
+          <li class="clients__item"><img src="assets/logo.svg" width="36" height="24" alt="">Crash Buddy</li>
+          <li class="clients__item"><img src="assets/logo.svg" width="36" height="24" alt="">Crash Buddy</li>
+          <li class="clients__item"><img src="assets/logo.svg" width="36" height="24" alt="">Crash Buddy</li>
+          <li class="clients__item"><img src="assets/logo.svg" width="36" height="24" alt="">Crash Buddy</li>
+          <li class="clients__item"><img src="assets/logo.svg" width="36" height="24" alt="">Crash Buddy</li>
+          <li class="clients__item"><img src="assets/logo.svg" width="36" height="24" alt="">Crash Buddy</li>
+          <li class="clients__item"><img src="assets/logo.svg" width="36" height="24" alt="">Crash Buddy</li>
+          <li class="clients__item"><img src="assets/logo.svg" width="36" height="24" alt="">Crash Buddy</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- Who does what -->
+  <section class="section handle">
+    <h2 class="h2 grad-text grad-e handle__title">We handle <span class="hl">estimates <br>and supplements, while you stay <br>in full control</span> of claims, approvals, <br>and customer relationships.</h2>
+
+    <div class="handle__cards">
+      <article class="handle-card handle-card--us">
+        <span class="tag tag--accent">Crash Buddy</span>
+        <div class="handle-card__item">
+          <h3 class="handle-card__title">Writes the Estimate<br>or Supplement</h3>
+          <p class="handle-card__text">We review damage details and prepare estimates or supplements in CCC ONE</p>
+        </div>
+      </article>
+      <i class="handle__link" aria-hidden="true"></i>
+      <article class="handle-card handle-card--shop">
+        <span class="tag">Your Shop</span>
+        <div class="handle-card__row">
+          <div class="handle-card__item">
+            <h3 class="handle-card__title">You review, refine,<br>and approve the work</h3>
+            <p class="handle-card__text">Your team reviews the estimate <br>and requests adjustments if needed</p>
+          </div>
+          <div class="handle-card__item">
+            <h3 class="handle-card__title">You submit the claim<br>and manage the insurer</h3>
+            <p class="handle-card__text">You submit documentation and manage communication with the insurer</p>
+          </div>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <!-- Pricing -->
+  <section class="section pricing" id="pricing">
+    <div class="section-head">
+      <h2 class="h2 grad-text grad-d">Pay only when <span class="hl">you <br>need estimating</span> capacity</h2>
+      <p class="lead lead--604">Pay per completed job. Nothing when it’s quiet. <br>Single jobs need no account. Written in CCC ONE. High-volume Shops may qualify for custom pricing; specialty or research-intensive jobs are quoted before you order.</p>
+    </div>
+
+    <div class="plans2">
+      <article class="plan2">
+        <div class="plan2__top">
+          <span class="tag tag--glass">Estimate</span>
+          <p class="plan__price"><span>$105</span> <small>per job</small></p>
+        </div>
+        <div class="plan2__body">
+          <p class="plan2__desc">Get a complete repair estimate based on your vehicle details and damage photos</p>
+          <ul class="checklist">
+            <li>No monthly fee</li>
+            <li>No minimums</li>
+            <li>Claims Hub included</li>
+          </ul>
+          <a class="btn btn--block" href="#demo">Request an Estimate</a>
+        </div>
+      </article>
+      <article class="plan2">
+        <div class="plan2__top">
+          <span class="tag tag--glass">Supplement</span>
+          <p class="plan__price"><span>$145</span> <small>per job</small></p>
+        </div>
+        <div class="plan2__body">
+          <p class="plan2__desc">Get a detailed supplement for additional damage using your existing estimate and new photos</p>
+          <ul class="checklist">
+            <li>No monthly fee</li>
+            <li>No minimums</li>
+            <li>Claims Hub included</li>
+          </ul>
+          <a class="btn btn--block" href="#demo">Request a Supplement</a>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <!-- Refer a Shop (Figma 86:1220) -->
+  <section class="section refer2" id="refer">
+    <div class="refer2__card">
+      <div class="refer2__body">
+        <p class="refer__kicker">Refer a Shop and earn</p>
+        <p class="refer__amount">$250</p>
+        <p class="refer__text">Earn $250 after your referred Shop completes <br>3 qualifying paid Supplements.</p>
+        <a class="btn refer__btn" href="#">Refer a Shop</a>
+      </div>
+      <div class="refer2__panel">
+        <div class="rphone" role="img" aria-label="Crash Buddy app: your referral link, the Shop that joined, and progress toward the $250 reward">
+          <div class="iphone" aria-hidden="true">
+            <i class="iphone__btn iphone__btn--action"></i>
+            <i class="iphone__btn iphone__btn--vol1"></i>
+            <i class="iphone__btn iphone__btn--vol2"></i>
+            <i class="iphone__btn iphone__btn--power"></i>
+            <div class="iphone__screen">
+              <div class="scr scr--ref">
+                <span class="app-icon-btn claim__back"><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg></span>
+                <span class="app-icon-btn claim__more"><svg viewBox="0 0 24 24"><circle cx="5.5" cy="12" r="1.3"/><circle cx="12" cy="12" r="1.3"/><circle cx="18.5" cy="12" r="1.3"/></svg></span>
+                <p class="claim__title">Refer a Shop</p>
+                <p class="claim__sub">Your code · CB-2481</p>
+                <div class="app-pills claim__pills">
+                  <span class="app-pill">Referral</span>
+                  <span class="app-pill app-pill--on">$250 reward</span>
+                </div>
+
+                <div class="tl ref__tl1">
+                  <span class="tl__num">1</span>
+                  <p class="tl__title">You share</p>
+                  <p class="tl__desc">Send your link to a body shop.</p>
+                </div>
+                <div class="ref__link">
+                  <span class="ref__url">crashbuddy.com/r/CB-2481</span>
+                  <span class="ref__copy">Copy</span>
+                </div>
+                <i class="tl__line ref__line1"></i>
+
+                <div class="tl ref__tl2">
+                  <span class="tl__num">2</span>
+                  <p class="tl__title">Shop joins</p>
+                </div>
+                <div class="person ref__shop">
+                  <span class="person__ava ref__ava">MC</span>
+                  <p class="person__name">Mike’s Collision</p>
+                  <p class="person__desc">Signed up with your code.</p>
+                  <span class="person__status"><i class="status-dot"></i>Joined</span>
+                </div>
+                <i class="tl__line ref__line2"></i>
+
+                <div class="tl ref__tl3">
+                  <span class="tl__num">3</span>
+                  <p class="tl__title">3 paid Supplements</p>
+                </div>
+                <div class="ref__progress">
+                  <span class="ref__bars"><i></i><i></i><i></i></span>
+                  <span class="ref__count"><b>2</b> of 3 completed</span>
+                </div>
+
+                <div class="ref__reward">
+                  <span class="ref__reward-amount">$250</span>
+                  <span class="ref__reward-text">Payout after the 3rd Supplement</span>
+                </div>
+              </div>
+              <div class="statusbar">
+                  <span class="statusbar__time">9:41</span>
+                  <span class="statusbar__icons">
+                    <svg viewBox="0 0 25 14" class="sb-signal"><rect x="0" y="9" width="4.5" height="5" rx="1"/><rect x="6.8" y="6" width="4.5" height="8" rx="1"/><rect x="13.6" y="3" width="4.5" height="11" rx="1"/><rect x="20.4" y="0" width="4.5" height="14" rx="1"/></svg>
+                    <svg viewBox="0 0 22 16" class="sb-wifi"><path d="M11 15.2l3-3.3a4.4 4.4 0 0 0-6 0z"/><path d="M4.9 9.1a8.7 8.7 0 0 1 12.2 0l2-2.2a11.7 11.7 0 0 0-16.2 0z"/><path d="M1.1 5a14.1 14.1 0 0 1 19.8 0L22.7 3a16.9 16.9 0 0 0-23.4 0z" transform="translate(.3 0)"/></svg>
+                    <svg viewBox="0 0 32 15" class="sb-battery"><rect x=".75" y=".75" width="27" height="13.5" rx="4" fill="none" stroke="currentColor" stroke-opacity=".4" stroke-width="1.5"/><rect x="3" y="3" width="22.5" height="9" rx="2.2"/><path d="M29.5 5v5a2.6 2.6 0 0 0 0-5z" opacity=".45"/></svg>
+                  </span>
+                </div>
+                <i class="island"></i>
+                <i class="home-bar"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="section faq" id="faq">
+    <h2 class="h2 faq__title">Common questions</h2>
+    <div class="faq__list">
+      <details class="faq__item">
+        <summary>How do I get started?</summary>
+        <div class="faq__answer"><p>Send one job now: request an Estimate ($105) or a Supplement ($145) above. No account needed. For ongoing work, request a demo and we set up Claims Hub for your Shop.</p></div>
+      </details>
+      <details class="faq__item">
+        <summary>Can I send just one job?</summary>
+        <div class="faq__answer"><p>Yes. No account needed. The finished PDF comes to your email.</p></div>
+      </details>
+      <details class="faq__item">
+        <summary>What do you need to write a Supplement?</summary>
+        <div class="faq__answer"><p>The current insurance Estimate (PDF or CCC export), teardown photos — wide shots and close-ups — and any denial notes. A VIN helps. For an initial Estimate, photos and vehicle details are enough. Anything else, your estimator asks for inside the claim.</p></div>
+      </details>
+      <details class="faq__item">
+        <summary>How fast is turnaround?</summary>
+        <div class="faq__answer"><p>Most Supplements come back in about 6 hours and most Estimates in about 2 hours, during business hours (Pacific), once we have clear photos and — for a Supplement — the current insurance Estimate. Heavy structural files can take longer; we tell you when we open the file.</p></div>
+      </details>
+      <details class="faq__item">
+        <summary>Do you write in Mitchell or Audatex?</summary>
+        <div class="faq__answer"><p>We write in CCC ONE and deliver a PDF, so there is no extra software seat for the work you send us. If your Shop works in Mitchell or Audatex, ask before you order and we’ll tell you what we can do.</p></div>
+      </details>
+      <details class="faq__item">
+        <summary>Do you talk to the insurer?</summary>
+        <div class="faq__answer"><p>No. Your Shop reviews, approves and submits under its own name and rates, and handles the adjuster. We write the documentation your Shop submits.</p></div>
+      </details>
+      <details class="faq__item">
+        <summary>How do I pay?</summary>
+        <div class="faq__answer"><p>Per job, when you order: $105 per Estimate, $145 per Supplement, no subscription or minimum. Pricing agreed for your Shop appears in Claims Hub before you pay. Specialty vehicles and research-intensive jobs are quoted before you order.</p></div>
+      </details>
+      <details class="faq__item">
+        <summary>How does Claims Hub work?</summary>
+        <div class="faq__answer"><p>One claim per vehicle. Photos, documents, messages with your estimator and every Estimate or Supplement stay on it, so the next Supplement starts from the same claim — not from scratch. Your Shop’s rates and agreed pricing live there too, and archived claims can be reopened.</p></div>
+      </details>
+      <details class="faq__item">
+        <summary>Do you work with Canadian shops?</summary>
+        <div class="faq__answer"><p>Yes — remotely, across the U.S. and Canada, through Claims Hub.</p></div>
+      </details>
+      <details class="faq__item">
+        <summary>Who can see my claims?</summary>
+        <div class="faq__answer"><p>Your Shop and the Crash Buddy estimators working on your jobs. Each Shop has its own private workspace. See our <a href="#">Privacy Policy</a>.</p></div>
+      </details>
+    </div>
+  </section>
+
+  <!-- Brand mark: small metallic 3D hands between the FAQ and the demo form -->
+  <div class="logo3d">
+    <div class="team__art" id="hands3d">
+      <svg aria-hidden="true" focusable="false" overflow="visible" width="433" height="292" viewBox="0 0 433 292" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <g id="image 18 [Vectorized]" clip-path="url(#clip0_0_4)">
+      <g id="Vector">
+      <path d="M302.001 12.077C306.431 12.6425 306.985 16.3651 309.533 19.0456C313.991 23.7341 317.319 28.9986 321.323 33.941L345.669 64.5305C347.497 66.7883 350.097 69.2003 351.65 71.5938C354.678 76.2583 358.305 79.9355 361.784 84.208C370.584 94.428 370.424 107.079 373.797 118.841C376.822 129.379 380.695 161.035 386.662 169.185C397.964 184.615 411.836 199.328 423.298 214.752C426.343 218.85 431.895 223.475 432.466 229.081C431.615 236.195 424.435 239.412 419.882 244.176C417.266 246.915 413.379 249.402 410.448 252.011C400.888 260.59 391.18 269.001 381.323 277.241C375.825 281.861 371.404 286.968 364.406 289.577C362.058 290.449 358.757 291.353 356.252 291.313C344.978 291.139 333.73 290.874 322.446 290.957C303.161 290.931 284.138 290.917 264.833 290.78C263.026 290.768 252.192 290.629 249.829 289.791C248.105 286.065 248.994 271.351 249.004 267.071C249.02 260.429 251.126 255.375 255.747 251.187C264.587 246.302 267.356 246.904 277.397 246.923L299.619 246.993C303.686 247.01 308.016 247.144 312.052 246.853C313.54 246.746 316.065 246.096 317.153 245.18C318.87 243.735 320.398 240.033 320.401 237.869C320.409 230.832 321.375 200.462 319.858 195.588C319.669 195.002 319.429 194.434 319.144 193.89C315.097 186.117 302.986 181.084 298.371 174.009C295.94 169.884 294.832 164.891 293.101 160.511C289.851 152.296 286.592 144.243 283.848 135.84C283.092 133.527 282.098 130.568 281.113 128.375C280.465 126.961 279.613 125.65 278.584 124.483C277.583 123.34 275.932 121.995 274.417 121.73C264.154 119.883 253.5 121.894 243.13 120.942C223.582 119.147 219.103 105.045 220.562 87.8749C224.773 86.988 237.397 87.4858 242.08 87.4274C255.443 87.282 268.806 87.2289 282.169 87.2677C288.425 87.2649 297.942 86.9678 303.823 87.4259C306.228 87.6275 308.576 88.2495 310.764 89.2635C317.467 92.4151 323.257 99.5286 329.523 103.893C333.333 106.547 334.984 109.257 339.54 111.609C333.976 103.903 327.167 96.3862 321.286 88.9417C317.97 84.7459 314.488 80.4638 311.232 76.2842C304.16 67.211 296.743 58.1208 289.882 48.9144C282.572 39.108 285.015 25.6094 294.221 17.9199C297.14 15.4171 297.7 13.3609 302.001 12.077Z" fill="black"/>
+      <path d="M128.427 12.2765C133.929 11.7973 137.441 17.9768 141.051 21.364C146.803 26.7625 147.784 36.6908 145.216 43.7958C144.106 46.8678 140.534 50.884 138.675 53.7345C135.127 58.7438 131.146 63.2931 127.296 68.0525C123.49 72.756 120.005 77.5687 115.933 82.1103C114.147 84.1016 112.398 87.0561 110.64 89.2139L100.583 101.631C97.0571 105.925 95.102 107.628 92.1678 112.608C95.9734 110.295 99.1558 106.506 102.666 104.006C108.284 100.005 113.178 94.6349 118.564 90.6544C124.113 86.5541 132.794 87.2622 139.439 87.2616L191.676 87.299C197.302 87.311 206.675 86.9948 211.895 88.081C212.134 96.068 212.626 101.85 208.939 109.353C205.819 115.702 198.734 119.577 191.936 120.634C189.362 121.034 184.207 120.877 181.463 120.868L168.179 120.819C153.108 120.8 153.45 122.977 148.482 136.369L140.082 158.342C138.266 163.204 136.272 170.477 133.44 174.697C128.143 182.592 112.441 187.678 112.081 198.461C111.825 206.144 111.883 213.691 111.859 221.351C111.882 226.571 111.419 231.862 111.65 237.072C111.778 239.975 113.687 244.883 116.604 246.063C121.704 248.126 127.446 247.12 132.793 247.024C138.824 246.916 144.849 246.958 150.88 246.935C156.096 246.954 161.526 246.722 166.662 247.427C169.336 247.794 171.085 248.466 173.483 249.61C185.165 255.756 183.307 266.323 183.603 277.683C183.637 278.986 183.914 290.056 182.421 290.164C175.066 290.697 167.293 290.213 159.784 290.335C139.112 290.803 118.435 290.994 97.7577 290.906C89.7869 290.911 80.7307 291.413 72.9322 290.484C64.2922 289.452 58.0108 282.623 51.904 277.472C41.6465 268.821 31.6029 260.076 21.6039 251.137C17.7879 247.726 13.5801 244.74 9.98662 240.988C7.89245 238.849 4.06526 236.773 2.28686 234.237C-1.02476 229.515 1.16723 224.139 4.58163 220.241C8.51882 216.633 11.066 211.789 14.4381 207.897C21.9273 199.252 28.6988 190.014 36.0192 181.208C39.9522 176.477 44.4993 171.465 47.6411 166.217C48.8724 164.16 49.3879 158.673 50.3062 156.278C54.4957 140.276 57.377 123.749 60.8245 107.574C62.9058 97.8081 64.9828 91.0532 71.3158 83.1736C72.7711 81.3631 75.6136 78.7002 76.7352 76.998C79.8844 72.2181 83.5421 68.4416 87.0278 64.0566L122.202 19.5674C124.076 17.2291 126.034 13.8434 128.427 12.2765Z" fill="black"/>
+      <path d="M178.81 131.864C183.875 131.574 188.593 131.851 193.647 131.947C199.403 132.033 205.16 132.055 210.917 132.013C222.544 131.941 234.171 131.933 245.798 131.991C252.799 132.002 259.83 131.812 266.806 132.259C269.269 132.416 271.051 133.589 271.991 135.882C275.111 143.488 277.225 151.496 280.74 158.945C282.285 162.248 283.535 166.176 284.527 169.685C284.888 170.961 284.545 172.441 283.78 173.515C281.766 175.136 257.722 174.508 253.488 174.5L187.169 174.507C175.876 174.507 164.57 174.568 153.283 174.43C151.367 174.406 147.539 174.289 147.873 171.604C148.768 164.392 152.514 157.691 155.107 150.826C157.212 145.255 158.873 138.15 162.369 133.281C164.031 131.426 175.503 131.923 178.81 131.864Z" fill="black"/>
+      <path d="M351.259 0.607351C352.658 0.475585 354.063 1.3571 354.746 2.55673C360.07 11.2831 363.52 20.9206 368.096 29.9279C372.095 37.8015 376.262 45.5482 379.784 53.712C380.74 55.9336 382.503 58.4537 383.637 60.7303C387.301 68.0765 390.094 75.8631 394.479 82.8088C398.54 89.6324 397.389 98.7544 396.978 106.395L395.824 128.743L394.587 155.011C394.362 159.116 394.347 165.491 393.176 169.123C390.943 169.733 387.989 162.58 387.47 160.714C386.024 153.729 384.693 146.685 383.085 139.737C382.154 135.713 380.88 131.788 380.023 127.741C378.858 122.244 373.628 93.4365 372.009 90.4064C371.338 89.1498 370.121 88.1372 369.236 87.0265C367.188 84.4639 365.303 81.7608 363.258 79.1854L349.028 61.2934C347.371 59.2214 344.267 56.0422 343.079 53.8705C341.165 50.3738 339.517 46.0816 337.697 42.4423C336.249 39.2608 333.979 35.9705 332.962 32.6345C330.277 23.8109 331.288 15.3487 338.192 8.82897C343.401 3.91234 344.509 2.86146 351.259 0.607351Z" fill="black"/>
+      <path d="M79.3439 0.858622C85.6689 0.250679 95.2001 9.41805 98.2036 14.2552C99.3833 16.1546 99.7128 18.1739 100.145 20.2383C102.049 29.3438 97.5761 36.1594 93.7657 43.9441C92.0859 47.4713 90.0952 52.2615 87.9319 55.4541C86.82 57.0953 84.4996 59.4047 83.152 61.1448L66.7923 81.9176C59.5298 91.0737 59.9825 89.5272 57.6647 101.095L54.6866 115.764C53.5207 121.405 52.4273 126.705 50.9635 132.274C48.6828 140.95 47.2002 149.947 45.2494 158.719C44.8255 160.905 41.9068 169.882 38.9232 168.678C38.2783 165.532 37.8821 155.405 37.7316 151.987L36.548 128.559L35.2693 104.544C35.0873 100.351 34.686 96.9318 35.0913 92.6958C35.72 86.1251 38.9046 82.0122 41.6432 76.3879L53.2005 52.5811C57.156 44.3395 61.2295 35.016 65.5781 27.0395C68.496 21.6875 75.3615 4.03235 79.3439 0.858622Z" fill="black"/>
+      <path d="M402.662 23.1641C409.908 22.6777 408.629 33.1602 410.142 38.6188C411.696 44.2161 412.413 50.7401 413.713 56.477C416.149 67.2281 418.831 77.8872 420.502 88.8031C422.995 100.018 416.526 113.968 413.89 124.836C412.45 130.765 400.98 175.48 399.286 176.793C398.326 176.592 398.64 176.795 398.078 176.069C397.378 174.764 396.881 173.689 396.887 172.178C396.907 164.301 397.686 155.711 398.249 147.858L400.9 108.443C401.285 103.094 402.176 95.5968 401.762 90.3386C401.397 85.689 396.387 76.3318 394.168 71.9929C390.48 64.7856 385.459 57.1139 383.714 49.1128C382.451 43.3283 384.525 36.7744 387.895 32.0968C391.76 26.6271 396.087 24.3188 402.662 23.1641Z" fill="black"/>
+      <path d="M26.9457 23.3507C33.3221 22.6451 40.8216 27.4904 44.5184 32.4113C48.715 38.0319 49.9963 45.3043 47.973 52.0167C46.1919 57.8594 41.7362 65.4345 38.8543 70.9014C37.3816 73.6952 36.1463 76.7723 34.6959 79.4914C31.6041 85.2871 29.8255 90.1687 30.769 96.831C31.1371 100.069 31.2599 104.062 31.5004 107.403L34.5606 153.094C34.8322 157.31 36.0292 170.147 35.512 173.726C34.7996 174.826 34.5654 176.025 33.3938 176.53L32.8665 176.229C31.4747 173.542 30.755 168.205 29.691 165.11C25.3537 152.49 22.5386 139.189 19.2037 126.226C16.6376 116.251 10.5931 101.686 11.7585 91.4915C13.0947 79.803 16.54 67.3437 19.1174 55.869C20.1497 51.6156 20.6403 46.4606 21.7007 42.3435C22.8438 37.9051 23.658 25.9718 26.9457 23.3507Z" fill="black"/>
+      <path d="M143.563 196.613C153.494 195.746 162.247 203.083 163.107 212.996C163.968 222.909 156.609 231.639 146.677 232.489C136.757 233.338 128.023 226.005 127.164 216.104C126.304 206.203 133.644 197.48 143.563 196.613Z" fill="black"/>
+      <path d="M285.185 196.693C294.946 195.543 303.829 202.408 305.16 212.127C306.491 221.846 299.773 230.837 290.062 232.341C283.622 233.338 277.143 230.787 273.118 225.669C269.094 220.551 268.152 213.664 270.654 207.656C273.155 201.648 278.711 197.457 285.185 196.693Z" fill="black"/>
+      <path d="M171.014 217.065C177.02 216.707 184.038 216.882 190.144 216.888L221.262 216.919L245.358 216.889C250.493 216.871 255.983 216.683 261.108 217.158C262.148 217.254 262.267 217.38 262.906 218.12C263.335 219.753 262.979 221.679 261.298 222.305C256.72 222.061 252.093 222.385 247.478 222.282C222.363 221.72 197.145 222.388 172.041 222.272C169.902 222.262 169.176 219.859 169.547 218.018C170.2 217.193 169.943 217.442 171.014 217.065Z" fill="black" fill-opacity="0.984314"/>
+      <path d="M170.778 207.96C175.226 207.545 183.533 207.781 188.174 207.782L246.312 207.791C249.185 207.781 261.341 207.063 262.878 208.954C263.357 211.064 263.296 212.375 261.293 213.224C256.446 213.325 251.044 212.955 246.086 212.943L202.47 212.979C196.354 212.969 190.237 213.036 184.122 213.179C179.907 213.238 173.65 213.542 169.736 212.73C169.48 210.774 168.768 208.91 170.778 207.96Z" fill="black" fill-opacity="0.988235"/>
+      <path d="M171.911 199.094C178.051 198.725 186.485 198.976 192.863 198.974L231.651 198.988L249.238 198.966C253.139 198.945 257.262 198.712 261.108 199.299C263.158 199.612 263.272 201.312 262.737 202.983C261.909 203.703 261.807 203.531 260.58 203.789C254.529 203.995 247.784 203.86 241.69 203.86L186.95 203.844C183.347 203.869 171.703 204.816 169.488 202.281C168.968 199.926 170.013 199.683 171.911 199.094Z" fill="black" fill-opacity="0.976471"/>
+      <path d="M171.074 226.189C176.653 225.82 185.025 226.063 190.782 226.065L227.032 226.08L248.341 226.044C251.222 226.037 261.673 225.357 263.108 227.54C263.636 229.45 262.697 230.088 261.172 230.609C258.444 230.743 255.617 230.752 252.88 230.773C226.61 230.969 200.335 230.668 174.066 230.907C172.556 230.921 170.793 230.574 169.708 229.458C168.85 227.877 169.554 226.761 171.074 226.189Z" fill="black"/>
+      </g>
+      </g>
+      <defs>
+      <clipPath id="clip0_0_4">
+      <rect width="433" height="292" fill="white"/>
+      </clipPath>
+      </defs>
+      </svg>
+    </div>
+  </div>
+
+  <!-- Demo request + footer on one studio backdrop, reached through a soft arch -->
+  <div class="end-scene">
+  <div class="studio-band studio-band--end" data-dark="1.15" aria-hidden="true"></div>
+  <section class="cta">
+    <div class="cta__card">
+      
+      <div class="cta__inner" id="demo">
+        <div class="logo-rest" aria-hidden="true"></div>
+        <div class="cta__head">
+          <h2 class="h2 cta__title">See Claims Hub<br>in Action</h2>
+          <p class="cta__lead">Tell us about your Shop. We'll arrange <br>a short walkthrough.</p>
+        </div>
+        <form class="cta__form" action="#" method="post">
+          <label class="visually-hidden" for="f-name">Your name</label>
+          <input class="field" id="f-name" name="name" type="text" placeholder="Your name" autocomplete="name" required>
+          <label class="visually-hidden" for="f-shop">Shop name</label>
+          <input class="field" id="f-shop" name="shop" type="text" placeholder="Shop name" autocomplete="organization" required>
+          <label class="visually-hidden" for="f-email">Work email</label>
+          <input class="field" id="f-email" name="email" type="email" placeholder="Work email" autocomplete="email" required>
+          <label class="visually-hidden" for="f-phone">Phone number</label>
+          <input class="field" id="f-phone" name="phone" type="tel" placeholder="Phone number" autocomplete="tel">
+
+          <button class="cta__referral" type="button" aria-expanded="false" aria-controls="f-ref">Have a referral code?</button>
+          <label class="visually-hidden" for="f-ref">Referral code</label>
+          <input class="field cta__ref-field" id="f-ref" name="referral" type="text" placeholder="Referral code" hidden>
+
+          <p class="cta__note">We collect your contact and shop details to arrange your demo and follow up on your request. We do not sell or share your personal information for targeted advertising.</p>
+          <button class="btn btn--block" type="submit">Request a Demo</button>
+        </form>
+      </div>
+    </div>
+  </section>
+  <footer class="footer">
+    <div class="footer__card">
+      <div class="footer__top">
+        <div class="footer__brand">
+          <a href="#" class="footer__logo">
+            <img src="assets/logo.svg" width="36" height="24" alt="">
+            <span class="footer__logo-name">Crash Buddy</span>
+            <span class="footer__logo-sep">|</span>
+            <span class="footer__logo-sub">Estimating</span>
+          </a>
+          <p class="footer__tagline">Your estimating team. On demand.</p>
+          <div class="footer__actions">
+            <a class="btn" href="#pricing">$105<span class="btn__sep" aria-hidden="true">|</span>Request an Estimate</a>
+            <a class="btn" href="#pricing">$145<span class="btn__sep" aria-hidden="true">|</span>Request a Supplement</a>
+          </div>
+        </div>
+  
+        <nav class="footer__nav" aria-label="Footer">
+          <div class="footer__col">
+            <p class="footer__heading">Services</p>
+            <ul>
+              <li><a href="#claims-hub">Claims Hub</a></li>
+              <li><a href="#pricing">Estimate</a></li>
+              <li><a href="#pricing">Supplement</a></li>
+              <li><a href="#pricing">Pricing</a></li>
+            </ul>
+          </div>
+          <div class="footer__col">
+            <p class="footer__heading">Company</p>
+            <ul>
+              <li><a href="#how-it-works">How It Works</a></li>
+              <li><a href="#refer">Refer a Shop</a></li>
+              <li><a href="#demo">Contact</a></li>
+            </ul>
+          </div>
+          <div class="footer__col">
+            <p class="footer__heading">For estimators</p>
+            <ul>
+              <li><a href="#">Training</a></li>
+              <li><a href="#">Careers</a></li>
+            </ul>
+          </div>
+          <div class="footer__col">
+            <p class="footer__heading">Legal</p>
+            <ul>
+              <li><a href="#">Privacy Policy</a></li>
+              <li><a href="#">Terms of Use</a></li>
+              <li><a href="#">Shop Services Terms</a></li>
+              <li><a href="#">Referral Terms</a></li>
+            </ul>
+          </div>
+        </nav>
+      </div>
+  
+      <div class="footer__bottom">
+        <p class="footer__disclaimer">Crash Buddy Estimating prepares Estimates and Supplements for collision repair shops. Shops review, approve and submit all documents to insurers. We do not provide public adjusting, claim negotiation or legal services. Insurance approval or payment is not guaranteed.</p>
+        <p class="footer__copy">© 2026 Crash Buddy LLC. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+  </div>
+</main>
+
+
+
+
+
+<script src="script.js"></script>
+<script src="aurora.js"></script>
+<script src="smoke.js"></script>
+<!-- 3D logo: the hands SVG extruded into polished metal, gently swaying.
+     Inline module so it also works when the page is opened as a local file. -->
+<script>
+  (() => {
+    const box = document.querySelector('.refer2');
+    if (!box || !('IntersectionObserver' in window) || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    box.classList.add('js-ref');
+    const io = new IntersectionObserver(([e]) => { if (e.isIntersecting) { box.classList.add('is-play'); io.disconnect(); } }, { threshold: 0.4 });
+    io.observe(box);
+  })();
+</script>
+<script>
+  // Logo: starts under the FAQ, then sticks to the screen and makes one full turn while you scroll,
+  // and lands in its place above the form heading.
+  (() => {
+    const art = document.getElementById('hands3d');
+    const start = document.querySelector('.logo3d');
+    const rest = document.querySelector('.logo-rest');
+    if (!art || !start || !rest || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    art.classList.add('is-fly');
+    const update = () => {
+      const h = art.offsetHeight;                                // full (start) size
+      const kEnd = rest.offsetWidth / Math.max(1, start.offsetWidth);
+      const s = start.getBoundingClientRect().top;
+      const r = rest.getBoundingClientRect().top;
+      // progress while it is held on screen: 0 at the start slot, 1 at the form
+      const holdBig = window.innerHeight * 0.45 - h / 2;
+      const p = Math.min(1, Math.max(0, (holdBig - s) / Math.max(1, r - s)));
+      const e = p * p * (3 - 2 * p);
+      const k = 1 + (kEnd - 1) * e;                              // shrinks as it turns
+      const hold = window.innerHeight * 0.45 - (h * k) / 2;
+      const y = Math.min(Math.max(hold, s), r);
+      art.style.transform = `translate3d(-50%, ${y.toFixed(1)}px, 0) scale(${k.toFixed(4)})`;
+      window.__logoSpin = e * Math.PI * 2;                       // one full turn, ends facing front
+      window.__logoLight = e;                                    // brighter metal over the dark backdrop
+    };
+    update();
+    addEventListener('scroll', update, { passive: true });
+    addEventListener('resize', update);
+    addEventListener('load', update);
+  })();
+</script>
+<script type="module">
+  import * as THREE from 'three';
+  import { SVGLoader } from 'three/addons/loaders/SVGLoader.js';
+  import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
+
+  const box = document.getElementById('hands3d');
+  const svgEl = box && box.querySelector('svg');
+
+  const init = () => {
+    const canvas = document.createElement('canvas');
+    canvas.className = 'team__canvas';
+    let renderer;
+    try {
+      renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
+    } catch (e) { return; } // no WebGL: the flat SVG stays
+
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+    renderer.toneMapping = THREE.ACESFilmicToneMapping;
+    renderer.toneMappingExposure = 0.95;
+    renderer.outputColorSpace = THREE.SRGBColorSpace;
+
+    const scene = new THREE.Scene();
+    const pmrem = new THREE.PMREMGenerator(renderer);
+    scene.environment = pmrem.fromScene(new RoomEnvironment(renderer), 0.02).texture;
+
+    // Glossy black lacquer
+    const material = new THREE.MeshPhysicalMaterial({
+      color: 0xc9ced3,          // polished steel: darker base so the highlights read on a white page
+      metalness: 1,
+      roughness: 0.16,
+      clearcoat: 1,
+      clearcoatRoughness: 0.05,
+      envMapIntensity: 1.1,
+    });
+
+    // Extrude an SVG into one group (depth/bevel in world units).
+    const DEPTH = 16;
+    let ref = null; // hands size, the reference for the other shapes
+    const build = (svgText, fit = 1) => {
+      const data = new SVGLoader().parse(svgText);
+      const shapes = [];
+      data.paths.forEach((path) => {
+        const fill = path.userData && path.userData.style && path.userData.style.fill;
+        if (!fill || fill === 'none' || /^(white|#fff(fff)?)$/i.test(fill)) return;
+        shapes.push(...SVGLoader.createShapes(path));
+      });
+      const b2 = new THREE.Box2();
+      shapes.forEach((sh) => sh.getPoints().forEach((pt) => b2.expandByPoint(pt)));
+      const sz = b2.getSize(new THREE.Vector2());
+      const k = ref ? Math.min(ref.x / sz.x, ref.y / sz.y) * fit : 1;
+      const art = new THREE.Group();
+      shapes.forEach((shape) => {
+        const geo = new THREE.ExtrudeGeometry(shape, {
+          depth: DEPTH / k,
+          curveSegments: 24,
+          bevelEnabled: true,
+          bevelThickness: 3 / k,
+          bevelSize: 1.3 / k,
+          bevelOffset: -1.3 / k, // bevel grows inward, so thin gaps stay open
+          bevelSegments: 6,
+        });
+        const mesh = new THREE.Mesh(geo, material);
+        mesh.position.z = art.children.length * (0.15 / k); // overlapping parts never z-fight
+        art.add(mesh);
+      });
+      art.scale.set(k, -k, k); // SVG y points down
+      const bounds = new THREE.Box3().setFromObject(art);
+      art.position.sub(bounds.getCenter(new THREE.Vector3()));
+      const holder = new THREE.Group();
+      holder.add(art);
+      return { group: holder, size: bounds.getSize(new THREE.Vector3()) };
+    };
+
+    const hands = build(svgEl.outerHTML);
+    ref = new THREE.Vector2(hands.size.x, hands.size.y);
+    const size = hands.size;
+
+    const pivot = new THREE.Group();
+    pivot.add(hands.group);
+    scene.add(pivot);
+
+    const key = new THREE.DirectionalLight(0xffffff, 1.2);
+    key.position.set(-200, 260, 420);
+    const rim = new THREE.DirectionalLight(0xffffff, 1);
+    rim.position.set(320, -80, -200);
+    const tint = new THREE.DirectionalLight(0x5fead5, 1.4);
+    tint.position.set(-300, -220, 260);
+    scene.add(key, rim, tint, new THREE.AmbientLight(0xffffff, 0.05));
+
+    const camera = new THREE.PerspectiveCamera(26, 1, 1, 5000);
+
+    const resize = () => {
+      const w = canvas.clientWidth;
+      const h = canvas.clientHeight;
+      if (!w || !h) return;
+      renderer.setSize(w, h, false);
+      camera.aspect = w / h;
+      // the model fills the original block, which is box/canvas of the canvas
+      const fillH = box.clientHeight / h;
+      const fillW = box.clientWidth / w;
+      const tan = Math.tan(THREE.MathUtils.degToRad(camera.fov / 2));
+      const distH = (size.y / 2) / tan / fillH;
+      const distW = (size.x / 2) / (tan * camera.aspect) / fillW;
+      camera.position.set(0, 0, Math.max(distH, distW) + size.z / 2);
+      camera.lookAt(0, 0, 0);
+      camera.updateProjectionMatrix();
+    };
+
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const clock = new THREE.Clock();
+    let running = false;
+    // Cursor interaction: the figure leans toward the pointer; drag to spin it (with inertia),
+    // let go and it settles back to its resting pose.
+    const user = { y: 0, x: 0, vy: 0, vx: 0, hx: 0, hy: 0, tx: 0, ty: 0, drag: false, lx: 0, ly: 0 };
+    const TAU = Math.PI * 2;
+    const clampN = (v) => Math.max(-1, Math.min(1, v));
+    const pose = (t) => {
+      if (!user.drag) {
+        user.y += user.vy;
+        user.x += user.vx;
+        user.vy *= 0.94;
+        user.vx *= 0.88;
+        user.y += (Math.round(user.y / TAU) * TAU - user.y) * 0.035; // back to the nearest resting turn
+        user.x += -user.x * 0.06;
+      }
+      user.hx += (user.tx - user.hx) * 0.08;
+      user.hy += (user.ty - user.hy) * 0.08;
+      pivot.rotation.y = Math.sin(t * 0.7) * 0.42 + user.y + user.hx * 0.35 + (window.__logoSpin || 0);
+      pivot.rotation.x = -0.1 + Math.sin(t * 0.45) * 0.035 + user.x + user.hy * 0.22;
+    };
+    const steel = new THREE.Color(0xc9ced3), bright = new THREE.Color(0xf2f5f6);
+    const light = () => {
+      const l = window.__logoLight || 0;
+      renderer.toneMappingExposure = 0.95 + 0.45 * l;
+      material.envMapIntensity = 1.1 + 0.9 * l;
+      material.roughness = 0.16 - 0.06 * l;
+      material.color.copy(steel).lerp(bright, l);
+    };
+    const frame = () => {
+      if (!running) return;
+      light();
+      pose(clock.getElapsedTime());
+      renderer.render(scene, camera);
+      requestAnimationFrame(frame);
+    };
+
+    box.appendChild(canvas);
+    canvas.style.cursor = 'grab';
+    canvas.style.touchAction = 'pan-y'; // vertical swipes still scroll the page
+    let idleRender = 0;
+    const kick = () => { // in reduced-motion mode there is no loop — render while the user interacts
+      if (running) return;
+      cancelAnimationFrame(idleRender);
+      const step = () => {
+        pose(0.6);
+        renderer.render(scene, camera);
+        if (user.drag || Math.abs(user.vy) > 0.001 || Math.abs(user.y % TAU) > 0.002) idleRender = requestAnimationFrame(step);
+      };
+      idleRender = requestAnimationFrame(step);
+    };
+    canvas.addEventListener('pointerdown', (e) => {
+      user.drag = true;
+      user.lx = e.clientX;
+      user.ly = e.clientY;
+      user.vy = user.vx = 0;
+      canvas.setPointerCapture(e.pointerId);
+      canvas.style.cursor = 'grabbing';
+      kick();
+    });
+    canvas.addEventListener('pointermove', (e) => {
+      const r = canvas.getBoundingClientRect();
+      user.tx = clampN(((e.clientX - r.left) / r.width - 0.5) * 2);
+      user.ty = clampN(((e.clientY - r.top) / r.height - 0.5) * 2);
+      if (user.drag) {
+        const dx = e.clientX - user.lx;
+        const dy = e.clientY - user.ly;
+        user.lx = e.clientX;
+        user.ly = e.clientY;
+        user.vy = dx * 0.012;
+        user.vx = dy * 0.006;
+        user.y += user.vy;
+        user.x = Math.max(-0.55, Math.min(0.55, user.x + user.vx));
+      }
+      kick();
+    });
+    const release = (e) => {
+      if (!user.drag) return;
+      user.drag = false;
+      canvas.style.cursor = 'grab';
+      if (canvas.hasPointerCapture(e.pointerId)) canvas.releasePointerCapture(e.pointerId);
+      kick();
+    };
+    canvas.addEventListener('pointerup', release);
+    canvas.addEventListener('pointercancel', release);
+    canvas.addEventListener('pointerleave', () => { user.tx = 0; user.ty = 0; kick(); });
+
+    resize();
+    pose(reduced ? 0.6 : 0);
+    renderer.render(scene, camera);
+    box.classList.add('is-3d');
+
+    new ResizeObserver(() => { resize(); renderer.render(scene, camera); }).observe(box);
+    if (!reduced) {
+      new IntersectionObserver(([e]) => {
+        const was = running;
+        running = e.isIntersecting;
+        if (running && !was) { clock.start(); requestAnimationFrame(frame); }
+      }).observe(box);
+    }
+  };
+
+  if (svgEl) init();
+</script>
+
+</body>
+</html>
