@@ -1256,7 +1256,7 @@ strong { font-weight: 500; color: var(--black); }
   border-radius: 20px;
   background: var(--surface);
 }
-.handle-card--us { background: #eafdfc; }
+.handle-card--us { background: rgba(1, 190, 166, .1); background: color-mix(in srgb, var(--accent) 10%, transparent); } /* button colour at 10% */
 .tag--accent { background: var(--accent); }
 .handle-card__row { display: flex; align-items: center; justify-content: center; gap: 24px; width: 100%; }
 .handle-card__row .handle-card__item + .handle-card__item {
