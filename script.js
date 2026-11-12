@@ -310,11 +310,7 @@
       return want >= MIN_TOP;
     };
     hero.style.marginTop = '';
-    if (!place()) {                       // short phone: tighten the spacing and place again
-      hero.style.marginTop = '';
-      hero.classList.add('is-tight');
-      place();
-    }
+    place();                              // short phones: the title keeps its size, the last line may go below the fold
   };
   fit();
   window.addEventListener('load', fit);

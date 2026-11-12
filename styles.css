@@ -1344,12 +1344,6 @@ strong { font-weight: 500; color: var(--black); }
 .refer__text { font-size: 18px; line-height: 1.4; color: var(--muted); }
 .refer__btn { min-width: 177px; }
 
-/* first screen on short phones (class set from script.js) */
-html .hero.is-tight .hero__title { font-size: min(64px, calc((100vw - 32px) * .1384), 5.6svh); }
-html .hero.is-tight .hero__lead { margin-top: 14px; font-size: 15px; }
-html .hero.is-tight .order-list { margin-top: 48px; } /* the 48px gap stays on every phone */
-html .hero.is-tight .order-card { gap: 10px; padding: 8px 12px 10px; }
-html .hero.is-tight .coverage { margin-top: 8px; }
 
 
 /* ---------- Header over dark blocks: translucent dark glass, light text (.on-dark toggled from JS) ---------- */
