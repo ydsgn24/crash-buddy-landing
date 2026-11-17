@@ -117,6 +117,21 @@ strong { font-weight: 500; color: var(--black); }
 .btn__label + .btn__label { position: absolute; inset: 3px auto auto 0; transform: translateY(-140%); }
 .btn:hover .btn__label { transform: translateY(140%); }
 .btn:hover .btn__label + .btn__label { transform: translateY(0); }
+/* the same roll on links, menu items, FAQ questions (built in script.js) */
+.roll { position: relative; display: inline-flex; overflow: hidden; padding-block: 2px; margin-block: -2px; vertical-align: bottom; }
+.roll__label { display: inline-block; white-space: pre; text-decoration: inherit; transition: transform .45s cubic-bezier(.7, 0, .2, 1); }
+.roll__label + .roll__label { position: absolute; left: 0; top: 2px; transform: translateY(-140%); }
+.has-roll:hover .roll__label { transform: translateY(140%); }
+/* links that are underlined keep the underline on the rolling text */
+:is(.cta__referral, .cta__after a, .cta__check a, .faq__answer a, .footer__disclaimer a) .roll__label { text-decoration: underline; text-underline-offset: 3px; }
+.footer__cta-text .roll__label { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 4px; text-decoration-color: rgba(29, 29, 29, .35); }
+.footer__cta:hover .footer__cta-text .roll__label { text-decoration-color: currentColor; }
+.has-roll:hover .roll__label + .roll__label { transform: translateY(0); }
+@media (prefers-reduced-motion: reduce) {
+  .roll__label { transition: none; }
+  .has-roll:hover .roll__label { transform: none; }
+  .has-roll:hover .roll__label + .roll__label { transform: translateY(-140%); }
+}
 .btn__arrow {
   flex: none;
   width: 20px;
@@ -348,7 +363,7 @@ strong { font-weight: 500; color: var(--black); }
 .order-card .btn { flex: none; min-width: 200px; } /* both buttons the same width */
 
 /* ---------- Steps ---------- */
-.steps { margin-top: var(--gap-major); }
+.steps { margin-top: calc(var(--gap-major) + 36px); } /* +36: the hero ends on a small text line */
 .steps__track { margin-top: 64px; }
 .steps__stage {
   position: relative;
@@ -1327,7 +1342,7 @@ strong { font-weight: 500; color: var(--black); }
 .handle-card__text { font-size: 18px; line-height: 1.4; color: var(--text); }
 
 /* ---------- FAQ ---------- */
-.faq { margin-top: var(--gap-minor); }
+.faq { margin-top: var(--gap-major); }
 .faq__title { text-align: center; }
 .faq__list {
   max-width: 640px;
@@ -1367,7 +1382,7 @@ strong { font-weight: 500; color: var(--black); }
 .faq__answer { padding: 0 24px 24px; font-size: 16px; line-height: 1.5; color: var(--text); }
 
 /* ---------- Refer a Shop ---------- */
-.refer { margin-top: var(--gap-minor); }
+.refer { margin-top: calc(var(--gap-major) - 36px); } /* −36: room the gradient heading keeps above itself */
 /* Refer a Shop (Figma 78:807): heading, a big $250 that rolls in like an odometer, note, button */
 .refer__body {
   margin-top: 0;
@@ -1552,7 +1567,7 @@ strong { font-weight: 500; color: var(--black); }
 .aurora--dim.aurora--gl { opacity: 1; } /* dimming is done in the shader */
 
 /* ---------- Demo request ---------- */
-.cta { padding: 120px 16px 0; }
+.cta { padding: 200px 16px 0; }
 .cta__card {
   position: relative;
   max-width: 1408px;
@@ -2001,7 +2016,7 @@ strong { font-weight: 500; color: var(--black); }
   .refer__text br { display: none; }
 
   /* Demo request */
-  .cta { padding: 80px 8px 0; }
+  .cta { padding: 120px 8px 0; }
   .cta__card { border-radius: 20px; }
   .cta__inner { padding: 64px 16px 72px; }
   .cta__lead br { display: none; }

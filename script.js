@@ -1,3 +1,28 @@
+// Every other clickable text (menu, links, FAQ questions, footer): the same hover "roll" —
+// the text slides down and an identical copy comes in from above
+(() => {
+  const sel = [
+    '.nav__link', '.nav__signin', '.nav__brand',
+    '.faq__item summary', '.cta__referral', '.cta__after a', '.cta__check a',
+    '.footer__col a', '.footer__cta-text', '.footer__logo', '.footer__disclaimer a', '.faq__answer a',
+  ].join(',');
+  document.querySelectorAll(sel).forEach((el) => {
+    if (el.querySelector('.roll')) return;
+    // the first non-empty text node gets rolled; icons and other children stay as they are
+    const walker = document.createTreeWalker(el, NodeFilter.SHOW_TEXT, { acceptNode: (n) => (n.textContent.trim() ? 1 : 3) });
+    const node = walker.nextNode();
+    if (!node) return;
+    const text = node.textContent.trim();
+    const lead = /^\s/.test(node.textContent) ? ' ' : '';
+    const tail = /\s$/.test(node.textContent) ? ' ' : '';
+    const roll = document.createElement('span');
+    roll.className = 'roll';
+    roll.innerHTML = `<span class="roll__label">${text}</span><span class="roll__label" aria-hidden="true">${text}</span>`;
+    node.replaceWith(document.createTextNode(lead), roll, document.createTextNode(tail));
+    (el.closest('a, button, summary') || el).classList.add('has-roll');
+  });
+})();
+
 // Buttons: add the arrow and a second copy of the label for the hover "roll"
 (() => {
   document.querySelectorAll('.btn').forEach((b) => {
