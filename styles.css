@@ -1196,7 +1196,7 @@ strong { font-weight: 500; color: var(--black); }
 .plan__body { display: flex; flex-direction: column; gap: 24px; }
 .plan__list { gap: 12px; padding: 16px; border-radius: 16px; background: var(--white); }
 .plan__list li { line-height: 1.2; color: #000; }
-.plan__desc { font-size: 18px; line-height: 1.2; color: var(--text); }
+.plan__desc { font-size: 16px; line-height: 1.3; color: var(--text); }
 .plan .btn { margin-top: auto; }
 
 /* ---------- We handle / you control ---------- */
