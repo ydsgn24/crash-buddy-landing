@@ -411,8 +411,8 @@
     boxes.forEach((box) => {
       const links = [...box.querySelectorAll('[data-line]')];
       const r = box.getBoundingClientRect();
-      // 0 when the block's middle is at 85% of the screen height, 1 when it reaches 45%
-      const p = clamp((vh * 0.85 - (r.top + r.height / 2)) / (vh * 0.4));
+      // 0 when the block's middle enters at the bottom of the screen, 1 when it reaches 65% of the height
+      const p = clamp((vh * 1.0 - (r.top + r.height / 2)) / (vh * 0.35));
       links.forEach((l, i) => {
         const k = clamp(p * links.length - i);
         l.style.setProperty('--k', k.toFixed(3));

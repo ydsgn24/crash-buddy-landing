@@ -2082,7 +2082,8 @@ strong { font-weight: 500; color: var(--black); }
 .nav__dd-list { display: flex; flex-direction: column; gap: 4px; padding-right: 32px; border-right: 1px solid rgba(0, 0, 0, .08); }
 .nav__dd-label { margin: 0 0 12px 12px; font-size: 11px; font-weight: 500; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
 .nav__dd-item { display: flex; flex-direction: column; gap: 4px; padding: 12px; border-radius: 12px; transition: background-color .2s ease; }
-.nav__dd-item b { font-size: 22px; font-weight: 500; line-height: 1.15; letter-spacing: -0.01em; }
+.nav__dd-item .nav__dd-row { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; color: var(--black); }
+.nav__dd-item b { font-size: 18px; font-weight: 500; line-height: 1.2; }
 .nav__dd-item span { font-size: 13px; line-height: 1.35; color: var(--muted); white-space: normal; }
 .nav__dd-item:hover { background: var(--surface); }
 
@@ -2236,3 +2237,12 @@ strong { font-weight: 500; color: var(--black); }
 .csel__opt[aria-selected="true"] { font-weight: 500; }
 .csel__opt[aria-selected="true"]::after { content: ""; flex: none; width: 18px; height: 18px; background: url("assets/check.svg") center / 18px 18px no-repeat; }
 .is-invalid .csel__btn { border-color: #ff6b6b !important; }
+
+/* ---------- Pictures zoom inside their frame on hover (feature cards, Claims Hub card) ---------- */
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+  .feature__media img, .feature__media .device { transition: transform .7s cubic-bezier(.2, .8, .2, 1), opacity .8s ease; }
+  .feature:hover .feature__media img,
+  .feature:hover .feature__media .device,
+  .js-anim .feature.is-in:hover .feature__media img,
+  .js-anim .feature.is-in:hover .feature__media .device { transform: scale(1.05); }
+}

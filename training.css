@@ -278,20 +278,15 @@
 .tr-flow__link.is-done > b { box-shadow: 0 0 0 4px var(--c2), var(--glow, 0 0 0 0 transparent); }
 @media (prefers-reduced-motion: reduce) { .tr-flow__link { --k: 1; } .tr-flow__link > i { box-shadow: 0 0 0 4px var(--c1); } .tr-flow__link > b { box-shadow: 0 0 0 4px var(--c2); } }
 
-/* ---------- Price: tag | start + timer, price | list, description | button ---------- */
-.tr-plan.plan--row {
-  grid-template-rows: auto auto auto;
-  grid-template-areas:
-    "tag   start"
-    "price list"
-    "desc  btn";
-  row-gap: 16px;
-}
-.tr-plan > .tr-start { grid-area: start; }
-.tr-plan > .plan__price { align-self: end; margin-top: 0; } /* sits 16px above the description */
-.tr-plan > .plan__desc { align-self: end; } /* bottom edge = bottom of the button */
-.tr-plan > .btn { align-self: end; }
-.tr-plan > .plan__list { margin-top: 8px; }
+/* ---------- Price: left = tag (top), price + description (bottom); right = start + timer, points, button
+   spread evenly so the points sit at the same distance from the timer and from the button ---------- */
+.tr-plan.plan--row { display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: none; grid-template-areas: none; column-gap: 48px; }
+.tr-plan__col { display: flex; flex-direction: column; min-width: 0; }
+.tr-plan__col--l { align-items: flex-start; }
+.tr-plan__col--l > .plan__price { margin-top: auto; padding-top: 32px; }
+.tr-plan__col--l > .plan__desc { margin-top: 16px; font-size: 18px; line-height: 1.35; }
+.tr-plan__col--r { justify-content: space-between; gap: 24px; }
+.tr-plan__col--r > .btn { margin-top: 0; }
 .tr-start--card { flex-direction: row; justify-content: space-between; align-items: center; gap: 16px; }
 .tr-start--card .tr-start__date { display: flex; flex-direction: column; gap: 4px; line-height: 1.3; }
 .tr-start--card .tr-timer { padding: 8px 4px; border-radius: 14px; background: var(--white); }
@@ -370,22 +365,25 @@
   .mk-head { flex-direction: column; }
   .mk-row { grid-template-columns: 80px 1fr; gap: 12px; }
   .mk-cmp { grid-template-columns: 1fr; gap: 6px; }
-  .tr-plan.plan--row { grid-template-areas: "tag" "start" "price" "list" "desc" "btn"; row-gap: 16px; }
+  .tr-plan.plan--row { display: flex; flex-direction: column; gap: 16px; }
+  .tr-plan__col { display: contents; }
+  .tr-plan .tag { order: 1; } .tr-plan .tr-start { order: 2; } .tr-plan .plan__price { order: 3; padding-top: 0; margin-top: 8px; }
+  .tr-plan .plan__list { order: 4; } .tr-plan .plan__desc { order: 5; margin-top: 0; } .tr-plan .btn { order: 6; }
   .tr-start--card { flex-direction: column; align-items: flex-start; }
   .tr-join .cta__inner { padding: 96px 16px; }
 }
 .tr-join .is-invalid .float__line { border-color: #ff6b6b !important; }
 
-/* Real-work examples: the mock-up zooms in a little on hover */
-.tr-mock { transform-origin: 50% 50%; transition: transform .6s cubic-bezier(.2, .8, .2, 1); }
-@media (hover: hover) {
-  .tr-fig:hover .tr-mock { transform: scale(1.04); }
-}
-@media (prefers-reduced-motion: reduce) { .tr-mock { transition: none; } .tr-fig:hover .tr-mock { transform: none; } }
+/* Real-work examples: on hover the content zooms inside its white frame (the frame stays put) */
+.tr-mock { overflow: hidden; }
+.tr-mock__in { transform-origin: 50% 40%; transition: transform .6s cubic-bezier(.2, .8, .2, 1); }
+@media (hover: hover) { .tr-fig:hover .tr-mock__in { transform: scale(1.05); } }
+@media (prefers-reduced-motion: reduce) { .tr-mock__in { transition: none; } .tr-fig:hover .tr-mock__in { transform: none; } }
+@media (max-width: 768px) { .tr-plan .plan__desc { font-size: 16px; } }
 
 /* "I'm currently…" select in the dark join form (same look as the fields) */
 .tr-select { position: relative; width: 100%; max-width: 400px; }
 .tr-join .cta__note a { color: #fff; text-decoration: underline; text-underline-offset: 2px; }
 
 /* Variant B (training-b.html): price card points without the white plate, like variant-b's pricing */
-.variant-b .tr-plan > .plan__list { padding: 0; background: none; }
+.variant-b .tr-plan .plan__list { padding: 0; background: none; }

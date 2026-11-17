@@ -26,7 +26,7 @@
 .variant-b .pcard .btn { margin-top: auto; }
 
 /* ---------- Refer a Shop ---------- */
-.variant-b .refer { margin-top: var(--gap-major); }
+.variant-b .refer { margin-top: 24px; } /* sits right under the price panel, the usual 24px between cards */
 .variant-b .rcard {
   position: relative;
   max-width: 1240px;
@@ -67,7 +67,7 @@
   .variant-b .pcard { gap: 24px; }
   .variant-b .pcard__desc, .variant-b .pcard__list li { font-size: 16px; }
   .variant-b .pcard .plan__price span { font-size: 56px; }
-  .variant-b .refer { margin-top: var(--gap-major); }
+  .variant-b .refer { margin-top: 24px; }
   .variant-b .rcard { height: auto; padding: 72px 0; }
   .variant-b .rcard__title { font-size: 28px; }
   .variant-b .rcard__amount { font-size: clamp(96px, 30vw, 140px); }
