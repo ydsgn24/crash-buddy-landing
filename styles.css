@@ -2036,10 +2036,11 @@ strong { font-weight: 500; color: var(--black); }
   .footer { padding: 8px 8px 8px; }
   .footer__card { padding: 40px 20px 28px; border-radius: 20px; }
   .cta__inner { padding-bottom: 72px; }
-  .footer__nav { grid-template-columns: repeat(2, 1fr); row-gap: 36px; column-gap: 16px; }
+  .footer__nav { grid-template-columns: 1fr; row-gap: 32px; text-align: center; }
+  .footer__col ul { align-items: center; }
   .footer__actions { align-items: center; }
   .footer__bottom { flex-direction: column; align-items: center; gap: 16px; text-align: center; }
-  /* centred footer on phones: logo, tagline, buttons, disclaimer, copyright (link columns stay left) */
+  /* centred footer on phones: logo, tagline, buttons, link groups (one column), disclaimer, copyright */
   .footer__brand { align-items: center; text-align: center; }
   .footer__logo { justify-content: center; }
   .footer__bottom { margin-top: 40px; }
@@ -2125,7 +2126,14 @@ strong { font-weight: 500; color: var(--black); }
   .mnav__big small { font-size: 16px; font-weight: 400; letter-spacing: 0; color: var(--muted); }
   .mnav__small { display: flex; flex-direction: column; gap: 14px; padding: 28px 0; }
   .mnav__small a { font-size: 18px; line-height: 1.2; color: var(--ink); }
-  .mnav__cta { margin-top: auto; }
+  /* Claims Hub card sits right on top of the Book a Demo button, both pinned to the bottom */
+  .mnav__hub { margin-top: auto; display: flex; align-items: center; gap: 14px; padding: 8px; border-radius: 20px; background: var(--surface); }
+  .mnav__hub-media { position: relative; flex: none; width: 104px; height: 84px; border-radius: 14px; overflow: hidden; background: var(--white); }
+  .mnav__hub-media img { position: absolute; left: -40%; top: -10%; width: 180%; max-width: none; height: auto; }
+  .mnav__hub-text { display: flex; flex-direction: column; gap: 4px; padding-right: 8px; }
+  .mnav__hub-text b { font-size: 16px; font-weight: 500; line-height: 1.2; color: var(--ink); }
+  .mnav__hub-text span { font-size: 13px; line-height: 1.4; color: var(--muted); }
+  .mnav__cta { margin-top: 8px; }
   /* items slide in one after another */
   .mnav__big a, .mnav__small a { opacity: 0; transform: translateY(10px); transition: opacity .4s ease, transform .5s cubic-bezier(.2, .8, .2, 1); }
   body.menu-open .mnav__big a, body.menu-open .mnav__small a { opacity: 1; transform: none; }
@@ -2246,3 +2254,22 @@ strong { font-weight: 500; color: var(--black); }
   .js-anim .feature.is-in:hover .feature__media img,
   .js-anim .feature.is-in:hover .feature__media .device { transform: scale(1.05); }
 }
+
+/* ---------- Breadcrumbs on inner pages ---------- */
+.crumbs ol { display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 4px 8px; font-size: 14px; line-height: 1.2; color: #868686; }
+.crumbs li { display: inline-flex; align-items: center; gap: 8px; }
+.crumbs li + li::before {
+  content: "";
+  width: 12px;
+  height: 12px;
+  background: currentColor;
+  opacity: .6;
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12' fill='none' stroke='%23000' stroke-width='1.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4.5 3 7.5 6l-3 3'/%3E%3C/svg%3E") center / 12px 12px no-repeat;
+          mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12' fill='none' stroke='%23000' stroke-width='1.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4.5 3 7.5 6l-3 3'/%3E%3C/svg%3E") center / 12px 12px no-repeat;
+}
+.crumbs a { transition: color .2s ease; }
+.crumbs a:hover { color: var(--black); }
+.crumbs [aria-current="page"] { color: var(--ink); }
+.tr-hero > .crumbs { margin-bottom: 40px; }
+.legal__head > .crumbs { margin-bottom: 8px; }
+.nowrap { white-space: nowrap; }

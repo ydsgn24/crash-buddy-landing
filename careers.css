@@ -124,3 +124,4 @@
 @media (hover: hover) and (prefers-reduced-motion: no-preference) {
   .cr-req:hover .cr-req__media .cr-cv, .cr-req:hover .js-chips.is-in .cr-cv { transform: scale(1.05); }
 }
+.cr-coverage { margin-top: 24px; }

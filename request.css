@@ -12,31 +12,8 @@
   text-align: center;
 }
 
-.req__back {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  font-size: 14px;
-  line-height: 1.2;
-  color: #868686;
-  transition: color .2s ease;
-}
-.req__back::before {
-  content: "";
-  flex: none;
-  width: 16px;
-  height: 16px;
-  background: currentColor;
-  transform: scaleX(-1);
-  transition: transform .4s cubic-bezier(.2, .8, .2, 1);
-  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='none' stroke='%23000' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M3.333 10h13.334M10.833 15.833 16.667 10l-5.834-5.833'/%3E%3C/svg%3E") center / 16px 16px no-repeat;
-          mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='none' stroke='%23000' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M3.333 10h13.334M10.833 15.833 16.667 10l-5.834-5.833'/%3E%3C/svg%3E") center / 16px 16px no-repeat;
-}
-.req__back:hover { color: var(--black); }
-.req__back:hover::before { transform: scaleX(-1) translateX(4px); }
-
 .req__head {
-  margin-top: 68px;
+  margin-top: 56px;
   width: 100%;
   max-width: 635px;
   display: flex;

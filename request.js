@@ -33,17 +33,6 @@
   setKind(new URLSearchParams(location.search).get('type'), false);
   window.addEventListener('pageshow', (e) => e.persisted && setKind(new URLSearchParams(location.search).get('type'), false));
 
-  // ---- Back: return to the page the visitor came from when it is ours ----
-  const back = page.querySelector('.req__back');
-  back.addEventListener('click', (e) => {
-    try {
-      if (document.referrer && new URL(document.referrer).origin === location.origin && history.length > 1) {
-        e.preventDefault();
-        history.back();
-      }
-    } catch (_) { /* fall through to the link */ }
-  });
-
   // ---- Supplement: current Estimate file ----
   const fileWrap = page.querySelector('.req__file');
   const fileInput = document.getElementById('r-est');
