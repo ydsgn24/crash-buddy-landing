@@ -388,3 +388,4 @@
 
 /* Variant B (training-b.html): price card points without the white plate, like variant-b's pricing */
 .variant-b .tr-plan .plan__list { padding: 0; background: none; }
+.tr-start--hero { margin-top: 28px; }
