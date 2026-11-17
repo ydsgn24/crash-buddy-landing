@@ -1,0 +1,117 @@
+/* =========================================================
+   Careers page — built from the training page components (training.css)
+   and the main page's cards / dark form card.
+   ========================================================= */
+.cr-kicker { padding: 10px 20px; border-radius: 99px; }
+
+/* Requirements: a feature card like on the main page — text left, white panel with a person and floating chips right */
+.cr-req { max-width: 1200px; margin: 24px auto 0; }
+@media (min-width: 1001px) { .cr-req.feature { position: relative; top: auto; } }
+.cr-req__media { display: flex; align-items: center; justify-content: center; background: var(--white) radial-gradient(circle at 50% 55%, rgba(1, 190, 166, .12), transparent 55%); }
+.cr-cv { position: relative; z-index: 0; width: 230px; height: 290px; margin-top: 0; }
+.cr-cv__sheet {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 20px 18px;
+  border: 1px solid rgba(0, 0, 0, .05);
+  border-radius: 12px;
+  background: var(--white);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, .06);
+}
+.cr-cv__sheet--back { transform: translate(34px, 22px) rotate(4deg); opacity: .7; }
+.cr-cv__head { display: flex; align-items: center; gap: 10px; margin-bottom: 4px; }
+.cr-cv__avatar { flex: none; width: 36px; height: 36px; border-radius: 50%; background: linear-gradient(180deg, #e3e5e8, #cfd2d6); }
+.cr-cv__id { display: flex; flex-direction: column; gap: 3px; }
+.cr-cv__id b { font-size: 12px; font-weight: 500; line-height: 1.2; color: var(--ink); }
+.cr-cv__id i { font-style: normal; font-size: 10px; line-height: 1.2; color: var(--muted); }
+.cr-cv__badges { display: flex; gap: 6px; margin-bottom: 4px; }
+.cr-cv__badges span { padding: 4px 8px; border-radius: 99px; background: #e6f8f5; font-size: 9px; font-weight: 500; letter-spacing: .02em; color: #017a6b; }
+.cr-cv__label { margin-top: 6px; font-size: 9px; font-weight: 500; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+.cr-cv__line { display: block; width: var(--w); height: 6px; border-radius: 3px; background: #eceef0; }
+.cr-chip {
+  position: absolute;
+  z-index: 1;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 16px 12px 12px;
+  border-radius: 99px;
+  background: var(--surface);
+  font-size: 15px;
+  line-height: 1.2;
+  color: var(--ink);
+  white-space: nowrap;
+}
+.cr-chip::before { content: ""; flex: none; width: 22px; height: 22px; background: url("assets/check.svg") center / 22px 22px no-repeat; }
+.cr-chip--1 { left: 4%;  top: 5%; }
+.cr-chip--2 { right: 4%; top: 13%; }
+.cr-chip--3 { left: 3%;  top: 48%; }
+.cr-chip--4 { right: 3%; top: 64%; }
+.cr-chip--5 { left: 50%; bottom: 4%; translate: -50% 0; }
+/* chips appear one after another when the card scrolls into view (careers.js adds .is-in) */
+.js-chips .cr-chip { opacity: 0; transform: translateY(14px) scale(.96); transition: opacity .6s ease, transform .7s cubic-bezier(.2, .8, .2, 1); }
+.js-chips .cr-cv { opacity: 0; transform: translateY(20px); transition: opacity .7s ease, transform .9s cubic-bezier(.2, .8, .2, 1); }
+.js-chips.is-in .cr-chip, .js-chips.is-in .cr-cv { opacity: 1; transform: none; }
+.js-chips.is-in .cr-chip--1 { transition-delay: .25s; }
+.js-chips.is-in .cr-chip--2 { transition-delay: .4s; }
+.js-chips.is-in .cr-chip--3 { transition-delay: .55s; }
+.js-chips.is-in .cr-chip--4 { transition-delay: .7s; }
+.js-chips.is-in .cr-chip--5 { transition-delay: .85s; }
+.cr-how { grid-template-columns: repeat(2, 1fr); max-width: 900px; }
+.cr-how .tr-card__body { margin-top: 40px; }
+.cr-how .tr-card__title { font-size: 22px; }
+
+/* Bring your shops: like "Refer a Shop" on the main page */
+.cr-bring__points { margin-top: 0; }
+.cr-bring__points li { width: 300px; }
+.cr-bring__note { max-width: 560px; font-size: 13px; line-height: 1.45; color: var(--muted); }
+
+/* Apply form: wider, two columns of fields */
+.cr-apply .cta__inner { max-width: 760px; padding: 140px 16px; }
+.cr-form { max-width: 640px; }
+.cr-grid { width: 100%; display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.cr-grid .float { max-width: none; }
+.cr-span { grid-column: 1 / -1; }
+.cr-select { position: relative; }
+.cr-file__btn {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 16px 20px;
+  border: 1px dashed rgba(255, 255, 255, .25);
+  border-radius: 99px;
+  background: rgba(255, 255, 255, .06);
+  cursor: pointer;
+  transition: background-color .2s ease, border-color .2s ease;
+}
+.cr-file__btn:hover { background: rgba(255, 255, 255, .1); border-color: rgba(255, 255, 255, .45); }
+.cr-file__name { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 16px; line-height: 1.2; color: var(--white); }
+.cr-file__name::before { content: "+ "; color: var(--accent); }
+.cr-file.has-file .cr-file__name::before { content: "✓ "; }
+.cr-file__hint { flex: none; font-size: 13px; color: rgba(255, 255, 255, .5); }
+.cr-file input:focus-visible + .cr-file__btn { outline: 2px solid var(--accent); outline-offset: 2px; }
+.cr-note { margin-top: 20px; text-align: left; }
+.cr-form .cta__check { max-width: none; margin-top: 4px; }
+.cr-error { font-size: 14px; line-height: 1.4; color: #ff8a8a; }
+.cr-after { margin-top: 4px; }
+.cr-legal { margin-top: 8px; font-size: 11px; line-height: 1.5; color: rgba(255, 255, 255, .45); text-align: center; }
+.cr-apply .is-invalid .float__line, .cr-apply .is-invalid .cr-file__btn { border-color: #ff6b6b !important; }
+.cr-apply .cta__check.is-invalid .cta__box { border-color: #ff6b6b; }
+
+@media (max-width: 1000px) {
+  .cr-how { grid-template-columns: 1fr; }
+  .cr-req { max-width: 560px; }
+  .cr-req__media { flex-direction: column; gap: 8px; padding: 80px 16px 24px; min-height: 0; }
+  .cr-cv { width: 200px; height: 260px; margin: 0 0 32px; }
+  .cr-chip { position: static; translate: none; }
+}
+@media (max-width: 768px) {
+  .cr-grid { grid-template-columns: 1fr; }
+  .cr-apply .cta__inner { padding: 96px 16px; }
+  .cr-apply .cta__lead br, .cr-bring .refer__text br { display: none; }
+  .cr-bring__points li { width: auto; }
+}

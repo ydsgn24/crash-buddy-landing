@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Request an Estimate — Crash Buddy Estimating</title>
   <meta name="description" content="Send the vehicle details and photos. We'll prepare the Estimate or Supplement for you to review.">
-  <link rel="stylesheet" href="styles.css?v=11171809">
-  <link rel="stylesheet" href="request.css?v=11171809">
+  <link rel="stylesheet" href="styles.css?v=11171947">
+  <link rel="stylesheet" href="request.css?v=11171947">
 </head>
 <body class="request-page">
 
@@ -21,8 +21,25 @@
 
     <div class="nav__menu" id="nav-menu">
       <ul class="nav__links">
-        <li><button class="nav__link" type="button">Products <img src="assets/chevron-down.svg" width="12" height="12" alt=""></button></li>
-        <li><a class="nav__link" href="#">Estimator Training</a></li>
+        <li class="nav__dd">
+          <button class="nav__link nav__dd-btn" type="button" aria-expanded="false" aria-controls="products-menu">Products <img src="assets/chevron-down.svg" width="12" height="12" alt=""></button>
+          <div class="nav__dd-panel" id="products-menu">
+            <div class="nav__dd-list">
+              <p class="nav__dd-label">Products</p>
+              <a class="nav__dd-item" href="request.html?type=estimate"><b>Estimate</b><span>Vehicle details + photos · $105</span></a>
+              <a class="nav__dd-item" href="request.html?type=supplement"><b>Supplement</b><span>Current Estimate + new photos · $145</span></a>
+            </div>
+            <div class="nav__dd-hub">
+              <span class="nav__dd-media"><img src="assets/claims-hub-tablet.jpg" width="1455" height="1081" alt="Claims Hub on a tablet"></span>
+              <div class="nav__dd-hub-text">
+                <b class="nav__dd-title">Claims Hub</b>
+                <span class="nav__dd-desc">One dashboard for every claim — track progress, message your estimator and download finished files.</span>
+                <a class="btn btn--sm nav__dd-btn-demo" href="index.html#demo">Book a Demo</a>
+              </div>
+            </div>
+          </div>
+        </li>
+        <li><a class="nav__link" href="training.html">Estimator Training</a></li>
         <li><a class="nav__link" href="index.html#how-it-works">How It Works</a></li>
         <li><a class="nav__link" href="index.html#refer">Refer a Shop</a></li>
       </ul>
@@ -32,9 +49,35 @@
       </div>
     </div>
 
-    <button class="nav__toggle" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="nav-menu"><span></span><span></span><span></span></button>
+    <button class="nav__toggle" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="mnav"><span></span><span></span><span></span></button>
   </nav>
 </header>
+
+<!-- Mobile menu: full screen -->
+<div class="mnav" id="mnav" aria-hidden="true">
+  <div class="mnav__top">
+    <a href="index.html" class="nav__brand mnav__brand">
+      <img src="assets/logo.svg" width="36" height="24" alt="">
+      <span class="nav__brand-name">Crash Buddy</span>
+      <span class="nav__brand-sep">|</span>
+      <span>Estimating</span>
+    </a>
+    <button class="mnav__close" type="button" aria-label="Close menu"><svg viewBox="0 0 20 20" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><path d="M5 5l10 10M15 5 5 15"/></svg></button>
+  </div>
+  <nav class="mnav__big" aria-label="Products">
+    <a href="request.html?type=estimate">Estimate <small>$105</small></a>
+    <a href="request.html?type=supplement">Supplement <small>$145</small></a>
+  </nav>
+  <nav class="mnav__small" aria-label="Menu">
+    <a href="index.html#claims-hub">Claims Hub</a>
+    <a href="training.html">Estimator Training</a>
+    <a href="index.html#how-it-works">How It Works</a>
+    <a href="index.html#refer">Refer a Shop</a>
+    <a href="careers.html">Careers</a>
+    <a href="#">Sign in</a>
+  </nav>
+  <a class="btn btn--block mnav__cta" href="index.html#demo">Book a Demo</a>
+</div>
 
 <main class="req" data-kind="estimate">
   <a class="req__back" href="index.html#pricing">Back</a>
@@ -116,7 +159,7 @@
       <label class="cta__check req__check">
         <input type="checkbox" name="terms" required>
         <span class="cta__box" aria-hidden="true"></span>
-        <span>I agree to the <a href="#">Shop Services Terms</a> on behalf of my shop, and to the <a href="#">Privacy Policy</a>.</span>
+        <span>I agree to the <a href="shop-services-terms.html">Shop Services Terms</a> on behalf of my shop, and to the <a href="privacy.html">Privacy Policy</a>.</span>
       </label>
       <p class="req__note">We use your email to send the finished document and follow up on this request. We do not sell or share your personal information for targeted advertising.</p>
       <p class="req__error" role="alert" hidden></p>
@@ -198,17 +241,17 @@
         <div class="footer__col">
           <p class="footer__heading">For estimators</p>
           <ul>
-            <li><a href="#">Training</a></li>
-            <li><a href="#">Careers</a></li>
+            <li><a href="training.html">Training</a></li>
+            <li><a href="careers.html">Careers</a></li>
           </ul>
         </div>
         <div class="footer__col">
           <p class="footer__heading">Legal</p>
           <ul>
-            <li><a href="#">Privacy Policy</a></li>
-            <li><a href="#">Terms of Use</a></li>
-            <li><a href="#">Shop Services Terms</a></li>
-            <li><a href="#">Referral Terms</a></li>
+            <li><a href="privacy.html">Privacy Policy</a></li>
+            <li><a href="terms.html">Terms of Use</a></li>
+            <li><a href="shop-services-terms.html">Shop Services Terms</a></li>
+            <li><a href="referral-terms.html">Referral Terms</a></li>
           </ul>
         </div>
       </nav>
@@ -222,7 +265,7 @@
 </footer>
 
 
-<script src="script.js?v=11171809"></script>
-<script src="request.js?v=11171809"></script>
+<script src="script.js?v=11171947"></script>
+<script src="request.js?v=11171947"></script>
 </body>
 </html>

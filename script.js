@@ -32,24 +32,25 @@
   });
 })();
 
-// Mobile menu
+// Mobile menu: full-screen panel (#mnav) opened by the burger
 (() => {
   const nav = document.querySelector('.nav');
-  const toggle = nav.querySelector('.nav__toggle');
-
-  toggle.addEventListener('click', () => {
-    const open = nav.classList.toggle('is-open');
+  const toggle = nav && nav.querySelector('.nav__toggle');
+  const panel = document.getElementById('mnav');
+  if (!toggle || !panel) return;
+  const set = (open) => {
+    nav.classList.toggle('is-open', open);
+    document.body.classList.toggle('menu-open', open);
+    panel.setAttribute('aria-hidden', String(!open));
     toggle.setAttribute('aria-expanded', String(open));
     toggle.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
-  });
-
-  nav.querySelectorAll('.nav__menu a').forEach((link) =>
-    link.addEventListener('click', () => {
-      nav.classList.remove('is-open');
-      toggle.setAttribute('aria-expanded', 'false');
-      toggle.setAttribute('aria-label', 'Open menu');
-    })
-  );
+    if (open) panel.querySelector('.mnav__close').focus({ focusVisible: false });
+  };
+  toggle.addEventListener('click', () => set(!document.body.classList.contains('menu-open')));
+  panel.querySelector('.mnav__close').addEventListener('click', () => { set(false); toggle.focus(); });
+  panel.querySelectorAll('a').forEach((a) => a.addEventListener('click', () => set(false)));
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && document.body.classList.contains('menu-open')) { set(false); toggle.focus(); } });
+  window.matchMedia('(min-width: 1001px)').addEventListener('change', (e) => { if (e.matches) set(false); });
 })();
 
 // "4 simple steps": steps light up one by one on scroll (earlier ones stay lit),
@@ -395,4 +396,151 @@
   }
   const io = new IntersectionObserver(([e]) => { if (e.isIntersecting) { roll(); io.disconnect(); } }, { threshold: 0.5 });
   io.observe(el);
+})();
+
+// Step connectors (main page "We handle…", training "How it works"): the line between the cards fills
+// as the block scrolls up the screen, link after link; dots light up as the fill reaches them
+(() => {
+  const boxes = [...document.querySelectorAll('[data-scrollline]')];
+  if (!boxes.length) return;
+  const clamp = (v) => Math.min(1, Math.max(0, v));
+  let raf = 0;
+  const update = () => {
+    raf = 0;
+    const vh = window.innerHeight;
+    boxes.forEach((box) => {
+      const links = [...box.querySelectorAll('[data-line]')];
+      const r = box.getBoundingClientRect();
+      // 0 when the block's middle is at 85% of the screen height, 1 when it reaches 45%
+      const p = clamp((vh * 0.85 - (r.top + r.height / 2)) / (vh * 0.4));
+      links.forEach((l, i) => {
+        const k = clamp(p * links.length - i);
+        l.style.setProperty('--k', k.toFixed(3));
+        l.classList.toggle('is-start', k > 0);
+        l.classList.toggle('is-done', k >= 1);
+      });
+      box.classList.toggle('line-done', p >= 1);
+    });
+  };
+  const queue = () => { if (!raf) raf = requestAnimationFrame(update); };
+  window.addEventListener('scroll', queue, { passive: true });
+  window.addEventListener('resize', queue);
+  update();
+})();
+
+// Products menu: opens on hover (mouse) or click/tap; closes on outside click and Esc
+(() => {
+  const dd = document.querySelector('.nav__dd');
+  if (!dd) return;
+  const btn = dd.querySelector('.nav__dd-btn');
+  const set = (open) => { dd.classList.toggle('is-open', open); btn.setAttribute('aria-expanded', String(open)); };
+  const hover = window.matchMedia('(hover: hover) and (min-width: 1001px)');
+  let t = 0;
+  dd.addEventListener('mouseenter', () => { if (hover.matches) { clearTimeout(t); set(true); } });
+  dd.addEventListener('mouseleave', () => { if (hover.matches) t = setTimeout(() => set(false), 150); });
+  btn.addEventListener('click', () => set(!dd.classList.contains('is-open')));
+  document.addEventListener('click', (e) => { if (!dd.contains(e.target)) set(false); });
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && dd.classList.contains('is-open')) { set(false); btn.focus(); } });
+})();
+
+// Custom dropdowns: every <select class="field"> gets a styled button + list (the select stays for the form value)
+(() => {
+  const selects = [...document.querySelectorAll('select.field')];
+  if (!selects.length) return;
+  let uid = 0;
+  const closeAll = (except) => document.querySelectorAll('.csel.is-open').forEach((c) => { if (c !== except) c._close(); });
+
+  selects.forEach((sel) => {
+    const wrap = sel.parentElement;
+    wrap.classList.add('csel');
+    sel.tabIndex = -1;
+    sel.setAttribute('aria-hidden', 'true');
+    const id = `csel-${++uid}`;
+    const placeholder = sel.options[0] && !sel.options[0].value ? sel.options[0].textContent : '';
+
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'field csel__btn';
+    btn.setAttribute('aria-haspopup', 'listbox');
+    btn.setAttribute('aria-expanded', 'false');
+    btn.setAttribute('aria-controls', id);
+    btn.setAttribute('aria-label', sel.getAttribute('aria-label') || placeholder);
+    btn.innerHTML = '<span class="csel__text"></span>';
+    const text = btn.firstChild;
+
+    const list = document.createElement('ul');
+    list.className = 'csel__list';
+    list.id = id;
+    list.setAttribute('role', 'listbox');
+    const opts = [...sel.options].filter((o) => o.value !== '' || o.textContent !== placeholder).map((o) => {
+      const li = document.createElement('li');
+      li.className = 'csel__opt';
+      li.setAttribute('role', 'option');
+      li.textContent = o.textContent;
+      li.dataset.value = o.value || o.textContent;
+      list.appendChild(li);
+      return li;
+    });
+    wrap.append(btn, list);
+
+    let focus = -1;
+    const sync = () => {
+      const cur = sel.selectedIndex > -1 ? sel.options[sel.selectedIndex] : null;
+      const empty = !cur || !sel.value;
+      text.textContent = empty ? placeholder : cur.textContent;
+      btn.classList.toggle('is-empty', empty);
+      opts.forEach((li) => li.setAttribute('aria-selected', String(!empty && li.dataset.value === sel.value)));
+    };
+    const setFocus = (i) => {
+      focus = (i + opts.length) % opts.length;
+      opts.forEach((li, k) => li.classList.toggle('is-focus', k === focus));
+      opts[focus].scrollIntoView({ block: 'nearest' });
+    };
+    const open = () => {
+      closeAll(wrap);
+      wrap.classList.add('is-open');
+      btn.setAttribute('aria-expanded', 'true');
+      const i = opts.findIndex((li) => li.getAttribute('aria-selected') === 'true');
+      setFocus(i > -1 ? i : 0);
+    };
+    const close = () => {
+      wrap.classList.remove('is-open');
+      btn.setAttribute('aria-expanded', 'false');
+      opts.forEach((li) => li.classList.remove('is-focus'));
+    };
+    wrap._close = close;
+    const pick = (li) => {
+      sel.value = li.dataset.value;
+      sel.dispatchEvent(new Event('change', { bubbles: true }));
+      sync();
+      close();
+      btn.focus();
+    };
+
+    btn.addEventListener('click', () => (wrap.classList.contains('is-open') ? close() : open()));
+    opts.forEach((li, i) => {
+      li.addEventListener('click', () => pick(li));
+      li.addEventListener('mousemove', () => { if (focus !== i) setFocus(i); });
+    });
+    btn.addEventListener('keydown', (e) => {
+      const isOpen = wrap.classList.contains('is-open');
+      if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
+        e.preventDefault();
+        if (!isOpen) open(); else setFocus(focus + (e.key === 'ArrowDown' ? 1 : -1));
+      } else if ((e.key === 'Enter' || e.key === ' ') && isOpen) {
+        e.preventDefault();
+        if (focus > -1) pick(opts[focus]);
+      } else if (e.key === 'Escape' && isOpen) {
+        e.preventDefault();
+        close();
+      } else if (e.key === 'Tab' && isOpen) {
+        close();
+      }
+    });
+    sel.addEventListener('change', sync);
+    sel.form && sel.form.addEventListener('reset', () => setTimeout(sync));
+    sync();
+  });
+
+  document.addEventListener('click', (e) => { if (!e.target.closest('.csel')) closeAll(); });
 })();
