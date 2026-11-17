@@ -20,8 +20,6 @@
 }
 .variant-b .pcard--white { border-radius: 16px; background: var(--white); }
 .variant-b .pcard__head { display: flex; flex-direction: column; gap: 20px; }
-.variant-b .pcard__list { gap: 12px; }
-.variant-b .pcard__list li { line-height: 1.2; color: #000; }
 .variant-b .pcard__desc { max-width: 420px; font-size: 18px; line-height: 1.2; color: var(--text); }
 .variant-b .pcard .btn { margin-top: auto; }
 
@@ -65,7 +63,7 @@
 @media (max-width: 768px) {
   .variant-b .pbox { margin-top: 40px; }
   .variant-b .pcard { gap: 24px; }
-  .variant-b .pcard__desc, .variant-b .pcard__list li { font-size: 16px; }
+  .variant-b .pcard__desc { font-size: 16px; }
   .variant-b .pcard .plan__price span { font-size: 56px; }
   .variant-b .refer { margin-top: 24px; }
   .variant-b .rcard { height: auto; padding: 72px 0; }
