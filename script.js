@@ -1,3 +1,12 @@
+// Buttons: add the arrow and a second copy of the label for the hover "roll"
+(() => {
+  document.querySelectorAll('.btn').forEach((b) => {
+    if (b.querySelector('.btn__roll')) return;
+    const inner = `${b.innerHTML.trim()}<span class="btn__arrow" aria-hidden="true"></span>`;
+    b.innerHTML = `<span class="btn__roll"><span class="btn__label">${inner}</span><span class="btn__label" aria-hidden="true">${inner}</span></span>`;
+  });
+})();
+
 // Mobile menu
 (() => {
   const nav = document.querySelector('.nav');
