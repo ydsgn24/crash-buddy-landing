@@ -438,7 +438,8 @@
   let t = 0;
   dd.addEventListener('mouseenter', () => { if (hover.matches) { clearTimeout(t); set(true); } });
   dd.addEventListener('mouseleave', () => { if (hover.matches) t = setTimeout(() => set(false), 150); });
-  btn.addEventListener('click', () => set(!dd.classList.contains('is-open')));
+  // with a mouse the menu is already open from hover — a click keeps it open instead of toggling it shut
+  btn.addEventListener('click', () => set(hover.matches ? true : !dd.classList.contains('is-open')));
   document.addEventListener('click', (e) => { if (!dd.contains(e.target)) set(false); });
   document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && dd.classList.contains('is-open')) { set(false); btn.focus(); } });
 })();
