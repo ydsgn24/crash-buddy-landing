@@ -1370,7 +1370,7 @@ strong { font-weight: 500; color: var(--black); }
 .refer { margin-top: var(--gap-minor); }
 /* Refer a Shop (Figma 78:807): heading, a big $250 that rolls in like an odometer, note, button */
 .refer__body {
-  margin-top: 45px;
+  margin-top: 0;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -1997,7 +1997,6 @@ strong { font-weight: 500; color: var(--black); }
 
   /* Refer */
   .team__art { width: 300px; }
-  .refer__body { margin-top: 32px; }
   .refer__text { font-size: 16px; }
   .refer__text br { display: none; }
 
