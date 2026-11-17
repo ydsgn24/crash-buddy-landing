@@ -1018,6 +1018,21 @@ strong { font-weight: 500; color: var(--black); }
   .feature + .feature { box-shadow: 0 -10px 30px -12px rgba(0, 0, 0, .14), 0 -1px 0 rgba(0, 0, 0, .04); }
 }
 
+/* Claims Hub (Figma 73:386): photo of the tablet, cropped as in the layout (805×598 at −123/−37 in a 560px panel) */
+.feature__media--tablet { container-type: inline-size; }
+.feature__media--tablet .tablet {
+  position: absolute;
+  left: calc(-123 / 560 * 100cqw);
+  top: calc(-37 / 560 * 100cqw);
+  width: calc(805 / 560 * 100cqw);
+  max-width: none;
+  height: auto;
+  aspect-ratio: 805 / 598;
+  object-fit: cover;
+}
+.js-anim .feature__media .tablet { opacity: 0; transform: translateY(40px) scale(.97); transition-delay: .1s; }
+.js-anim .feature.is-in .feature__media .tablet { opacity: 1; transform: none; }
+
 /* Image entrance animations (only when JS is on) */
 .js-anim .feature__media img,
 .js-anim .feature__media .device {
@@ -1918,6 +1933,8 @@ strong { font-weight: 500; color: var(--black); }
   /* Features */
   .feature__media { min-height: 400px; }
   .feature__media--chat { align-items: flex-start; padding-top: 80px; }   /* below the badge */
+  .feature__media--tablet { min-height: 0; aspect-ratio: 560 / 481; }  /* same crop as the desktop panel */
+  #claims-hub .h3 br { display: none; }
   .feature__media--chat img { width: 100%; height: auto; }
   .doc { width: 240px; height: auto; aspect-ratio: 352 / 454; }
   .doc--front { left: 24px; top: 88px; }
