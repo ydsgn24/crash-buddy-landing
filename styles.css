@@ -107,10 +107,10 @@ strong { font-weight: 500; color: var(--black); }
   background-size: 260% 100%;
   background-position: 100% 0;
 }
-/* hover: the button comes forward a little, its label (with the arrow) rolls down and an identical
-   copy slides in from above (label copies are built in script.js) */
-.btn { transition: transform .35s cubic-bezier(.2, .8, .2, 1), box-shadow .35s ease; }
-.btn:hover { transform: scale(1.035); box-shadow: 0 10px 24px -12px rgba(1, 94, 82, .55); }
+/* hover: the button comes forward a little, the text rolls down and an identical copy slides in
+   from above; the arrow nudges forward (label copies and the arrow are added in script.js) */
+.btn { transition: transform .35s cubic-bezier(.2, .8, .2, 1); }
+.btn:hover { transform: scale(1.035); }
 .btn__roll { position: relative; display: inline-flex; overflow: hidden; padding-block: 3px; margin-block: -3px; }
 .btn__label { display: inline-flex; align-items: center; transition: transform .5s cubic-bezier(.7, 0, .2, 1); }
 .btn__label + .btn__label { position: absolute; inset: 3px auto auto 0; transform: translateY(-140%); }
@@ -122,13 +122,15 @@ strong { font-weight: 500; color: var(--black); }
   height: 20px;
   margin-left: 10px;
   background: currentColor;
+  transition: transform .4s cubic-bezier(.2, .8, .2, 1);
   -webkit-mask: url("assets/arrow-right.svg") center / 20px 20px no-repeat;
           mask: url("assets/arrow-right.svg") center / 20px 20px no-repeat;
 }
+.btn:hover .btn__arrow { transform: translateX(4px); }  /* the arrow nudges forward */
 .btn--sm .btn__arrow { width: 16px; height: 16px; margin-left: 8px; -webkit-mask-size: 16px 16px; mask-size: 16px 16px; }
 @media (prefers-reduced-motion: reduce) {
   .btn, .btn__label { transition: none; }
-  .btn:hover { transform: none; }
+  .btn:hover, .btn:hover .btn__arrow { transform: none; }
   .btn:hover .btn__label { transform: none; }
   .btn:hover .btn__label + .btn__label { transform: translateY(-140%); }
 }
