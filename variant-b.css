@@ -1,0 +1,76 @@
+/* Variant B (Figma 101:530): price block as one grey panel with a white card inside,
+   and the referral as a dark full-width card with a soft photo-gradient behind */
+
+/* ---------- Pricing ---------- */
+.variant-b .pbox {
+  max-width: 1240px;
+  margin: 64px auto 0;
+  padding: 8px;
+  border-radius: 20px;
+  background: var(--surface);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+.variant-b .pcard {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 32px;
+  padding: 20px;
+}
+.variant-b .pcard--white { border-radius: 16px; background: var(--white); }
+.variant-b .pcard__head { display: flex; flex-direction: column; gap: 20px; }
+.variant-b .pcard__list { gap: 12px; }
+.variant-b .pcard__list li { line-height: 1.2; color: #000; }
+.variant-b .pcard__desc { max-width: 420px; font-size: 18px; line-height: 1.2; color: var(--text); }
+.variant-b .pcard .btn { margin-top: auto; }
+
+/* ---------- Refer a Shop ---------- */
+.variant-b .refer { margin-top: var(--gap-major); }
+.variant-b .rcard {
+  position: relative;
+  max-width: 1240px;
+  height: 500px;
+  margin: 0 auto;
+  border-radius: 24px;
+  overflow: hidden;
+  background: #000;
+  color: var(--white);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+.variant-b .rcard::before { /* the photo-gradient at 50% (Figma: 130% × 107% at −15% / −3.7%) */
+  content: "";
+  position: absolute;
+  left: -15.21%;
+  top: -3.66%;
+  width: 130.48%;
+  height: 107.27%;
+  background: url("assets/refer-bg.jpg") center / cover no-repeat;
+  opacity: .5;
+  pointer-events: none;
+}
+.variant-b .rcard__body { position: relative; display: flex; flex-direction: column; align-items: center; gap: 32px; padding: 0 16px; }
+.variant-b .rcard__head { display: flex; flex-direction: column; align-items: center; gap: 8px; }
+.variant-b .rcard__title { font-size: 32px; font-weight: 500; line-height: 1.1; letter-spacing: -0.01em; }
+.variant-b .rcard__amount { font-size: 140px; color: var(--white); }
+.variant-b .rcard__text { font-size: 18px; line-height: 1.2; color: rgba(255, 255, 255, .5); }
+.variant-b .rcard__btn { min-width: 177px; }
+
+@media (max-width: 900px) {
+  .variant-b .pbox { grid-template-columns: 1fr; }
+}
+@media (max-width: 768px) {
+  .variant-b .pbox { margin-top: 40px; }
+  .variant-b .pcard { gap: 24px; }
+  .variant-b .pcard__desc, .variant-b .pcard__list li { font-size: 16px; }
+  .variant-b .pcard .plan__price span { font-size: 56px; }
+  .variant-b .refer { margin-top: var(--gap-major); }
+  .variant-b .rcard { height: auto; padding: 72px 0; }
+  .variant-b .rcard__title { font-size: 28px; }
+  .variant-b .rcard__amount { font-size: clamp(96px, 30vw, 140px); }
+  .variant-b .rcard__text { font-size: 16px; }
+  .variant-b .rcard__text br { display: none; }
+}
