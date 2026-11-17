@@ -318,9 +318,8 @@
   document.fonts && document.fonts.ready.then(fit);
 })();
 
-// Header over dark blocks (main page; the variant page does this in smoke.js together with its backdrops)
+// Header over dark blocks: dark glass + light text
 (() => {
-  if (document.body.classList.contains('variant-smoke')) return;
   const header = document.querySelector('.header');
   const nav = header && header.querySelector('.nav');
   if (!nav) return;
