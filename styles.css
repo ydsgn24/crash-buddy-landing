@@ -57,6 +57,7 @@ strong { font-weight: 500; color: var(--black); }
 .grad-b { background-image: linear-gradient(133.12deg, var(--grad-from) 40.374%, var(--grad-to) 116.14%); }
 .grad-c { background-image: linear-gradient(141.64deg, var(--grad-from) 30.489%, var(--grad-to) 114.09%); }
 .grad-d { background-image: linear-gradient(166.35deg, var(--grad-from) 27.948%, var(--grad-to) 96.059%); }
+.grad-r { background-image: linear-gradient(130.45deg, var(--grad-from) 48.078%, var(--grad-to) 109.37%); }
 
 /* ---------- Typography ---------- */
 .h2 {
@@ -1367,22 +1368,31 @@ strong { font-weight: 500; color: var(--black); }
 
 /* ---------- Refer a Shop ---------- */
 .refer { margin-top: var(--gap-minor); }
+/* Refer a Shop (Figma 78:807): heading, a big $250 that rolls in like an odometer, note, button */
 .refer__body {
   margin-top: 45px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 16px;
+  gap: 32px;
   text-align: center;
 }
-.refer__kicker { font-size: 24px; font-weight: 500; line-height: 1.2; margin-bottom: -8px; }
+.refer__head { display: flex; flex-direction: column; align-items: center; gap: 8px; }
 .refer__amount {
+  display: flex;
+  justify-content: center;
   font-family: Helvetica, "Helvetica Neue", Arial, sans-serif;
-  font-size: clamp(48px, calc(16px + 5.2vw), 80px);
+  font-size: clamp(110px, 30vw, 180px);
+  font-weight: 400;
   line-height: 1.1;
   letter-spacing: -0.01em;
+  color: #000;
 }
-.refer__text { font-size: 18px; line-height: 1.4; color: var(--muted); }
+.odo { display: inline-block; height: 1.1em; overflow: hidden; }
+.odo__strip { display: block; transition: transform 1.8s cubic-bezier(.16, 1, .3, 1) var(--od, 0s); }
+.odo__strip span { display: block; height: 1.1em; }
+.refer__amount.is-rolled .odo__strip { transform: translateY(var(--to)); }
+.refer__text { font-size: 18px; line-height: 1.2; color: #868686; }
 .refer__btn { min-width: 177px; }
 
 
@@ -1438,11 +1448,15 @@ strong { font-weight: 500; color: var(--black); }
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: 8px;
+  gap: 14px;
   margin-top: 28px;
 }
-.footer__actions .btn { padding: 14px 22px; font-size: 16px; }
-.footer__actions .btn:first-child { padding-inline: 32px; } /* the shorter label gets wider padding to match */
+/* footer order links: plain underlined text with the arrow */
+.footer__cta { display: inline-flex; align-items: center; font-size: 16px; font-weight: 500; line-height: 1.2; color: var(--ink); }
+.footer__cta-text { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 4px; text-decoration-color: rgba(29, 29, 29, .35); transition: text-decoration-color .2s ease; }
+.footer__cta:hover .footer__cta-text { text-decoration-color: currentColor; }
+.footer__cta .btn__sep { margin: 0 8px; opacity: .45; }
+.footer__cta:hover .btn__arrow { transform: translateX(4px); }
 .footer__nav {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -1984,7 +1998,6 @@ strong { font-weight: 500; color: var(--black); }
   /* Refer */
   .team__art { width: 300px; }
   .refer__body { margin-top: 32px; }
-  .refer__kicker { font-size: 20px; }
   .refer__text { font-size: 16px; }
   .refer__text br { display: none; }
 
@@ -2004,7 +2017,7 @@ strong { font-weight: 500; color: var(--black); }
   .footer__card { padding: 40px 20px 28px; border-radius: 20px; }
   .cta__inner { padding-bottom: 72px; }
   .footer__nav { grid-template-columns: repeat(2, 1fr); row-gap: 36px; column-gap: 16px; }
-  .footer__actions { align-items: stretch; }
+  .footer__actions { align-items: center; }
   .footer__bottom { flex-direction: column; align-items: center; gap: 16px; text-align: center; }
   /* centred footer on phones: logo, tagline, buttons, disclaimer, copyright (link columns stay left) */
   .footer__brand { align-items: center; text-align: center; }

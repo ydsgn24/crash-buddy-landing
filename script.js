@@ -345,3 +345,29 @@
   window.addEventListener('resize', update);
   update();
 })();
+
+// Refer a Shop: the $250 rolls into place like an odometer when it comes into view
+(() => {
+  const el = document.querySelector('.refer__amount');
+  if (!el) return;
+  const text = el.textContent.trim();
+  el.setAttribute('aria-label', text);
+  let n = 0;
+  el.innerHTML = [...text].map((ch) => {
+    if (!/\d/.test(ch)) return `<span aria-hidden="true">${ch}</span>`;
+    const d = Number(ch);
+    const len = 7 + n * 2;                     // later digits travel a little further
+    const items = Array.from({ length: len }, (_, k) => (d - (len - 1) + k + 100) % 10);
+    const html = `<span class="odo" aria-hidden="true"><span class="odo__strip" style="--to:${-(len - 1) * 1.1}em;--od:${n * 0.12}s">${items.map((x) => `<span>${x}</span>`).join('')}</span></span>`;
+    n += 1;
+    return html;
+  }).join('');
+  const roll = () => el.classList.add('is-rolled');
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches || !('IntersectionObserver' in window)) {
+    el.querySelectorAll('.odo__strip').forEach((s) => { s.style.transition = 'none'; });
+    roll();
+    return;
+  }
+  const io = new IntersectionObserver(([e]) => { if (e.isIntersecting) { roll(); io.disconnect(); } }, { threshold: 0.5 });
+  io.observe(el);
+})();
