@@ -1,0 +1,228 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Request an Estimate — Crash Buddy Estimating</title>
+  <meta name="description" content="Send the vehicle details and photos. We'll prepare the Estimate or Supplement for you to review.">
+  <link rel="stylesheet" href="styles.css?v=11171809">
+  <link rel="stylesheet" href="request.css?v=11171809">
+</head>
+<body class="request-page">
+
+<header class="header">
+  <nav class="nav">
+    <a href="index.html" class="nav__brand">
+      <img src="assets/logo.svg" width="36" height="24" alt="">
+      <span class="nav__brand-name">Crash Buddy</span>
+      <span class="nav__brand-sep">|</span>
+      <span>Estimating</span>
+    </a>
+
+    <div class="nav__menu" id="nav-menu">
+      <ul class="nav__links">
+        <li><button class="nav__link" type="button">Products <img src="assets/chevron-down.svg" width="12" height="12" alt=""></button></li>
+        <li><a class="nav__link" href="#">Estimator Training</a></li>
+        <li><a class="nav__link" href="index.html#how-it-works">How It Works</a></li>
+        <li><a class="nav__link" href="index.html#refer">Refer a Shop</a></li>
+      </ul>
+      <div class="nav__actions">
+        <a class="nav__signin" href="#">Sign in</a>
+        <a class="btn btn--sm" href="index.html#demo">Book a Demo</a>
+      </div>
+    </div>
+
+    <button class="nav__toggle" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="nav-menu"><span></span><span></span><span></span></button>
+  </nav>
+</header>
+
+<main class="req" data-kind="estimate">
+  <a class="req__back" href="index.html#pricing">Back</a>
+
+  <div class="req__head">
+    <h1 class="req__title grad-text grad-q">
+      <span data-for="estimate">Send the vehicle details <br>and photos. <span class="hl">We’ll prepare the Estimate for you to review</span></span>
+      <span data-for="supplement" hidden>Send the current Estimate <br>and photos. <span class="hl">We’ll prepare the Supplement for you to review</span></span>
+    </h1>
+    <div class="req__kind" role="radiogroup" aria-label="Request type">
+      <label class="req__kind-opt"><input type="radio" autocomplete="off" name="kind" value="estimate" checked><span>Estimate | $105</span></label>
+      <label class="req__kind-opt"><input type="radio" autocomplete="off" name="kind" value="supplement"><span>Supplement | $145</span></label>
+    </div>
+  </div>
+
+  <form class="req__form" action="#" method="post" novalidate>
+    <div class="req__fields">
+      <!-- Estimate: the vehicle -->
+      <div class="float" data-for="estimate">
+        <input class="field" id="r-veh" name="vehicle" type="text" autocomplete="off" required placeholder=" ">
+        <fieldset class="float__line" aria-hidden="true"><legend><span>Year / Make / Model</span></legend></fieldset>
+        <label class="float__label" for="r-veh">Year / Make / Model</label>
+      </div>
+      <div class="float" data-for="estimate">
+        <input class="field" id="r-vin" name="vin" type="text" autocomplete="off" maxlength="17" placeholder=" ">
+        <fieldset class="float__line" aria-hidden="true"><legend><span>VIN (optional)</span></legend></fieldset>
+        <label class="float__label" for="r-vin">VIN (optional)</label>
+      </div>
+
+      <!-- Supplement: the current Estimate file -->
+      <div class="req__file" data-for="supplement" hidden>
+        <input class="visually-hidden" id="r-est" name="estimate_file" type="file" accept=".pdf,.ems,.xml,.awf,.zip,application/pdf" data-required>
+        <label class="req__file-btn" for="r-est">
+          <span class="req__file-icon" aria-hidden="true"></span>
+          <span class="req__file-text"><b class="req__file-name">Attach current Estimate</b><span>PDF, EMS, XML or other export</span></span>
+        </label>
+        <button class="req__file-remove" type="button" aria-label="Remove the Estimate file" hidden>✕</button>
+      </div>
+
+      <div class="float">
+        <input class="field" id="r-email" name="email" type="email" autocomplete="email" required placeholder=" ">
+        <fieldset class="float__line" aria-hidden="true"><legend><span>Work email</span></legend></fieldset>
+        <label class="float__label" for="r-email">Work email</label>
+      </div>
+    </div>
+
+    <!-- Notes (optional) — above the photos -->
+    <div class="req__extra">
+      <button class="req__link" type="button" aria-expanded="false" aria-controls="r-notes-wrap">Add notes</button>
+      <div class="req__notes" id="r-notes-wrap" hidden>
+        <textarea class="field req__textarea" id="r-notes" name="notes" rows="4" placeholder="Prior damage, parts already identified, claim number, special instructions…" aria-label="Notes"></textarea>
+      </div>
+    </div>
+
+    <!-- Photos -->
+    <div class="req__photos">
+      <input class="visually-hidden" id="r-photos" name="photos" type="file" accept="image/*,.heic,.heif,application/pdf" multiple>
+      <label class="req__drop" for="r-photos">
+        <span class="req__drop-icon" aria-hidden="true"></span>
+        <b class="req__drop-title">Add damage photos</b>
+        <span class="req__drop-hint">Drag them here or click to choose · JPG, PNG, HEIC or PDF</span>
+      </label>
+      <ul class="req__thumbs" aria-label="Attached photos"></ul>
+      <p class="req__tip" data-for="estimate">Include VIN, odometer, all 4 corners and wide damage photos.</p>
+      <p class="req__tip" data-for="supplement" hidden>Teardown / exposed damage, close-ups and different angles.</p>
+    </div>
+
+    <!-- Referral code (optional) — below the photos -->
+    <div class="req__extra">
+      <button class="req__link" type="button" aria-expanded="false" aria-controls="r-ref-wrap">Have a referral code?</button>
+      <div class="float" id="r-ref-wrap" hidden>
+        <input class="field" id="r-ref" name="referral" type="text" placeholder=" ">
+        <fieldset class="float__line" aria-hidden="true"><legend><span>Referral code</span></legend></fieldset>
+        <label class="float__label" for="r-ref">Referral code</label>
+      </div>
+    </div>
+
+    <div class="req__submit">
+      <label class="cta__check req__check">
+        <input type="checkbox" name="terms" required>
+        <span class="cta__box" aria-hidden="true"></span>
+        <span>I agree to the <a href="#">Shop Services Terms</a> on behalf of my shop, and to the <a href="#">Privacy Policy</a>.</span>
+      </label>
+      <p class="req__note">We use your email to send the finished document and follow up on this request. We do not sell or share your personal information for targeted advertising.</p>
+      <p class="req__error" role="alert" hidden></p>
+      <button class="btn btn--block req__btn" type="submit">Send Request</button>
+    </div>
+  </form>
+
+  <div class="req__done" hidden>
+    <div class="req__thanks">
+      <span class="req__done-icon" aria-hidden="true"></span>
+      <h2 class="req__done-title">Request received.</h2>
+      <p class="req__done-text">We’ll email you when your <span class="req__done-kind">Estimate</span> is ready.</p>
+      <p class="req__done-sent">Sent to <b class="req__done-email"></b>.</p>
+      <div class="req__done-actions">
+        <a class="btn btn--ghost req__again" href="request.html">Send Another Request</a>
+        <a class="btn" href="index.html">Back to Crash Buddy Estimating</a>
+      </div>
+    </div>
+
+    <!-- Claims Hub — the same card as on the main page -->
+    <article class="feature req__hub">
+      <div class="feature__body">
+        <span class="tag">Claims Hub</span>
+        <div class="feature__content">
+          <div class="feature__text">
+            <h3 class="h3">Need estimating help regularly? <br>See how Shops use Claims Hub.</h3>
+            <p class="lead">Manage claims, track progress, communicate with your estimator, and access completed files — all through one simple, organized platform.</p>
+          </div>
+          <ul class="checklist">
+            <li>All claims in one dashboard</li>
+            <li>Real-time status tracking</li>
+            <li>Easy access to completed PDFs</li>
+          </ul>
+          <a class="btn" href="index.html#demo">See Claims Hub in Action</a>
+        </div>
+      </div>
+      <div class="feature__media feature__media--tablet">
+        <img class="tablet" src="assets/claims-hub-tablet.jpg" width="1455" height="1081" alt="Claims Hub dashboard on a tablet held in both hands">
+      </div>
+    </article>
+  </div>
+</main>
+
+<footer class="footer">
+  <div class="footer__card">
+    <div class="footer__top">
+      <div class="footer__brand">
+        <a href="index.html" class="footer__logo">
+          <img src="assets/logo.svg" width="36" height="24" alt="">
+          <span class="footer__logo-name">Crash Buddy</span>
+          <span class="footer__logo-sep">|</span>
+          <span class="footer__logo-sub">Estimating</span>
+        </a>
+        <p class="footer__tagline">Your estimating team. On demand.</p>
+        <div class="footer__actions">
+          <a class="footer__cta" href="request.html?type=estimate"><span class="footer__cta-text">Request an Estimate</span><span class="btn__arrow" aria-hidden="true"></span></a>
+          <a class="footer__cta" href="request.html?type=supplement"><span class="footer__cta-text">Request a Supplement</span><span class="btn__arrow" aria-hidden="true"></span></a>
+        </div>
+      </div>
+
+      <nav class="footer__nav" aria-label="Footer">
+        <div class="footer__col">
+          <p class="footer__heading">Services</p>
+          <ul>
+            <li><a href="index.html#claims-hub">Claims Hub</a></li>
+            <li><a href="request.html?type=estimate">Estimate</a></li>
+            <li><a href="request.html?type=supplement">Supplement</a></li>
+            <li><a href="index.html#pricing">Pricing</a></li>
+          </ul>
+        </div>
+        <div class="footer__col">
+          <p class="footer__heading">Company</p>
+          <ul>
+            <li><a href="index.html#how-it-works">How It Works</a></li>
+            <li><a href="index.html#refer">Refer a Shop</a></li>
+            <li><a href="index.html#demo">Contact</a></li>
+          </ul>
+        </div>
+        <div class="footer__col">
+          <p class="footer__heading">For estimators</p>
+          <ul>
+            <li><a href="#">Training</a></li>
+            <li><a href="#">Careers</a></li>
+          </ul>
+        </div>
+        <div class="footer__col">
+          <p class="footer__heading">Legal</p>
+          <ul>
+            <li><a href="#">Privacy Policy</a></li>
+            <li><a href="#">Terms of Use</a></li>
+            <li><a href="#">Shop Services Terms</a></li>
+            <li><a href="#">Referral Terms</a></li>
+          </ul>
+        </div>
+      </nav>
+    </div>
+
+    <div class="footer__bottom">
+      <p class="footer__disclaimer">Crash Buddy Estimating prepares Estimates and Supplements for collision repair shops. Shops review, approve and submit all documents to insurers. We do not provide public adjusting, claim negotiation or legal services. Insurance approval or payment is not guaranteed.</p>
+      <p class="footer__copy">© 2026 Crash Buddy LLC. All rights reserved.</p>
+    </div>
+  </div>
+</footer>
+
+
+<script src="script.js?v=11171809"></script>
+<script src="request.js?v=11171809"></script>
+</body>
+</html>

@@ -1,0 +1,234 @@
+/* =========================================================
+   Request page — one screen for an Estimate or a Supplement
+   (Figma 101:553). Light version of the demo form fields.
+   ========================================================= */
+.request-page [hidden] { display: none !important; }
+
+.req {
+  padding: 46px var(--gutter) 160px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.req__back {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 14px;
+  line-height: 1.2;
+  color: #868686;
+  transition: color .2s ease;
+}
+.req__back::before {
+  content: "";
+  flex: none;
+  width: 16px;
+  height: 16px;
+  background: currentColor;
+  transform: scaleX(-1);
+  transition: transform .4s cubic-bezier(.2, .8, .2, 1);
+  -webkit-mask: url("assets/arrow-right.svg") center / 16px 16px no-repeat;
+          mask: url("assets/arrow-right.svg") center / 16px 16px no-repeat;
+}
+.req__back:hover { color: var(--black); }
+.req__back:hover::before { transform: scaleX(-1) translateX(4px); }
+
+.req__head {
+  margin-top: 68px;
+  width: 100%;
+  max-width: 635px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+}
+.req__title {
+  font-size: clamp(30px, calc(18px + 3.4vw), 44px);
+  font-weight: 500;
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+}
+.grad-q { background-image: linear-gradient(145.54deg, #014c49 37.58%, #5fead5 111.16%); }
+
+/* "Estimate | $105" — also switches the request type */
+.req__kind { display: inline-flex; gap: 4px; padding: 4px; border-radius: 99px; background: var(--surface); }
+.req__kind-opt { position: relative; cursor: pointer; }
+.req__kind-opt input { position: absolute; opacity: 0; inset: 0; margin: 0; cursor: pointer; }
+.req__kind-opt span {
+  display: block;
+  padding: 12px 20px;
+  border-radius: 99px;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.2;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+  color: rgba(0, 0, 0, .5);
+  white-space: nowrap;
+  transition: background-color .25s ease, color .25s ease;
+}
+.req__kind-opt:hover span { color: rgba(0, 0, 0, .8); }
+.req__kind-opt input:checked + span { background: #1d1d1f; color: var(--white); }
+.req__kind-opt input:focus-visible + span { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+/* ---------- Form ---------- */
+.req__form {
+  margin-top: 64px;
+  width: 100%;
+  max-width: 410px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+.req__fields { width: 100%; display: flex; flex-direction: column; align-items: center; gap: 12px; }
+
+/* light fields */
+.req .float { max-width: 400px; }
+.req .field { background: var(--surface); color: var(--black); font-size: 16px; }
+.req .field:hover { background: #efeff1; }
+.req .field:focus { background: var(--surface); }
+.req .float__label { font-size: 16px; color: rgba(0, 0, 0, .5); }
+.req .float .field:focus ~ .float__label,
+.req .float .field:not(:placeholder-shown) ~ .float__label { font-size: 12px; color: rgba(0, 0, 0, .6); }
+.req .float .field:focus ~ .float__label { color: var(--accent); }
+.req .is-invalid .float__line { border-color: #e5484d !important; }
+.req .is-invalid .float__label { color: #e5484d !important; }
+
+/* Supplement: current Estimate file */
+.req__file { position: relative; width: 100%; max-width: 400px; }
+.req__file-btn {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 20px 10px 10px;
+  border: 1px dashed rgba(0, 0, 0, .18);
+  border-radius: 99px;
+  background: var(--surface);
+  text-align: left;
+  cursor: pointer;
+  transition: background-color .2s ease, border-color .2s ease;
+}
+.req__file-btn:hover { background: #efeff1; border-color: rgba(0, 0, 0, .3); }
+.req__file-icon {
+  flex: none;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--white) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='none' stroke='%2301bea6' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M11.5 2.5H6a1.5 1.5 0 0 0-1.5 1.5v12A1.5 1.5 0 0 0 6 17.5h8a1.5 1.5 0 0 0 1.5-1.5V6.5l-4-4Z'/%3E%3Cpath d='M11.5 2.5v4h4M10 9.5v5M7.5 12h5'/%3E%3C/svg%3E") center / 20px 20px no-repeat;
+}
+.req__file-text { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.req__file-name { font-size: 16px; font-weight: 500; line-height: 1.2; color: var(--black); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.req__file-text > span { font-size: 13px; line-height: 1.2; color: rgba(0, 0, 0, .5); }
+.req__file.has-file .req__file-btn { border-style: solid; border-color: transparent; padding-right: 52px; }
+.req__file.has-file .req__file-icon { background-color: var(--accent); background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 14 14' fill='none' stroke='%23fff' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M3 7.4l2.6 2.6L11 4.6'/%3E%3C/svg%3E"); background-size: 16px 16px; }
+.req__file-remove {
+  position: absolute; right: 12px; top: 50%; transform: translateY(-50%);
+  width: 32px; height: 32px; border-radius: 50%;
+  font-size: 12px; color: rgba(0, 0, 0, .5);
+  transition: background-color .2s ease, color .2s ease;
+}
+.req__file-remove:hover { background: rgba(0, 0, 0, .06); color: var(--black); }
+.req__file.is-invalid .req__file-btn { border-color: #e5484d; border-style: solid; }
+.req__file input:focus-visible + .req__file-btn { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+/* Photos */
+.req__photos { width: 100%; max-width: 400px; margin-top: 20px; display: flex; flex-direction: column; gap: 12px; }
+.req__drop {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding: 28px 20px;
+  border: 1px dashed rgba(0, 0, 0, .18);
+  border-radius: 24px;
+  background: var(--surface);
+  cursor: pointer;
+  transition: background-color .2s ease, border-color .2s ease;
+}
+.req__drop:hover, .req__photos.is-drag .req__drop { background: #eefaf8; border-color: var(--accent); }
+.req__photos.is-invalid .req__drop { border-color: #e5484d; border-style: solid; }
+.req__photos input:focus-visible + .req__drop { outline: 2px solid var(--accent); outline-offset: 2px; }
+.req__drop-icon {
+  width: 44px;
+  height: 44px;
+  margin-bottom: 6px;
+  border-radius: 50%;
+  background: var(--white) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2301bea6' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 8.5A1.5 1.5 0 0 1 5.5 7h2l1.5-2h6l1.5 2h2A1.5 1.5 0 0 1 20 8.5v9a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 4 17.5Z'/%3E%3Ccircle cx='12' cy='13' r='3.2'/%3E%3C/svg%3E") center / 24px 24px no-repeat;
+}
+.req__drop-title { font-size: 18px; font-weight: 500; line-height: 1.2; }
+.req__drop-hint { font-size: 13px; line-height: 1.4; color: rgba(0, 0, 0, .5); }
+.req__tip { font-size: 13px; line-height: 1.4; color: rgba(0, 0, 0, .55); }
+
+.req__thumbs { display: grid; grid-template-columns: repeat(auto-fill, minmax(72px, 1fr)); gap: 8px; }
+.req__thumbs:empty { display: none; }
+.req__thumb { position: relative; aspect-ratio: 1; border-radius: 14px; overflow: hidden; background: var(--surface); }
+.req__thumb img { width: 100%; height: 100%; object-fit: cover; }
+.req__thumb-doc { display: grid; place-items: center; height: 100%; padding: 6px; font-size: 11px; line-height: 1.2; color: rgba(0, 0, 0, .6); word-break: break-all; }
+.req__thumb button {
+  position: absolute; top: 4px; right: 4px;
+  width: 22px; height: 22px; border-radius: 50%;
+  background: rgba(0, 0, 0, .55); color: #fff; font-size: 10px; line-height: 22px;
+  opacity: 0; transition: opacity .2s ease;
+}
+.req__thumb:hover button, .req__thumb button:focus-visible { opacity: 1; }
+@media (hover: none) { .req__thumb button { opacity: 1; } }
+.req__count { font-size: 13px; color: rgba(0, 0, 0, .55); }
+
+/* Notes (above the photos) + referral (below): text links that open optional fields */
+.req__extra { width: 100%; max-width: 400px; margin-top: 20px; display: flex; flex-direction: column; align-items: center; gap: 12px; }
+.req__link {
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 1.2;
+  color: var(--accent);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.req__link:hover { color: var(--accent-hover); }
+.req__link .roll__label { text-decoration: underline; text-underline-offset: 3px; }
+.req__notes { width: 100%; max-width: 400px; }
+.req__textarea { display: block; max-width: none; min-height: 112px; border-radius: 24px; resize: vertical; font-size: 16px; line-height: 1.45; }
+.req .req__textarea::placeholder { color: rgba(0, 0, 0, .45); }
+.req .req__textarea:focus { border-color: var(--accent); }
+
+/* Consent + submit */
+.req__submit { width: 100%; margin-top: 20px; display: flex; flex-direction: column; align-items: center; gap: 16px; }
+.req__check { margin-top: 0; color: rgba(0, 0, 0, .65); }
+.req__check .cta__box { border-color: rgba(0, 0, 0, .25); background-color: var(--white); }
+.req__check:hover .cta__box { border-color: rgba(0, 0, 0, .5); }
+.req__check a { color: var(--black); text-decoration: underline; text-underline-offset: 2px; }
+.req__check a .roll__label { text-decoration: underline; text-underline-offset: 2px; }
+.req__check.is-invalid .cta__box { border-color: #e5484d; }
+.req__note { font-size: 12px; line-height: 1.45; color: rgba(0, 0, 0, .7); }
+.req__error { font-size: 14px; line-height: 1.4; color: #d1343a; }
+
+/* Done: thank-you + the Claims Hub card */
+.req__done { margin-top: 56px; width: 100%; max-width: 1200px; display: flex; flex-direction: column; align-items: center; gap: 120px; }
+.req__thanks { max-width: 640px; display: flex; flex-direction: column; align-items: center; }
+.req__done-icon {
+  width: 96px;
+  height: 96px;
+  border: 1px solid rgba(1, 190, 166, .3);
+  border-radius: 50%;
+  background: #eaf8f5 url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 14 14' fill='none' stroke='%2301bea6' stroke-width='1.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M3 7.4l2.6 2.6L11 4.6'/%3E%3C/svg%3E") center / 44px 44px no-repeat;
+}
+.req__done-title { margin-top: 48px; font-size: clamp(32px, calc(20px + 3vw), 44px); font-weight: 500; line-height: 1.1; letter-spacing: -0.02em; }
+.req__done-text { margin-top: 20px; font-size: 18px; line-height: 1.45; color: var(--text); }
+.req__done-sent { margin-top: 12px; font-size: 16px; line-height: 1.45; color: var(--muted); }
+.req__done-sent b { font-weight: 500; color: var(--black); }
+.req__done-actions { margin-top: 40px; display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; }
+.btn--ghost { background: var(--white); background-image: none; color: var(--ink); box-shadow: inset 0 0 0 1px rgba(0, 0, 0, .12); }
+.req__hub { width: 100%; text-align: left; position: static !important; }
+
+@media (max-width: 768px) {
+  .req { padding-top: 32px; padding-bottom: 96px; }
+  .req__head { margin-top: 40px; gap: 20px; }
+  .req__title br { display: none; }
+  .req__kind-opt span { font-size: 13px; padding: 11px 14px; }
+  .req__form { margin-top: 40px; }
+  .req__done { margin-top: 40px; gap: 80px; }
+  .req__done-actions .btn { width: 100%; }
+}

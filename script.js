@@ -4,7 +4,7 @@
   const sel = [
     '.nav__link', '.nav__signin', '.nav__brand',
     '.faq__item summary', '.cta__referral', '.cta__after a', '.cta__check a',
-    '.footer__col a', '.footer__cta-text', '.footer__logo', '.footer__disclaimer a', '.faq__answer a',
+    '.footer__col a', '.footer__cta-text', '.req__link', '.req__back', '.req__check a', '.footer__logo', '.footer__disclaimer a', '.faq__answer a',
   ].join(',');
   document.querySelectorAll(sel).forEach((el) => {
     if (el.querySelector('.roll')) return;
