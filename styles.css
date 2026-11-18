@@ -1035,9 +1035,11 @@ strong { font-weight: 500; color: var(--black); }
 .mp--ready .mp__role { max-width: 100%; }
 .mp--ready .mp__name { margin-top: calc(var(--u) * 52) !important; }
 
-/* 4 · Review & download: page preview → Download → Downloaded */
-.mp--get { --tap: .9s; padding-top: calc(var(--u) * 110); }
+/* 4 · Review & download: page preview on top, button at the bottom (above the step cards on phones, like step 1) */
+.mp--get { --tap: .9s; display: flex; flex-direction: column; padding-top: calc(var(--u) * 110); padding-bottom: var(--cover, calc(var(--u) * 90)); }
 .mp__page {
+  flex: 0 1 auto;
+  min-height: 0;
   width: calc(var(--u) * 400);
   height: calc(var(--u) * 500);
   margin: 0 auto;
@@ -1046,7 +1048,8 @@ strong { font-weight: 500; color: var(--black); }
   box-shadow: 0 calc(var(--u) * 6) calc(var(--u) * 30) rgba(8, 10, 24, .12), 0 0 0 1px rgba(8, 10, 24, .06);
 }
 .mp__page img { width: 100%; height: auto; }
-.mp--get .mp__btn { margin-top: calc(var(--u) * 40); }
+.mp--get .mp__btn { flex: none; margin-top: auto; }
+.mp--get .mp__page { margin-bottom: calc(var(--u) * 32); } /* min gap before the button */
 
 @keyframes dot { 0%, 100% { opacity: .3; transform: none; } 40% { opacity: 1; transform: translateY(calc(var(--u) * -4)); } }
 @keyframes ring-ava {
@@ -1922,7 +1925,10 @@ strong { font-weight: 500; color: var(--black); }
     --card-w: min(343px, calc(100vw - 32px));
     position: relative;
     max-width: none;
-    height: clamp(430px, calc(100svh - 96px), 720px); /* the whole screen under the header */
+    /* the step cards always overlap the phone's lower part (from ~62% of its height);
+       on short screens the block is limited by the screen height instead */
+    --ph: calc(min(521px, 139vw) * 1312 / 1199);
+    height: clamp(430px, min(calc(100svh - 96px), calc(var(--ph) * .62 + 200px)), 720px);
     margin: 0 calc(var(--gutter) * -1);
     overflow: hidden;
   }
@@ -2062,7 +2068,7 @@ strong { font-weight: 500; color: var(--black); }
 
 @media (max-width: 768px) {
   .section { --gap-major: 120px; --gap-minor: 80px; }
-  .h2 { font-size: 28px; } /* page titles (40) → section h2 (28) → card h3 (24) */
+  .h2 { font-size: 26px; } /* page titles (40) → section h2 (26) → card h3 (24) */
 
   /* Header: compact pill, text "Menu" button */
   .header { top: 12px; margin-top: 12px; }

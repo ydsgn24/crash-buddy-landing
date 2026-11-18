@@ -515,12 +515,9 @@
 .tr-date svg { flex: none; width: 18px; height: 18px; }
 .tr-date b { font-weight: 500; }
 /* the title breaks before the gradient phrase on phones too */
-.tr-hero__title br.br-m { display: none; }
 @media (max-width: 768px) {
   .tr-hero__title--keep br { display: inline; }
-  .tr-hero__title--keep br.br-d { display: none; }
-  .tr-hero__title--keep br.br-m { display: inline; }
-  /* phones: "Learn to write / real-world estimates / for collision / repair shops";
+  /* "Learn to write / real-world estimates / for body shops" on every screen;
      widest line "real-world estimates" ≈ 9.1em → up to 40px, always fits the screen minus 2×16px */
   .tr-hero__title--keep { font-size: min(40px, calc((100vw - 32px) * .107)); }
   .tr-date { margin-bottom: -4px; font-size: 13px; }
