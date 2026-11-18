@@ -1916,7 +1916,9 @@ strong { font-weight: 500; color: var(--black); }
   /* Steps (mobile/tablet): heading + phone + cards pin together while you scroll;
      each scroll step lays the next card on top of the previous one. */
   /* the heading scrolls away; only the phone + cards stay pinned under the header (--head-h from JS) */
-  .js-steps .steps__pin { position: sticky; top: calc(72px - var(--head-h, 0px)); }
+  /* the block sticks to the bottom of the screen (as much of the heading stays visible as fits);
+     if the screen is short, it sticks right under the header instead — the phone never goes under it */
+  .js-steps .steps__pin { position: sticky; top: max(calc(72px - var(--head-h, 0px)), calc(100svh - var(--pin-h, 100svh) - 12px)); }
   .steps__track { margin-top: 40px; }
   .js-steps .steps__track { height: auto; }
   .js-steps .steps__sticky { position: static; height: auto; }

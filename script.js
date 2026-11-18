@@ -162,6 +162,7 @@
       const head = section.querySelector('.section-head');
       const headH = head.offsetHeight + (parseFloat(getComputedStyle(track).marginTop) || 0);
       pin.style.setProperty('--head-h', `${headH}px`);
+      pin.style.setProperty('--pin-h', `${pin.offsetHeight}px`);
       const vh = stableVh;
       section.style.height = `${pin.offsetHeight + steps.length * 0.6 * vh}px`;
       const rect = section.getBoundingClientRect();
