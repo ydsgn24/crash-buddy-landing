@@ -147,6 +147,8 @@
     if (desktop.matches) {
       section.style.height = '';
       steps.forEach((c) => delete c.dataset.pos);
+      const scrM = section.querySelector('.scr--m');
+      if (scrM && scrM.dataset.cover) { delete scrM.dataset.cover; scrM.style.removeProperty('--cover'); }
       // progress 0..1 while the sticky stage is pinned
       const rect = track.getBoundingClientRect();
       const top = parseFloat(getComputedStyle(section).getPropertyValue('--top')) || HEADER;
@@ -168,6 +170,13 @@
       const progress = Math.min(1, Math.max(0, (top - rect.top) / range));
       const pinned = rect.top <= top + 1;
       const n = pinned ? Math.min(steps.length, 1 + Math.floor(progress * steps.length)) : rect.top < vh * 0.5 ? 1 : 0;
+      // keep the first screen's button above the step cards that cover the phone's lower part
+      const scrM = section.querySelector('.scr--m');
+      const list = section.querySelector('.steps__list');
+      if (scrM && list) {
+        const cover = Math.max(0, Math.round(scrM.getBoundingClientRect().bottom - list.getBoundingClientRect().top + 44));
+        if (scrM.dataset.cover !== String(cover)) { scrM.dataset.cover = cover; scrM.style.setProperty('--cover', `${cover}px`); }
+      }
       setStep(n);
       stackCards(Math.max(0, n - 1));
       fill(pinned ? progress : 0);

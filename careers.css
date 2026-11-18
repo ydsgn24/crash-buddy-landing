@@ -28,7 +28,7 @@
 .cr-cv__id b { font-size: 12px; font-weight: 500; line-height: 1.2; color: var(--ink); }
 .cr-cv__id i { font-style: normal; font-size: 10px; line-height: 1.2; color: var(--muted); }
 .cr-cv__badges { display: flex; gap: 6px; margin-bottom: 4px; }
-.cr-cv__badges span { padding: 4px 8px; border-radius: 99px; background: #e6f8f5; font-size: 9px; font-weight: 500; letter-spacing: .02em; color: #017a6b; }
+.cr-cv__badges span { padding: 4px 8px; border-radius: 99px; background: var(--accent-soft); font-size: 9px; font-weight: 500; letter-spacing: .02em; color: var(--accent-strong); }
 .cr-cv__label { margin-top: 4px; font-size: 9px; font-weight: 500; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
 .cr-cv__job { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; }
 .cr-cv__job b { font-size: 10px; font-weight: 500; line-height: 1.3; color: var(--ink); }
