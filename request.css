@@ -139,19 +139,71 @@
 .req__drop-hint { font-size: 13px; line-height: 1.4; color: rgba(0, 0, 0, .5); }
 .req__tip { font-size: 13px; line-height: 1.4; color: rgba(0, 0, 0, .55); }
 
-.req__thumbs { display: grid; grid-template-columns: repeat(auto-fill, minmax(72px, 1fr)); gap: 8px; }
+/* Photos: iPhone-style grid. Once photos are in, the big drop zone folds into the "+ Add" tile. */
+.req__photos.has-photos .req__drop { display: none; }
+.req__thumbs { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin: 0; padding: 0; list-style: none; }
 .req__thumbs:empty { display: none; }
-.req__thumb { position: relative; aspect-ratio: 1; border-radius: 14px; overflow: hidden; background: var(--surface); }
-.req__thumb img { width: 100%; height: 100%; object-fit: cover; }
-.req__thumb-doc { display: grid; place-items: center; height: 100%; padding: 6px; font-size: 11px; line-height: 1.2; color: rgba(0, 0, 0, .6); word-break: break-all; }
-.req__thumb button {
-  position: absolute; top: 4px; right: 4px;
-  width: 22px; height: 22px; border-radius: 50%;
-  background: rgba(0, 0, 0, .55); color: #fff; font-size: 10px; line-height: 22px;
-  opacity: 0; transition: opacity .2s ease;
+.req__thumb {
+  position: relative;
+  aspect-ratio: 1;
+  border-radius: 12px;
+  background: var(--surface);
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+          user-select: none;
+  touch-action: manipulation;
 }
-.req__thumb:hover button, .req__thumb button:focus-visible { opacity: 1; }
-@media (hover: none) { .req__thumb button { opacity: 1; } }
+.req__thumb-open { display: block; width: 100%; height: 100%; padding: 0; border: 0; border-radius: inherit; overflow: hidden; background: none; cursor: zoom-in; }
+.req__thumb-open img { display: block; width: 100%; height: 100%; object-fit: cover; pointer-events: none; }
+.req__thumb-doc { display: grid; place-items: center; height: 100%; padding: 8px; font-size: 11px; line-height: 1.2; color: rgba(0, 0, 0, .6); word-break: break-all; }
+.req__thumb-cover {
+  position: absolute; left: 6px; bottom: 6px;
+  padding: 3px 7px; border-radius: 99px;
+  background: rgba(0, 0, 0, .45); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px);
+  color: #fff; font-size: 10px; font-weight: 500; letter-spacing: .04em; text-transform: uppercase;
+  pointer-events: none;
+}
+/* ✕: small blurred circle, 40px tap area */
+.req__thumb-x { position: absolute; top: -6px; right: -6px; display: grid; place-items: center; width: 40px; height: 40px; padding: 0; border: 0; background: none; cursor: pointer; }
+.req__thumb-x::before { content: ""; position: absolute; width: 22px; height: 22px; border-radius: 50%; background: rgba(0, 0, 0, .5); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); box-shadow: 0 0 0 1.5px rgba(255, 255, 255, .85); transition: transform .15s ease; }
+.req__thumb-x:active::before { transform: scale(.88); }
+.req__thumb-x svg { position: relative; width: 10px; height: 10px; fill: none; stroke: #fff; stroke-width: 1.8; stroke-linecap: round; }
+/* the last tile adds more */
+.req__thumb--add label { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; height: 100%; border: 1px dashed rgba(0, 0, 0, .18); border-radius: inherit; color: var(--accent); font-size: 13px; font-weight: 500; cursor: pointer; transition: background-color .2s ease, border-color .2s ease; }
+.req__thumb--add label span { font-size: 28px; font-weight: 300; line-height: 1; }
+.req__thumb--add label:hover, .req__photos.is-drag .req__thumb--add label { background: #eefaf8; border-color: var(--accent); }
+.req__photos.is-invalid .req__thumb--add label { border-color: #e5484d; }
+/* hold → the tile lifts; others slide aside */
+.req__thumb.is-lifted { z-index: 2; }
+.req__thumb.is-ghost { opacity: .35; }
+.req__thumb.is-drag-img, .is-drag-img { transform: scale(1.06); box-shadow: 0 14px 32px -8px rgba(0, 0, 0, .35); border-radius: 12px; opacity: 1 !important; }
+.req__thumbs.is-sorting .req__thumb-x, .req__thumbs.is-sorting .req__thumb-cover { opacity: 0; }
+.req__gesture { margin: -2px 0 0; font-size: 13px; line-height: 1.4; color: rgba(0, 0, 0, .45); text-align: center; }
+.req__gesture .t-mouse { display: none; }
+@media (hover: hover) and (pointer: fine) { .req__gesture .t-touch { display: none; } .req__gesture .t-mouse { display: inline; } }
+
+/* "Photo removed · Undo" */
+.req__toast {
+  position: fixed; z-index: 200; left: 50%; bottom: calc(24px + env(safe-area-inset-bottom));
+  display: flex; align-items: center; gap: 16px;
+  padding: 12px 12px 12px 20px; border-radius: 99px;
+  background: rgba(29, 29, 29, .92); -webkit-backdrop-filter: blur(16px); backdrop-filter: blur(16px);
+  color: #fff; font-size: 15px; line-height: 1.2; white-space: nowrap;
+  box-shadow: 0 12px 32px -8px rgba(0, 0, 0, .35);
+  opacity: 0; transform: translate(-50%, 12px);
+  transition: opacity .2s ease, transform .3s cubic-bezier(.2, .8, .2, 1);
+}
+.req__toast.is-on { opacity: 1; transform: translate(-50%, 0); }
+.req__toast-undo { padding: 6px 12px; border: 0; border-radius: 99px; background: rgba(255, 255, 255, .14); color: #5fead5; font: inherit; font-weight: 500; cursor: pointer; }
+
+/* Viewer (PhotoSwipe): counter on top, trash at the bottom centre */
+.pswp { --pswp-bg: #000; }
+.pswp__counter { font-size: 15px; opacity: .9; }
+.pswp__button--trash { position: absolute; left: 50%; bottom: calc(20px + env(safe-area-inset-bottom)); width: 56px; height: 56px; margin-left: -28px; border-radius: 50%; display: grid !important; place-items: center; background: rgba(255, 255, 255, .12) !important; }
+.pswp__button--trash .pswp__icn { position: static; width: 24px; height: 24px; fill: none; stroke: #fff; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
+.req__pswp-doc { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; padding: 24px; color: #fff; text-align: center; }
+.req__pswp-doc span { color: rgba(255, 255, 255, .6); font-size: 14px; }
+@media (prefers-reduced-motion: reduce) { .req__toast { transition: none; } }
 .req__count { font-size: 13px; color: rgba(0, 0, 0, .55); }
 
 /* Notes (above the photos) + referral (below): text links that open optional fields */

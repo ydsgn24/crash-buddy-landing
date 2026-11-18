@@ -74,3 +74,29 @@
   update();
 })();
 
+
+// Hero date pill: the date comes from data-start
+document.querySelectorAll('.tr-date[data-start]').forEach((el) => {
+  const d = new Date(el.dataset.start);
+  if (!isNaN(d)) el.querySelector('.tr-date__day').textContent = d.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+});
+
+// Price card: "N days to go" pill + start date from the same data-start; hover (desktop) or tap opens the countdown
+(() => {
+  const box = document.querySelector('.cd');
+  if (!box) return;
+  const pill = box.querySelector('.cd__pill');
+  const start = new Date(box.dataset.start);
+  if (isNaN(start)) return;
+  const dateEl = document.querySelector('.tc__start');
+  if (dateEl) dateEl.textContent = start.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+  const days = () => {
+    const d = Math.max(0, Math.floor((start - Date.now()) / 86400000));
+    box.querySelector('.cd__days').textContent = `${d} ${d === 1 ? 'day' : 'days'}`;
+  };
+  days(); setInterval(days, 60000);
+  const set = (open) => { box.classList.toggle('is-open', open); pill.setAttribute('aria-expanded', String(open)); };
+  pill.addEventListener('click', (e) => { e.stopPropagation(); set(!box.classList.contains('is-open')); });
+  document.addEventListener('click', () => set(false));
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape') set(false); });
+})();

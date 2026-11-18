@@ -70,6 +70,7 @@
 
   const formScreen = section.querySelector('.scr--form');
   const pdfScreen = section.querySelector('.scr--pdf');
+  const panes = [...section.querySelectorAll('.scr--m .mp')];
 
   document.documentElement.classList.add('js-steps');
 
@@ -121,6 +122,14 @@
     if (n >= 2 && !formScreen.classList.contains('is-out')) measureFlip();
     formScreen.classList.toggle('is-out', n >= 2);
     pdfScreen.classList.toggle('is-on', n >= 4);
+    // mobile: one simple screen per step; the step's own animation plays when it becomes current
+    const m = Math.max(1, n);
+    panes.forEach((p) => {
+      const k = Number(p.dataset.m);
+      p.classList.toggle('is-cur', k === m);
+      p.classList.toggle('is-past', k < m);
+      p.classList.toggle('is-play', k === m && n >= 1);
+    });
   };
 
   const layout = () => {
