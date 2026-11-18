@@ -932,8 +932,8 @@ strong { font-weight: 500; color: var(--black); }
   .scr--pdf.is-on .check__path { stroke-dashoffset: 0; }
 }
 
-/* Mobile phone screens: one simple screen per step, one animation each.
-   Content stays in the upper part of the screen — the step cards cover the bottom. */
+/* Phone screens: one simple screen per step, one animation each (desktop and mobile).
+   Content stays in the upper part of the screen — on mobile the step cards cover the bottom. */
 .scr--m { display: none; z-index: 4; background: #fff; }
 .mp {
   position: absolute;
@@ -1044,10 +1044,16 @@ strong { font-weight: 500; color: var(--black); }
   100% { box-shadow: 0 0 0 calc(var(--u) * 28) rgba(0, 188, 156, 0); }
 }
 
-@media (max-width: 1140px) {
-  .js-steps .scr--claim, .js-steps .scr--form, .js-steps .scr--pdf { display: none; }
-  .js-steps .scr--m { display: block; }
+/* desktop: the whole phone is visible (no cards over it), so each screen's content sits in the middle */
+@media (min-width: 1141px) {
+  .mp { display: flex; flex-direction: column; justify-content: center; padding-top: calc(var(--u) * 86); padding-bottom: calc(var(--u) * 86); }
+  .mp--send .app-icon-btn { align-self: flex-start; }
+  .mp--work, .mp--ready { padding-top: calc(var(--u) * 86); }
+  .mp--get { padding-top: calc(var(--u) * 86); }
 }
+/* the same simple screens on every screen size */
+.js-steps .scr--claim, .js-steps .scr--form, .js-steps .scr--pdf { display: none; }
+.js-steps .scr--m { display: block; }
 @media (prefers-reduced-motion: reduce) {
   .mp { transition: none; }
   .mp__photos img, .mp--ready .mp__doc .pdf-ico, .mp--ready .check { opacity: 1; transform: none; }
