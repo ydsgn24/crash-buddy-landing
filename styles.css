@@ -2068,7 +2068,7 @@ strong { font-weight: 500; color: var(--black); }
 
 @media (max-width: 768px) {
   .section { --gap-major: 120px; --gap-minor: 80px; }
-  .h2 { font-size: 26px; } /* page titles (40) → section h2 (26) → card h3 (24) */
+  .h2 { font-size: 30px; } /* page titles (40) → section h2 (30) → card h3 (24) */
 
   /* Header: compact pill, text "Menu" button */
   .header { top: 12px; margin-top: 12px; }
