@@ -1,0 +1,9 @@
+# Crash Buddy Estimating
+User-agent: *
+Allow: /
+# test variants and internal pages
+Disallow: /variant-b.html
+Disallow: /training-b.html
+Disallow: /admin.html
+
+Sitemap: https://crashbuddyestimating.com/sitemap.xml

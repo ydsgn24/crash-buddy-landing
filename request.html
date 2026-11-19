@@ -3,11 +3,36 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Request an Estimate — Crash Buddy Estimating</title>
-  <meta name="description" content="Send the vehicle details and photos. We'll prepare the Estimate or Supplement for you to review.">
-  <link rel="stylesheet" href="styles.css?v=11182018">
+  <!-- SEO: title, description, canonical, icons, link previews -->
+  <title>Request an Estimate or Supplement | Crash Buddy Estimating</title>
+  <meta name="description" content="Send vehicle details and photos and get a collision Estimate ($105, about 2 hours) or a Supplement ($145, about 6 hours) as a PDF to review. No account needed.">
+  <link rel="canonical" href="https://crashbuddyestimating.com/request.html">
+  <script>/* staging copies (GitHub Pages, previews) stay out of search; the real domain is indexed */
+    if (!/(^|\.)crashbuddyestimating\.com$/.test(location.hostname) || /-b\.html$/.test(location.pathname)) { var r = document.createElement('meta'); r.name = 'robots'; r.content = 'noindex, follow'; document.head.appendChild(r); }</script>
+  <meta name="theme-color" content="#ffffff">
+  <link rel="icon" href="favicon.ico" sizes="32x32">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="assets/icons/apple-touch-icon.png">
+  <link rel="manifest" href="site.webmanifest">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Crash Buddy Estimating">
+  <meta property="og:locale" content="en_US">
+  <meta property="og:title" content="Request an Estimate or Supplement | Crash Buddy Estimating">
+  <meta property="og:description" content="Send vehicle details and photos and get a collision Estimate ($105, about 2 hours) or a Supplement ($145, about 6 hours) as a PDF to review. No account needed.">
+  <meta property="og:url" content="https://crashbuddyestimating.com/request.html">
+  <meta property="og:image" content="https://crashbuddyestimating.com/assets/og/og-home.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Crash Buddy Estimating: get more estimates done without hiring. Estimate $105, Supplement $145.">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Request an Estimate or Supplement | Crash Buddy Estimating">
+  <meta name="twitter:description" content="Send vehicle details and photos and get a collision Estimate ($105, about 2 hours) or a Supplement ($145, about 6 hours) as a PDF to review. No account needed.">
+  <meta name="twitter:image" content="https://crashbuddyestimating.com/assets/og/og-home.jpg">
+  <meta name="twitter:image:alt" content="Crash Buddy Estimating: get more estimates done without hiring. Estimate $105, Supplement $145.">
+  <!-- /SEO -->
+  <link rel="stylesheet" href="styles.css?v=11191420">
   <link rel="stylesheet" href="assets/vendor/photoswipe-5.4.4.css">
-  <link rel="stylesheet" href="request.css?v=11182018">
+  <link rel="stylesheet" href="request.css?v=11182019">
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Home", "item": "https://crashbuddyestimating.com/"}, {"@type": "ListItem", "position": 2, "name": "Products", "item": "https://crashbuddyestimating.com/index.html#pricing"}, {"@type": "ListItem", "position": 3, "name": "Estimate"}]}</script>
 </head>
 <body class="request-page">
@@ -32,7 +57,7 @@
               <a class="nav__dd-item" href="request.html?type=supplement"><span class="nav__dd-row"><b>Supplement</b><b>$145</b></span><span>Current Estimate + new photos</span></a>
             </div>
             <div class="nav__dd-hub">
-              <span class="nav__dd-media"><img src="assets/claims-hub-tablet.jpg" width="1455" height="1081" alt="Claims Hub on a tablet"></span>
+              <span class="nav__dd-media"><img src="assets/claims-hub-tablet.webp" width="1455" height="1081" alt="Claims Hub on a tablet" loading="lazy" decoding="async"></span>
               <div class="nav__dd-hub-text">
                 <b class="nav__dd-title">Claims Hub</b>
                 <span class="nav__dd-desc">One dashboard for every claim — track progress, message your estimator and download finished files.</span>
@@ -66,16 +91,17 @@
     </a>
     <button class="mnav__close" type="button" aria-label="Close menu"><span></span><span></span><span></span></button>
   </div>
-  <nav class="mnav__list" aria-label="Menu">
-    <a href="request.html?type=estimate">Estimate</a>
-    <a href="request.html?type=supplement">Supplement</a>
+  <p class="mnav__label">Services</p>
+  <nav class="mnav__list" aria-label="Services">
+    <a href="request.html?type=estimate"><span>Estimate</span><span class="mnav__price">$105</span></a>
+    <a href="request.html?type=supplement"><span>Supplement</span><span class="mnav__price">$145</span></a>
     <a href="training.html">Estimator Training</a>
+  </nav>
+  <nav class="mnav__sub" aria-label="More">
     <a href="index.html#how-it-works">How It Works</a>
     <a href="index.html#refer">Refer a Shop</a>
     <a href="careers.html">Careers</a>
-  </nav>
-  <nav class="mnav__sub" aria-label="More">
-    <a href="#">Sign in</a>
+    <a href="#">Sign In</a>
     <a href="index.html#claims-hub">Claims Hub <span aria-hidden="true">→</span></a>
   </nav>
   <a class="btn btn--block mnav__cta" href="index.html#demo">Book a Demo</a>
@@ -200,7 +226,7 @@
         </div>
       </div>
       <div class="feature__media feature__media--tablet">
-        <img class="tablet" src="assets/claims-hub-tablet.jpg" width="1455" height="1081" alt="Claims Hub dashboard on a tablet held in both hands">
+        <img class="tablet" src="assets/claims-hub-tablet.webp" width="1455" height="1081" alt="Claims Hub dashboard on a tablet held in both hands" loading="lazy" decoding="async">
       </div>
     </article>
   </div>
@@ -268,10 +294,10 @@
 </footer>
 
 
-<script src="script.js?v=11182018"></script>
+<script src="script.js?v=11182019"></script>
 <div class="req__toast" role="status" aria-live="polite" hidden><span>Photo removed</span><button type="button" class="req__toast-undo">Undo</button></div>
 <script src="assets/vendor/sortable-1.15.6.min.js"></script>
 <script src="assets/vendor/photoswipe-5.4.4.umd.min.js"></script>
-<script src="request.js?v=11182018"></script>
+<script src="request.js?v=11182019"></script>
 </body>
 </html>

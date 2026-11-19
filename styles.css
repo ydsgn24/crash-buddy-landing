@@ -1064,6 +1064,25 @@ strong { font-weight: 500; color: var(--black); }
   .mp--work, .mp--ready { padding-top: calc(var(--u) * 86); }
   .mp--get { padding-top: calc(var(--u) * 86); }
 }
+/* 1 · Send (phones/tablets): a compact Supplement order — 4 photos, the current Estimate PDF, then "Sent" */
+.mp__file { display: none; }
+@media (max-width: 1140px) {
+  .mp--send .app-pills { margin-bottom: calc(var(--u) * 24); }
+  /* one row of four square thumbnails: fits every phone height without squashing the photos */
+  .mp--send .mp__photos { flex: none; grid-template-columns: repeat(4, 1fr); grid-template-rows: auto; gap: calc(var(--u) * 10); margin: 0; }
+  .mp--send .mp__photos img { height: auto; aspect-ratio: 1; border-radius: calc(var(--u) * 14); }
+  .mp__file { flex: none; display: flex; height: calc(var(--u) * 78); margin-top: calc(var(--u) * 14); opacity: 0; transform: translateY(calc(var(--u) * 16)); }
+  .mp--send.is-play .mp__file { animation: rise .45s cubic-bezier(.2, .8, .2, 1) .55s forwards; }
+  .mp--send .mp__btn { margin-top: calc(var(--u) * 22); }
+
+  /* status bar: time and icons centred in the space left and right of the island, level with it,
+     so nothing sits in the rounded screen corners */
+  .statusbar__time { left: calc(var(--u) * 30); top: calc(var(--u) * 42); width: calc(var(--u) * 146); text-align: center; transform: translateY(-50%); }
+  .statusbar__icons { left: calc(var(--u) * 356); right: calc(var(--u) * 30); top: calc(var(--u) * 42); justify-content: center; transform: translateY(-50%); }
+}
+@media (max-width: 1140px) and (prefers-reduced-motion: reduce) {
+  .mp__file { opacity: 1; transform: none; }
+}
 /* the same simple screens on every screen size */
 .js-steps .scr--claim, .js-steps .scr--form, .js-steps .scr--pdf { display: none; }
 .js-steps .scr--m { display: block; }
@@ -2288,30 +2307,30 @@ strong { font-weight: 500; color: var(--black); }
   body.menu-open .mnav__close span:nth-child(2) { opacity: 0; }
   body.menu-open .mnav__close span:nth-child(3) { top: 21.2px; transform: rotate(-45deg); }
 
-  /* one level of links */
-  .mnav__list { display: flex; flex-direction: column; padding: 28px 8px 20px; }
-  .mnav__list a { padding: 8px 0; font-size: 28px; font-weight: 500; line-height: 1.15; letter-spacing: -0.02em; color: var(--ink); transition: color .2s ease; }
+  /* two groups: services (with small prices on the right), then the rest of the links */
+  .mnav__label { margin: 28px 8px 4px; font-size: 13px; font-weight: 500; line-height: 1.3; letter-spacing: .04em; text-transform: uppercase; color: var(--muted); }
+  .mnav__list { display: flex; flex-direction: column; padding: 0 8px 16px; }
+  .mnav__list a { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; padding: 7px 0; font-size: 24px; font-weight: 500; line-height: 1.2; letter-spacing: -0.02em; color: var(--ink); transition: color .2s ease; }
   .mnav__list a:hover, .mnav__list a:active { color: var(--accent-strong); }
-  .mnav__sub { display: flex; flex-direction: column; gap: 4px; margin: 0 8px; padding-top: 20px; border-top: 1px solid rgba(0, 0, 0, .1); }
-  .mnav__sub a { padding: 8px 0; font-size: 17px; line-height: 1.3; color: var(--muted); transition: color .2s ease; }
-  .mnav__sub a:hover, .mnav__sub a:active { color: var(--ink); }
+  .mnav__price { flex: none; font-size: 15px; font-weight: 500; letter-spacing: 0; color: var(--muted); font-variant-numeric: tabular-nums; }
+  .mnav__sub { display: flex; flex-direction: column; margin: 0 8px; padding-top: 12px; border-top: 1px solid rgba(0, 0, 0, .1); }
+  .mnav__sub a { padding: 9px 0; font-size: 17px; line-height: 1.3; color: var(--ink); transition: color .2s ease; }
+  .mnav__sub a:hover, .mnav__sub a:active { color: var(--accent-strong); }
   .mnav__cta { margin-top: auto; flex: none; }
 
   /* items drop in one after another, top to bottom; on close everything just fades */
-  .mnav__list a, .mnav__sub, .mnav__cta { opacity: 0; transform: translateY(-8px); transition: opacity .15s ease, transform .15s ease, color .2s ease; }
-  body.menu-open .mnav__list a, body.menu-open .mnav__sub, body.menu-open .mnav__cta {
+  .mnav__label, .mnav__list a, .mnav__sub, .mnav__cta { opacity: 0; transform: translateY(-8px); transition: opacity .15s ease, transform .15s ease, color .2s ease; }
+  body.menu-open .mnav__label, body.menu-open .mnav__list a, body.menu-open .mnav__sub, body.menu-open .mnav__cta {
     opacity: 1;
     transform: none;
     transition: opacity .4s ease var(--i, 0s), transform .5s cubic-bezier(.2, .8, .2, 1) var(--i, 0s), color .2s ease;
   }
+  .mnav__label { --i: .02s; }
   .mnav__list a:nth-child(1) { --i: .04s; }
   .mnav__list a:nth-child(2) { --i: .07s; }
   .mnav__list a:nth-child(3) { --i: .10s; }
-  .mnav__list a:nth-child(4) { --i: .13s; }
-  .mnav__list a:nth-child(5) { --i: .16s; }
-  .mnav__list a:nth-child(6) { --i: .19s; }
-  .mnav__sub { --i: .23s; }
-  .mnav__cta { --i: .27s; }
+  .mnav__sub { --i: .14s; }
+  .mnav__cta { --i: .18s; }
 }
 @media (max-width: 768px) {
   .mnav { padding-top: 12px; }

@@ -1,0 +1,172 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- 404: works at any URL depth (base = site root on the real domain and on GitHub Pages) -->
+  <script>document.write('<base href="' + (location.hostname.endsWith('github.io') ? '/crash-buddy-landing/' : '/') + '">');</script>
+  <title>Page not found | Crash Buddy Estimating</title>
+  <meta name="description" content="This page doesn’t exist. Go back to Crash Buddy Estimating.">
+  <meta name="robots" content="noindex">
+  <meta name="theme-color" content="#ffffff">
+  <link rel="icon" href="favicon.ico" sizes="32x32">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="assets/icons/apple-touch-icon.png">
+  <link rel="stylesheet" href="styles.css?v=11191420">
+  <link rel="stylesheet" href="legal.css?v=11182019">
+</head>
+<body class="legal-page nf-page">
+
+<header class="header">
+  <nav class="nav">
+    <a href="index.html" class="nav__brand">
+      <img src="assets/logo.svg" width="36" height="24" alt="">
+      <span class="nav__brand-name">Crash Buddy</span>
+      <span class="nav__brand-sep">|</span>
+      <span>Estimating</span>
+    </a>
+
+    <div class="nav__menu" id="nav-menu">
+      <ul class="nav__links">
+        <li class="nav__dd">
+          <button class="nav__link nav__dd-btn" type="button" aria-expanded="false" aria-controls="products-menu">Products <img src="assets/chevron-down.svg" width="12" height="12" alt=""></button>
+          <div class="nav__dd-panel" id="products-menu">
+            <div class="nav__dd-list">
+              <p class="nav__dd-label">Products</p>
+              <a class="nav__dd-item" href="request.html?type=estimate"><span class="nav__dd-row"><b>Estimate</b><b>$105</b></span><span>Vehicle details + photos</span></a>
+              <a class="nav__dd-item" href="request.html?type=supplement"><span class="nav__dd-row"><b>Supplement</b><b>$145</b></span><span>Current Estimate + new photos</span></a>
+            </div>
+            <div class="nav__dd-hub">
+              <span class="nav__dd-media"><img src="assets/claims-hub-tablet.webp" width="1455" height="1081" alt="Claims Hub on a tablet" loading="lazy" decoding="async"></span>
+              <div class="nav__dd-hub-text">
+                <b class="nav__dd-title">Claims Hub</b>
+                <span class="nav__dd-desc">One dashboard for every claim — track progress, message your estimator and download finished files.</span>
+                <a class="btn btn--sm nav__dd-btn-demo" href="index.html#demo">Book a Demo</a>
+              </div>
+            </div>
+          </div>
+        </li>
+        <li><a class="nav__link" href="training.html">Estimator Training</a></li>
+        <li><a class="nav__link" href="index.html#how-it-works">How It Works</a></li>
+        <li><a class="nav__link" href="index.html#refer">Refer a Shop</a></li>
+      </ul>
+      <div class="nav__actions">
+        <a class="nav__signin" href="#">Sign in</a>
+        <a class="btn btn--sm" href="index.html#demo">Book a Demo</a>
+      </div>
+    </div>
+
+    <button class="nav__toggle" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="mnav"><span></span><span></span><span></span></button>
+  </nav>
+</header>
+
+<!-- Mobile menu: full screen, one list of links (Apple-style) -->
+<div class="mnav" id="mnav" aria-hidden="true">
+  <div class="mnav__top">
+    <a href="index.html" class="nav__brand mnav__brand">
+      <img src="assets/logo.svg" width="36" height="24" alt="">
+      <span class="nav__brand-name">Crash Buddy</span>
+      <span class="nav__brand-sep">|</span>
+      <span>Estimating</span>
+    </a>
+    <button class="mnav__close" type="button" aria-label="Close menu"><span></span><span></span><span></span></button>
+  </div>
+  <p class="mnav__label">Services</p>
+  <nav class="mnav__list" aria-label="Services">
+    <a href="request.html?type=estimate"><span>Estimate</span><span class="mnav__price">$105</span></a>
+    <a href="request.html?type=supplement"><span>Supplement</span><span class="mnav__price">$145</span></a>
+    <a href="training.html">Estimator Training</a>
+  </nav>
+  <nav class="mnav__sub" aria-label="More">
+    <a href="index.html#how-it-works">How It Works</a>
+    <a href="index.html#refer">Refer a Shop</a>
+    <a href="careers.html">Careers</a>
+    <a href="#">Sign In</a>
+    <a href="index.html#claims-hub">Claims Hub <span aria-hidden="true">→</span></a>
+  </nav>
+  <a class="btn btn--block mnav__cta" href="index.html#demo">Book a Demo</a>
+</div>
+
+
+<main class="nf">
+  <p class="nf__code">404</p>
+  <h1 class="nf__title grad-text grad-q">This page <span class="hl">doesn’t exist</span></h1>
+  <p class="nf__text">The link may be old or mistyped. Everything you need is one click away.</p>
+  <div class="nf__actions">
+    <a class="btn" href="index.html">Go to the homepage</a>
+    <a class="btn nf__alt" href="request.html?type=estimate">Request an Estimate</a>
+  </div>
+</main>
+<style>
+  .nf { min-height: 60vh; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 20px; padding: 96px var(--gutter) 120px; text-align: center; }
+  .nf__code { margin: 0; padding: 7px 14px; border-radius: 99px; background: var(--accent-soft); color: var(--accent-deep); font-size: 14px; font-weight: 500; }
+  .nf__title { margin: 0; font-size: clamp(40px, calc(20px + 3.4vw), 64px); font-weight: 500; line-height: 1; letter-spacing: -0.02em; }
+  .nf__text { max-width: 440px; margin: 0; font-size: clamp(16px, calc(14px + .5vw), 20px); line-height: 1.35; color: var(--muted); }
+  .nf__actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; margin-top: 12px; }
+  .nf__alt, .nf__alt:hover { background: var(--surface); color: var(--ink); }
+</style>
+
+<footer class="footer">
+  <div class="footer__card">
+    <div class="footer__top">
+      <div class="footer__brand">
+        <a href="index.html" class="footer__logo">
+          <img src="assets/logo.svg" width="36" height="24" alt="">
+          <span class="footer__logo-name">Crash Buddy</span>
+          <span class="footer__logo-sep">|</span>
+          <span class="footer__logo-sub">Estimating</span>
+        </a>
+        <p class="footer__tagline">Your estimating team. On demand.</p>
+        <div class="footer__actions">
+          <a class="footer__cta" href="request.html?type=estimate"><span class="footer__cta-text">Request an Estimate</span><span class="btn__arrow" aria-hidden="true"></span></a>
+          <a class="footer__cta" href="request.html?type=supplement"><span class="footer__cta-text">Request a Supplement</span><span class="btn__arrow" aria-hidden="true"></span></a>
+        </div>
+      </div>
+
+      <nav class="footer__nav" aria-label="Footer">
+        <div class="footer__col">
+          <p class="footer__heading">Services</p>
+          <ul>
+            <li><a href="index.html#claims-hub">Claims Hub</a></li>
+            <li><a href="request.html?type=estimate">Estimate</a></li>
+            <li><a href="request.html?type=supplement">Supplement</a></li>
+            <li><a href="index.html#pricing">Pricing</a></li>
+          </ul>
+        </div>
+        <div class="footer__col">
+          <p class="footer__heading">Company</p>
+          <ul>
+            <li><a href="index.html#how-it-works">How It Works</a></li>
+            <li><a href="index.html#refer">Refer a Shop</a></li>
+            <li><a href="index.html#demo">Contact</a></li>
+          </ul>
+        </div>
+        <div class="footer__col">
+          <p class="footer__heading">For estimators</p>
+          <ul>
+            <li><a href="training.html">Training</a></li>
+            <li><a href="careers.html">Careers</a></li>
+          </ul>
+        </div>
+        <div class="footer__col">
+          <p class="footer__heading">Legal</p>
+          <ul>
+            <li><a href="privacy.html">Privacy Policy</a></li>
+            <li><a href="terms.html">Terms of Use</a></li>
+            <li><a href="shop-services-terms.html">Shop Services Terms</a></li>
+            <li><a href="referral-terms.html">Referral Terms</a></li>
+          </ul>
+        </div>
+      </nav>
+    </div>
+
+    <div class="footer__bottom">
+      <p class="footer__disclaimer">Crash Buddy Estimating prepares Estimates and Supplements for collision repair shops. Shops review, approve and submit all documents to insurers. We do not provide public adjusting, claim negotiation or legal services. Insurance approval or payment is not guaranteed.</p>
+      <p class="footer__copy">© 2026 Crash Buddy LLC. All rights reserved.</p>
+    </div>
+  </div>
+</footer>
+
+<script src="script.js?v=11182019"></script>
+</body>
+</html>
