@@ -2309,11 +2309,11 @@ strong { font-weight: 500; color: var(--black); }
 
   /* two groups: services (with small prices on the right), then the rest of the links */
   .mnav__label { margin: 28px 8px 4px; font-size: 13px; font-weight: 500; line-height: 1.3; letter-spacing: .04em; text-transform: uppercase; color: var(--muted); }
-  .mnav__list { display: flex; flex-direction: column; padding: 0 8px 16px; }
+  .mnav__list { display: flex; flex-direction: column; padding: 0 8px; }
   .mnav__list a { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; padding: 7px 0; font-size: 24px; font-weight: 500; line-height: 1.2; letter-spacing: -0.02em; color: var(--ink); transition: color .2s ease; }
   .mnav__list a:hover, .mnav__list a:active { color: var(--accent-strong); }
   .mnav__price { flex: none; font-size: 15px; font-weight: 500; letter-spacing: 0; color: var(--muted); font-variant-numeric: tabular-nums; }
-  .mnav__sub { display: flex; flex-direction: column; margin: 0 8px; padding-top: 12px; border-top: 1px solid rgba(0, 0, 0, .1); }
+  .mnav__sub { display: flex; flex-direction: column; margin: 20px 8px 0; } /* no divider: the groups are separated by space only */
   .mnav__sub a { padding: 9px 0; font-size: 17px; line-height: 1.3; color: var(--ink); transition: color .2s ease; }
   .mnav__sub a:hover, .mnav__sub a:active { color: var(--accent-strong); }
   /* Sign In: separate underlined link with the arrow, left-aligned with the links,
